@@ -22,9 +22,188 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     {
         asset = InputActionAsset.FromJson(@"{
     ""name"": ""Controls"",
-    ""maps"": [],
+    ""maps"": [
+        {
+            ""name"": ""ControllerMap"",
+            ""id"": ""6ea7c8a7-8e6a-4ae4-b4b4-9eed52145aa0"",
+            ""actions"": [
+                {
+                    ""name"": ""Move"",
+                    ""type"": ""Value"",
+                    ""id"": ""90f109d0-30cd-4fd2-b671-6ca6d5ff9ba4"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Accelerate"",
+                    ""type"": ""Button"",
+                    ""id"": ""20c811bb-2bc7-47dc-af60-4c981b1b93c2"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Decelerate"",
+                    ""type"": ""Button"",
+                    ""id"": ""d910eadf-5a5a-4dfe-967a-c434e2779b16"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Increase"",
+                    ""type"": ""Button"",
+                    ""id"": ""d88f0fb7-eb28-4cec-a766-a39d198a05e2"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Decrease"",
+                    ""type"": ""Button"",
+                    ""id"": ""86275ed5-48b6-4977-b3f3-08d22e62d4d8"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SelectAttack"",
+                    ""type"": ""Button"",
+                    ""id"": ""a762c0e7-57da-42f8-a28a-ef4f3fc51423"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SelectShield"",
+                    ""type"": ""Button"",
+                    ""id"": ""74a9ba68-9551-45bf-bcf6-8f3abdd91ae0"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SelectSpeed"",
+                    ""type"": ""Button"",
+                    ""id"": ""bcb1dab6-7c3d-41df-8a69-80a9f3751914"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""bf2b2906-d668-49bd-9f30-4078fcf6467d"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c7b98f58-ab56-4bcd-a5ce-28490fe251bc"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Accelerate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6e1dbaeb-2858-4b18-b4c6-4e54ed4063cb"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Decelerate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0e3ee4f9-ec6f-4196-9bcf-fc13abf97ce8"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Increase"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""88172f30-0d6d-4421-905c-db97e0fc7091"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Decrease"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e57caab3-1682-43b6-9e85-59bc3bfd106c"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SelectAttack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""95eb5887-6d0a-4033-b309-1a901455d1b8"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SelectShield"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""01c9908c-4a0b-4008-b3a5-626703808dd5"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SelectSpeed"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        }
+    ],
     ""controlSchemes"": []
 }");
+        // ControllerMap
+        m_ControllerMap = asset.FindActionMap("ControllerMap", throwIfNotFound: true);
+        m_ControllerMap_Move = m_ControllerMap.FindAction("Move", throwIfNotFound: true);
+        m_ControllerMap_Accelerate = m_ControllerMap.FindAction("Accelerate", throwIfNotFound: true);
+        m_ControllerMap_Decelerate = m_ControllerMap.FindAction("Decelerate", throwIfNotFound: true);
+        m_ControllerMap_Increase = m_ControllerMap.FindAction("Increase", throwIfNotFound: true);
+        m_ControllerMap_Decrease = m_ControllerMap.FindAction("Decrease", throwIfNotFound: true);
+        m_ControllerMap_SelectAttack = m_ControllerMap.FindAction("SelectAttack", throwIfNotFound: true);
+        m_ControllerMap_SelectShield = m_ControllerMap.FindAction("SelectShield", throwIfNotFound: true);
+        m_ControllerMap_SelectSpeed = m_ControllerMap.FindAction("SelectSpeed", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -81,5 +260,118 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     public int FindBinding(InputBinding bindingMask, out InputAction action)
     {
         return asset.FindBinding(bindingMask, out action);
+    }
+
+    // ControllerMap
+    private readonly InputActionMap m_ControllerMap;
+    private List<IControllerMapActions> m_ControllerMapActionsCallbackInterfaces = new List<IControllerMapActions>();
+    private readonly InputAction m_ControllerMap_Move;
+    private readonly InputAction m_ControllerMap_Accelerate;
+    private readonly InputAction m_ControllerMap_Decelerate;
+    private readonly InputAction m_ControllerMap_Increase;
+    private readonly InputAction m_ControllerMap_Decrease;
+    private readonly InputAction m_ControllerMap_SelectAttack;
+    private readonly InputAction m_ControllerMap_SelectShield;
+    private readonly InputAction m_ControllerMap_SelectSpeed;
+    public struct ControllerMapActions
+    {
+        private @Controls m_Wrapper;
+        public ControllerMapActions(@Controls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Move => m_Wrapper.m_ControllerMap_Move;
+        public InputAction @Accelerate => m_Wrapper.m_ControllerMap_Accelerate;
+        public InputAction @Decelerate => m_Wrapper.m_ControllerMap_Decelerate;
+        public InputAction @Increase => m_Wrapper.m_ControllerMap_Increase;
+        public InputAction @Decrease => m_Wrapper.m_ControllerMap_Decrease;
+        public InputAction @SelectAttack => m_Wrapper.m_ControllerMap_SelectAttack;
+        public InputAction @SelectShield => m_Wrapper.m_ControllerMap_SelectShield;
+        public InputAction @SelectSpeed => m_Wrapper.m_ControllerMap_SelectSpeed;
+        public InputActionMap Get() { return m_Wrapper.m_ControllerMap; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(ControllerMapActions set) { return set.Get(); }
+        public void AddCallbacks(IControllerMapActions instance)
+        {
+            if (instance == null || m_Wrapper.m_ControllerMapActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_ControllerMapActionsCallbackInterfaces.Add(instance);
+            @Move.started += instance.OnMove;
+            @Move.performed += instance.OnMove;
+            @Move.canceled += instance.OnMove;
+            @Accelerate.started += instance.OnAccelerate;
+            @Accelerate.performed += instance.OnAccelerate;
+            @Accelerate.canceled += instance.OnAccelerate;
+            @Decelerate.started += instance.OnDecelerate;
+            @Decelerate.performed += instance.OnDecelerate;
+            @Decelerate.canceled += instance.OnDecelerate;
+            @Increase.started += instance.OnIncrease;
+            @Increase.performed += instance.OnIncrease;
+            @Increase.canceled += instance.OnIncrease;
+            @Decrease.started += instance.OnDecrease;
+            @Decrease.performed += instance.OnDecrease;
+            @Decrease.canceled += instance.OnDecrease;
+            @SelectAttack.started += instance.OnSelectAttack;
+            @SelectAttack.performed += instance.OnSelectAttack;
+            @SelectAttack.canceled += instance.OnSelectAttack;
+            @SelectShield.started += instance.OnSelectShield;
+            @SelectShield.performed += instance.OnSelectShield;
+            @SelectShield.canceled += instance.OnSelectShield;
+            @SelectSpeed.started += instance.OnSelectSpeed;
+            @SelectSpeed.performed += instance.OnSelectSpeed;
+            @SelectSpeed.canceled += instance.OnSelectSpeed;
+        }
+
+        private void UnregisterCallbacks(IControllerMapActions instance)
+        {
+            @Move.started -= instance.OnMove;
+            @Move.performed -= instance.OnMove;
+            @Move.canceled -= instance.OnMove;
+            @Accelerate.started -= instance.OnAccelerate;
+            @Accelerate.performed -= instance.OnAccelerate;
+            @Accelerate.canceled -= instance.OnAccelerate;
+            @Decelerate.started -= instance.OnDecelerate;
+            @Decelerate.performed -= instance.OnDecelerate;
+            @Decelerate.canceled -= instance.OnDecelerate;
+            @Increase.started -= instance.OnIncrease;
+            @Increase.performed -= instance.OnIncrease;
+            @Increase.canceled -= instance.OnIncrease;
+            @Decrease.started -= instance.OnDecrease;
+            @Decrease.performed -= instance.OnDecrease;
+            @Decrease.canceled -= instance.OnDecrease;
+            @SelectAttack.started -= instance.OnSelectAttack;
+            @SelectAttack.performed -= instance.OnSelectAttack;
+            @SelectAttack.canceled -= instance.OnSelectAttack;
+            @SelectShield.started -= instance.OnSelectShield;
+            @SelectShield.performed -= instance.OnSelectShield;
+            @SelectShield.canceled -= instance.OnSelectShield;
+            @SelectSpeed.started -= instance.OnSelectSpeed;
+            @SelectSpeed.performed -= instance.OnSelectSpeed;
+            @SelectSpeed.canceled -= instance.OnSelectSpeed;
+        }
+
+        public void RemoveCallbacks(IControllerMapActions instance)
+        {
+            if (m_Wrapper.m_ControllerMapActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IControllerMapActions instance)
+        {
+            foreach (var item in m_Wrapper.m_ControllerMapActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_ControllerMapActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public ControllerMapActions @ControllerMap => new ControllerMapActions(this);
+    public interface IControllerMapActions
+    {
+        void OnMove(InputAction.CallbackContext context);
+        void OnAccelerate(InputAction.CallbackContext context);
+        void OnDecelerate(InputAction.CallbackContext context);
+        void OnIncrease(InputAction.CallbackContext context);
+        void OnDecrease(InputAction.CallbackContext context);
+        void OnSelectAttack(InputAction.CallbackContext context);
+        void OnSelectShield(InputAction.CallbackContext context);
+        void OnSelectSpeed(InputAction.CallbackContext context);
     }
 }
