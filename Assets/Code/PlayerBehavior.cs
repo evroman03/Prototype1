@@ -73,6 +73,7 @@ public class PlayerBehavior : MonoBehaviour
         RaycastHit hit;
         if(Physics.Raycast(transform.position, Vector3.down, out hit, CastDistance))
         {
+            print("ONPAD");
             return true;
         }
         else
@@ -88,7 +89,6 @@ public class PlayerBehavior : MonoBehaviour
             {
                 var steerAngle = movement.x * Sensitivity * 30f;
                 wheel.wheelCollider.steerAngle = Mathf.Lerp(wheel.wheelCollider.steerAngle, steerAngle, 0.6f);
-                print(steerAngle);
             }
         }
     }
