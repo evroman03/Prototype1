@@ -9,6 +9,7 @@ public class UIController : MonoBehaviour
     void Start()
     {
         PlayerBehavior.EnergyUpdated += Handle_EnergyUpdated;
+       
     }
 
     // Update is called once per frame

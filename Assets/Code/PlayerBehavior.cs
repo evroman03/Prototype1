@@ -9,9 +9,8 @@ public class PlayerBehavior : MonoBehaviour
     [Tooltip("A number = to -1, 0, or 1. NOT SPEED.")] public float AccelerationNum = 0;
     [Tooltip("Sensitivity of steering")] public float Sensitivity = 1.0f;
     private Controls controls;
-    private Vector3 movement, moveDirection;
+    private Vector3 movement;
     private Rigidbody rb;
-    private bool AccelerationOn = false, DecelerationOn = false;
     public float Energy, CastDistance = 1f, Speed = 60, TopSpeed = 0;
     public static Action<float> EnergyUpdated; 
     /// <summary>
@@ -60,14 +59,12 @@ public class PlayerBehavior : MonoBehaviour
         controls.ControllerMap.SelectAttack.performed += ctx => SelectAttack();
         controls.ControllerMap.SelectShield.performed += ctx => SelectShield();
     }
-
-    // Update is called once per frame
     void Update()
     {
         MovePlayer();
         SteerPlayer();
         isOnEnergyPad();
-        AddEnergy();
+        StartCoroutine(AddEnergy(1f));
     }
     public bool isOnEnergyPad()
     {
@@ -98,12 +95,17 @@ public class PlayerBehavior : MonoBehaviour
         foreach(Wheel wheel in wheels) 
         {
             wheel.wheelCollider.motorTorque = AccelerationNum * Speed;
-        }
-        
+        } 
     }
-    private void AddEnergy()
+    IEnumerator AddEnergy(float energy)
     {
-        Energy += 5;
+        Energy += energy;
+        EnergyUpdated?.Invoke(Energy);
+        yield return null;
+    }
+    private void RemoveEnergy(float energy)
+    {
+        Energy -= energy;   
         EnergyUpdated?.Invoke(Energy);
     }
     public void SelectSpeed()
@@ -145,5 +147,22 @@ public class PlayerBehavior : MonoBehaviour
     public void Decrease()
     {
         print("-1");
+    }
+    /// <summary>
+    /// We need to unassaign the actions to avoid errors when loading new scenes
+    /// </summary>
+    public void OnDestroy()
+    {
+        controls.ControllerMap.Move.performed -= ctx => movement = ctx.ReadValue<Vector2>();
+        controls.ControllerMap.Move.canceled -= ctx => movement = ctx.ReadValue<Vector2>();
+        controls.ControllerMap.Increase.performed -= ctx => Increase();
+        controls.ControllerMap.Decrease.performed -= ctx => Decrease();
+        controls.ControllerMap.Accelerate.started -= ctx => AccelerateOn();
+        controls.ControllerMap.Accelerate.canceled -= ctx => AccelerateOff();
+        controls.ControllerMap.Decelerate.started -= ctx => DecelerateOn();
+        controls.ControllerMap.Decelerate.canceled -= ctx => DecelerateOff();
+        controls.ControllerMap.SelectSpeed.performed -= ctx => SelectSpeed();
+        controls.ControllerMap.SelectAttack.performed -= ctx => SelectAttack();
+        controls.ControllerMap.SelectShield.performed -= ctx => SelectShield();
     }
 }
