@@ -13,7 +13,7 @@ public class PlayerBehavior : MonoBehaviour
     private Rigidbody rb;
     private bool AccelerationOn = false, DecelerationOn = false;
     public float Energy, CastDistance = 1f, Speed = 60, TopSpeed = 0;
-
+    public static Action<float> EnergyUpdated; 
     /// <summary>
     /// We need the enum (named integer) do diffrentiate between front and rear so steering 
     /// can be applied correctly
@@ -67,6 +67,7 @@ public class PlayerBehavior : MonoBehaviour
         MovePlayer();
         SteerPlayer();
         isOnEnergyPad();
+        AddEnergy();
     }
     public bool isOnEnergyPad()
     {
@@ -99,6 +100,11 @@ public class PlayerBehavior : MonoBehaviour
             wheel.wheelCollider.motorTorque = AccelerationNum * Speed;
         }
         
+    }
+    private void AddEnergy()
+    {
+        Energy += 5;
+        EnergyUpdated?.Invoke(Energy);
     }
     public void SelectSpeed()
     {
