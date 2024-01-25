@@ -740,7 +740,7 @@ Transform:
   m_GameObject: {fileID: 1070274322}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.65, y: 0.5, z: 6.0723357}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 10, y: 0.5, z: 10}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -898,7 +898,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1277620645}
   serializedVersion: 4
-  m_Mass: 100
+  m_Mass: 150
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -976,7 +976,7 @@ Transform:
   m_GameObject: {fileID: 1277620645}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.020725753, y: 2, z: 5.4831905}
+  m_LocalPosition: {x: 0, y: 2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1000,12 +1000,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5cfad881649a0748aedd847533b02ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AccelerationNum: 0
+  AccelerationVal: 0
   Sensitivity: 1
-  Energy: 0
-  CastDistance: 1
-  Speed: 60
-  TopSpeed: 0
+  RateOfEnergyGain: 0.25
+  RateOfEnergyLoss: 1
+  NoEnergySpeed: 0.1
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 64
+  CurrentEnergy: 2
+  CurrentSpeed: 0
+  Power: 60
+  EnergySpeedMod: 1
   wheels:
   - wheelModel: {fileID: 1613314600}
     wheelCollider: {fileID: 1613314605}
@@ -1463,7 +1469,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1715726649}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 300, y: 1, z: 300}
   m_ConstrainProportionsScale: 0
@@ -1598,8 +1604,8 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 272293712}
-  - {fileID: 1715726653}
   - {fileID: 1277620650}
   - {fileID: 1070274326}
-  - {fileID: 1046054726}
+  - {fileID: 1715726653}
   - {fileID: 1508377189}
+  - {fileID: 1046054726}

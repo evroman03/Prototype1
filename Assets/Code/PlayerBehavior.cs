@@ -6,13 +6,23 @@ using UnityEngine.EventSystems;
 
 public class PlayerBehavior : MonoBehaviour
 {
-    [Tooltip("A number = to -1, 0, or 1. NOT SPEED.")] public float AccelerationNum = 0;
-    [Tooltip("Sensitivity of steering")] public float Sensitivity = 1.0f;
+    [Tooltip("A number = to -1, 0, or 1. NOT SPEED. Determines forward/backward")] public float AccelerationVal = 0;
+    [Tooltip("A lower number equals a lower rate of turning")] public float Sensitivity = 1.0f;
+    [Tooltip("A lower number equals a higher rate of energy change")] public float RateOfEnergyGain = .25f, RateOfEnergyLoss=1f;
+    [Tooltip("A lower number equals a lower maximum speed w/out energy.")] public float NoEnergySpeed = .1f;
+
     private Controls controls;
     private Vector3 movement;
     private Rigidbody rb;
-    public float Energy, CastDistance = 1f, Speed = 60, TopSpeed = 0;
-    public static Action<float> EnergyUpdated; 
+    private bool isCollectingEnergy = true;
+    private float energyToRemove = 1, energyToAdd = 1, MaxEnergy = 100f, MinEnergy = 1f, DetectEPadCastDistance = 2f;
+
+
+    public LayerMask layerMask;
+    public float CurrentEnergy = 2f, CurrentSpeed = 0, Power = 60, EnergySpeedMod=1;
+    public static Action<float> EnergyUpdated;
+
+  
     /// <summary>
     /// We need the enum (named integer) do diffrentiate between front and rear so steering 
     /// can be applied correctly
@@ -36,11 +46,6 @@ public class PlayerBehavior : MonoBehaviour
     public List<Wheel> wheels; 
 
 
-
-
-
-
-
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -58,24 +63,35 @@ public class PlayerBehavior : MonoBehaviour
         controls.ControllerMap.SelectSpeed.performed += ctx => SelectSpeed();
         controls.ControllerMap.SelectAttack.performed += ctx => SelectAttack();
         controls.ControllerMap.SelectShield.performed += ctx => SelectShield();
+
+
+        StartCoroutine(CalcSpeed());
     }
     void Update()
     {
         MovePlayer();
         SteerPlayer();
         isOnEnergyPad();
-        StartCoroutine(AddEnergy(1f));
     }
     public bool isOnEnergyPad()
     {
         RaycastHit hit;
-        if(Physics.Raycast(transform.position, Vector3.down, out hit, CastDistance))
+        if(Physics.Raycast(transform.position, Vector3.down, out hit, DetectEPadCastDistance, layerMask))
         {
-            print("ONPAD");
+            if(!isCollectingEnergy)
+            {
+                isCollectingEnergy = true;
+                StartCoroutine(AddEnergy(energyToAdd));
+            }
             return true;
         }
         else
         {
+            if(isCollectingEnergy)
+            {
+                isCollectingEnergy = false;
+                StartCoroutine(RemoveEnergy(energyToRemove));
+            }
             return false;
         }
     }
@@ -94,19 +110,53 @@ public class PlayerBehavior : MonoBehaviour
     {   
         foreach(Wheel wheel in wheels) 
         {
-            wheel.wheelCollider.motorTorque = AccelerationNum * Speed;
-        } 
+            if(CurrentEnergy > MinEnergy)
+            {
+                wheel.wheelCollider.motorTorque = AccelerationVal * Power * EnergySpeedMod;
+            }
+            else
+            {
+                wheel.wheelCollider.motorTorque = (AccelerationVal * Power * EnergySpeedMod)*NoEnergySpeed;
+                //If you dont have enough energy,
+            }
+            
+        }
+        
+    }
+    IEnumerator CalcSpeed()
+    {
+        while(true)
+        {
+            Vector3 prevPos = transform.position;
+            yield return new WaitForFixedUpdate();
+            CurrentSpeed = (float)Math.Round((Vector3.Distance(transform.position, prevPos) / Time.deltaTime), 0);
+        }     
     }
     IEnumerator AddEnergy(float energy)
     {
-        Energy += energy;
-        EnergyUpdated?.Invoke(Energy);
-        yield return null;
+        while(isCollectingEnergy)
+        {
+            if((CurrentEnergy+energy)<=MaxEnergy)
+            {
+                CurrentEnergy += energy;
+            }
+            EnergyUpdated?.Invoke(CurrentEnergy);
+            yield return new WaitForSeconds(RateOfEnergyGain);
+        }
     }
-    private void RemoveEnergy(float energy)
+    IEnumerator RemoveEnergy(float energy)
     {
-        Energy -= energy;   
-        EnergyUpdated?.Invoke(Energy);
+        while (!isCollectingEnergy)
+        {
+            if((CurrentEnergy-energy) >= MinEnergy)
+            {
+                CurrentEnergy -= energy;
+            }
+            EnergyUpdated?.Invoke(CurrentEnergy);
+            yield return new WaitForSeconds(RateOfEnergyLoss / (Mathf.Clamp((EnergySpeedMod*0.5f), 1, 2)));
+            //The higher the SpeedMod, the smaller the fraction ROEL/ESM will be, resulting in a 
+            //faster tick speed
+        }
     }
     public void SelectSpeed()
     {
@@ -122,23 +172,23 @@ public class PlayerBehavior : MonoBehaviour
     }
     public void AccelerateOn()
     {
-        AccelerationNum = 1;
-        print("ACCON");
+        AccelerationVal = 1;
+        //print("ACCON");
     }
     public void AccelerateOff()
     {
-        AccelerationNum = 0;
-        print("ACCOFF");
+        AccelerationVal = 0;
+        //print("ACCOFF");
     }
     public void DecelerateOn()
     {
-        AccelerationNum = -1;
-        print("DECON");
+        AccelerationVal = -1;
+        //print("DECON");
     }
     public void DecelerateOff()
     {
-        AccelerationNum = 0;
-        print("DECOFF");
+        AccelerationVal = 0;
+        //print("DECOFF");
     }
     public void Increase()
     {
