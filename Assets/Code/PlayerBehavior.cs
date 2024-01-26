@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.EventSystems;
+using static Cinemachine.AxisState;
 
 public class PlayerBehavior : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class PlayerBehavior : MonoBehaviour
     [Tooltip("A lower number equals a lower rate of turning")] public float Sensitivity = 1.0f;
     [Tooltip("A lower number equals a higher rate of energy change. Suggest numbers smaller than 3.000")] public float RateOfEnergyGain = .25f, RateOfEnergyLoss=1f;
     [Tooltip("A lower number equals a lower maximum speed without energy.")] public float NoEnergySpeed = .1f;
+
 
     private Controls controls;
     private Vector3 movement;
@@ -24,7 +26,7 @@ public class PlayerBehavior : MonoBehaviour
     public float CurrentEnergy = 99f, CurrentSpeed = 0, Power = 75, SpeedEnergyMod = 1, ShieldEnergyMod = 1, AttackEnergyMod = 1;
     public static Action<float> EnergyUpdated;
 
-  
+
     /// <summary>
     /// We need the enum (named integer) do diffrentiate between front and rear so steering 
     /// can be applied correctly
@@ -50,14 +52,14 @@ public class PlayerBehavior : MonoBehaviour
 
     void Start()
     {
+        UIController.GetUIMOD += HandleUIChange;
         rb = GetComponent<Rigidbody>();
         controls = new Controls();
         controls.ControllerMap.Enable();
-
         controls.ControllerMap.Move.performed += ctx => movement = ctx.ReadValue<Vector2>();
         controls.ControllerMap.Move.canceled += ctx => movement = ctx.ReadValue<Vector2>();
-        controls.ControllerMap.Increase.performed += ctx => Increase();
-        controls.ControllerMap.Decrease.performed += ctx => Decrease();
+        controls.ControllerMap.Increase.performed += ctx => SelectRight();
+        controls.ControllerMap.Decrease.performed += ctx => SelectLeft();
         controls.ControllerMap.Accelerate.started += ctx => AccelerateOn();
         controls.ControllerMap.Accelerate.canceled += ctx => AccelerateOff();
         controls.ControllerMap.Decelerate.started += ctx => DecelerateOn();
@@ -66,7 +68,7 @@ public class PlayerBehavior : MonoBehaviour
         controls.ControllerMap.SelectAttack.performed += ctx => SelectAttack();
         controls.ControllerMap.SelectShield.performed += ctx => SelectShield();
 
-
+        
         StartCoroutine(CalcSpeed());
     }
     void Update()
@@ -74,6 +76,28 @@ public class PlayerBehavior : MonoBehaviour
         MovePlayer();
         SteerPlayer();
         isOnEnergyPad();
+    }
+    /// <summary>
+    /// When the player changes a modifier, the UIBehavior script will use this method to let the 
+    /// PlayerBehavior know a value was changed. In the UIScript, it will pass in what modifier 
+    /// the PlayerBehavior needs to change and to what value. Theoretically, since this is being
+    /// called every time a change is made, modifier will only incrementally change +1/-1, but it 
+    /// will still accomodate if game devs wish for instant modifier change, i.e., from 1=>5
+    /// </summary>
+    public void HandleUIChange(int modSelector, int modifier)
+    {
+        switch (modSelector)
+        {
+            case 0:
+                SpeedEnergyMod = modifier;
+                break;
+            case 1:
+                ShieldEnergyMod = modifier;
+                break;
+            case 2:
+                AttackEnergyMod = modifier;
+                break;
+        }
     }
     public bool isOnEnergyPad()
     {
@@ -122,10 +146,8 @@ public class PlayerBehavior : MonoBehaviour
             {
                 wheel.wheelCollider.motorTorque = (AccelerationVal * Power * SpeedEnergyMod)*NoEnergySpeed;
                 //If you dont have enough energy, this else will allow the car at least some speed
-            }
-            
-        }
-        
+            }           
+        }  
     }
     IEnumerator CalcSpeed()
     {
@@ -206,11 +228,11 @@ public class PlayerBehavior : MonoBehaviour
         AccelerationVal = 0;
         //print("DECOFF");
     }
-    public void Increase()
+    public void SelectRight()
     {
         print("+1");
     }
-    public void Decrease()
+    public void SelectLeft()
     {
         print("-1");
     }
@@ -221,8 +243,8 @@ public class PlayerBehavior : MonoBehaviour
     {
         controls.ControllerMap.Move.performed -= ctx => movement = ctx.ReadValue<Vector2>();
         controls.ControllerMap.Move.canceled -= ctx => movement = ctx.ReadValue<Vector2>();
-        controls.ControllerMap.Increase.performed -= ctx => Increase();
-        controls.ControllerMap.Decrease.performed -= ctx => Decrease();
+        controls.ControllerMap.Increase.performed -= ctx => SelectRight();
+        controls.ControllerMap.Decrease.performed -= ctx => SelectLeft();
         controls.ControllerMap.Accelerate.started -= ctx => AccelerateOn();
         controls.ControllerMap.Accelerate.canceled -= ctx => AccelerateOff();
         controls.ControllerMap.Decelerate.started -= ctx => DecelerateOn();
