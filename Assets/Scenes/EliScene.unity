@@ -1008,10 +1008,12 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 64
-  CurrentEnergy: 2
+  CurrentEnergy: 99
   CurrentSpeed: 0
-  Power: 60
-  EnergySpeedMod: 1
+  Power: 75
+  SpeedEnergyMod: 1
+  ShieldEnergyMod: 1
+  AttackEnergyMod: 1
   wheels:
   - wheelModel: {fileID: 1613314600}
     wheelCollider: {fileID: 1613314605}

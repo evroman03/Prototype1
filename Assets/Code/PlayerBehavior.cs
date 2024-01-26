@@ -6,20 +6,22 @@ using UnityEngine.EventSystems;
 
 public class PlayerBehavior : MonoBehaviour
 {
+    //https://gist.github.com/VanshMillion/9d69fc11f4bb3899ee779e23e7b34abb
+    //https://www.youtube.com/watch?v=jr4eb4F9PSQ&list=PLyh3AdCGPTSLg0PZuD1ykJJDnC1mThI42
     [Tooltip("A number = to -1, 0, or 1. NOT SPEED. Determines forward/backward")] public float AccelerationVal = 0;
     [Tooltip("A lower number equals a lower rate of turning")] public float Sensitivity = 1.0f;
-    [Tooltip("A lower number equals a higher rate of energy change")] public float RateOfEnergyGain = .25f, RateOfEnergyLoss=1f;
-    [Tooltip("A lower number equals a lower maximum speed w/out energy.")] public float NoEnergySpeed = .1f;
+    [Tooltip("A lower number equals a higher rate of energy change. Suggest numbers smaller than 3.000")] public float RateOfEnergyGain = .25f, RateOfEnergyLoss=1f;
+    [Tooltip("A lower number equals a lower maximum speed without energy.")] public float NoEnergySpeed = .1f;
 
     private Controls controls;
     private Vector3 movement;
     private Rigidbody rb;
     private bool isCollectingEnergy = true;
-    private float energyToRemove = 1, energyToAdd = 1, MaxEnergy = 100f, MinEnergy = 1f, DetectEPadCastDistance = 2f;
+    private float energyToRemove = 1, energyToAdd = 1, maxEnergy = 100f, minEnergy = 1f, detectEPadCastDistance = 2f, excessEnergy=0;
 
 
     public LayerMask layerMask;
-    public float CurrentEnergy = 2f, CurrentSpeed = 0, Power = 60, EnergySpeedMod=1;
+    public float CurrentEnergy = 99f, CurrentSpeed = 0, Power = 75, SpeedEnergyMod = 1, ShieldEnergyMod = 1, AttackEnergyMod = 1;
     public static Action<float> EnergyUpdated;
 
   
@@ -76,7 +78,7 @@ public class PlayerBehavior : MonoBehaviour
     public bool isOnEnergyPad()
     {
         RaycastHit hit;
-        if(Physics.Raycast(transform.position, Vector3.down, out hit, DetectEPadCastDistance, layerMask))
+        if(Physics.Raycast(transform.position, Vector3.down, out hit, detectEPadCastDistance, layerMask))
         {
             if(!isCollectingEnergy)
             {
@@ -91,6 +93,7 @@ public class PlayerBehavior : MonoBehaviour
             {
                 isCollectingEnergy = false;
                 StartCoroutine(RemoveEnergy(energyToRemove));
+                print("HERE2");
             }
             return false;
         }
@@ -110,14 +113,15 @@ public class PlayerBehavior : MonoBehaviour
     {   
         foreach(Wheel wheel in wheels) 
         {
-            if(CurrentEnergy > MinEnergy)
+            if(CurrentEnergy > minEnergy)
             {
-                wheel.wheelCollider.motorTorque = AccelerationVal * Power * EnergySpeedMod;
+                wheel.wheelCollider.motorTorque = (AccelerationVal * Power * SpeedEnergyMod) + (excessEnergy*100f);
+                // Acceleration (1,0, or -1) * Power (Designer modifier for more speed) * SEM (# between 1-5) + ~250 (about what 3/5 speed is)
             }
             else
             {
-                wheel.wheelCollider.motorTorque = (AccelerationVal * Power * EnergySpeedMod)*NoEnergySpeed;
-                //If you dont have enough energy,
+                wheel.wheelCollider.motorTorque = (AccelerationVal * Power * SpeedEnergyMod)*NoEnergySpeed;
+                //If you dont have enough energy, this else will allow the car at least some speed
             }
             
         }
@@ -136,7 +140,7 @@ public class PlayerBehavior : MonoBehaviour
     {
         while(isCollectingEnergy)
         {
-            if((CurrentEnergy+energy)<=MaxEnergy)
+            if((CurrentEnergy+energy)<=maxEnergy)
             {
                 CurrentEnergy += energy;
             }
@@ -148,13 +152,25 @@ public class PlayerBehavior : MonoBehaviour
     {
         while (!isCollectingEnergy)
         {
-            if((CurrentEnergy-energy) >= MinEnergy)
+            if((CurrentEnergy-energy) >= minEnergy)
             {
                 CurrentEnergy -= energy;
             }
             EnergyUpdated?.Invoke(CurrentEnergy);
-            yield return new WaitForSeconds(RateOfEnergyLoss / (Mathf.Clamp((EnergySpeedMod*0.5f), 1, 2)));
-            //The higher the SpeedMod, the smaller the fraction ROEL/ESM will be, resulting in a 
+
+            float noBaseROEL = ((SpeedEnergyMod * .25f) + (ShieldEnergyMod * .25f) + (AttackEnergyMod * .25f)); //This variable gets bigger as mods go up
+            float totalROEL = RateOfEnergyLoss / noBaseROEL;                                                    //This variable gets smaller as mods go up
+            float finalROEL = Mathf.Clamp(totalROEL, 0.1f, 1f);                                                 //This variable makes sure the rate isn't obnoxious
+
+            //If the mods are all about 1 then a little bonus will be given to the player's top 
+            //speed. If they are higher, when added together the result of the following if 
+            //will be negative. Flavortext, easy to take out
+            if (1f- noBaseROEL>=0) 
+            {
+                excessEnergy = (float)Math.Round((1-noBaseROEL), 2);
+            }
+            yield return new WaitForSeconds(finalROEL);
+            //The higher these modifiers, the smaller the fraction ROEL/ESM will be, resulting in a
             //faster tick speed
         }
     }
@@ -214,5 +230,6 @@ public class PlayerBehavior : MonoBehaviour
         controls.ControllerMap.SelectSpeed.performed -= ctx => SelectSpeed();
         controls.ControllerMap.SelectAttack.performed -= ctx => SelectAttack();
         controls.ControllerMap.SelectShield.performed -= ctx => SelectShield();
+
     }
 }
