@@ -32,6 +32,5 @@ public class UIController : MonoBehaviour
     public void OnDestroy()
     {
         PlayerBehavior.EnergyUpdated -= Handle_EnergyUpdated;
-
     }
 }

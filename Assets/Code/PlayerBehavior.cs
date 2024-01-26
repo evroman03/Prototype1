@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.EventSystems;
-using static Cinemachine.AxisState;
 
 public class PlayerBehavior : MonoBehaviour
 {
@@ -68,7 +67,6 @@ public class PlayerBehavior : MonoBehaviour
         controls.ControllerMap.SelectAttack.performed += ctx => SelectAttack();
         controls.ControllerMap.SelectShield.performed += ctx => SelectShield();
 
-        
         StartCoroutine(CalcSpeed());
     }
     void Update()
@@ -196,18 +194,6 @@ public class PlayerBehavior : MonoBehaviour
             //faster tick speed
         }
     }
-    public void SelectSpeed()
-    {
-        print("SPDSLCT");
-    }
-    public void SelectAttack()
-    {
-        print("ATKSLCT");
-    }
-    public void SelectShield()
-    {
-        print("SHLDSLCT");
-    }
     public void AccelerateOn()
     {
         AccelerationVal = 1;
@@ -227,6 +213,18 @@ public class PlayerBehavior : MonoBehaviour
     {
         AccelerationVal = 0;
         //print("DECOFF");
+    }
+    public void SelectSpeed()
+    {
+        print("SPDSLCT");
+    }
+    public void SelectAttack()
+    {
+        print("ATKSLCT");
+    }
+    public void SelectShield()
+    {
+        print("SHLDSLCT");
     }
     public void SelectRight()
     {
