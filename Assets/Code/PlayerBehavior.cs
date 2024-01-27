@@ -250,6 +250,5 @@ public class PlayerBehavior : MonoBehaviour
         controls.ControllerMap.SelectSpeed.performed -= ctx => SelectSpeed();
         controls.ControllerMap.SelectAttack.performed -= ctx => SelectAttack();
         controls.ControllerMap.SelectShield.performed -= ctx => SelectShield();
-
     }
 }
