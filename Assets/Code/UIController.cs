@@ -94,7 +94,7 @@ public class UIController : MonoBehaviour
                 {
                     shieldLevelUI.transform.GetChild(i).GetComponent<Image>().color = shieldUIColor;
                 }
-                for (int i = speedMod; i < shieldLevelUI.transform.childCount; i++)
+                for (int i = shieldMod; i < shieldLevelUI.transform.childCount; i++)
                 {
                     shieldLevelUI.transform.GetChild(i).GetComponent<Image>().color = Color.gray;
                 }
@@ -104,7 +104,7 @@ public class UIController : MonoBehaviour
                 {
                     attackLevelUI.transform.GetChild(i).GetComponent<Image>().color = attackUIColor;
                 }
-                for (int i = speedMod; i < attackLevelUI.transform.childCount; i++)
+                for (int i = attackMod; i < attackLevelUI.transform.childCount; i++)
                 {
                     attackLevelUI.transform.GetChild(i).GetComponent<Image>().color = Color.gray;
                 }
