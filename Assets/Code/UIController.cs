@@ -3,12 +3,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.EventSystems;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIController : MonoBehaviour
 { 
     private bool isSelected = false;
     private float energyForUI=0, speedForUI=0, modifierSelected=0;
-    private int SpeedMod = 1, ShieldMod = 1, AttackMod = 1;
+    private int speedMod = 1, shieldMod = 1, attackMod = 1;
+
+    [SerializeField] private GameObject speedLevelUI;
+    [SerializeField] private GameObject attackLevelUI;
+    [SerializeField] private GameObject shieldLevelUI;
+
+    [SerializeField] private Color speedUIColor;
+    [SerializeField] private Color attackUIColor;
+    [SerializeField] private Color shieldUIColor;
+
     public static Action<int, int> GetUIMOD;
     void Start()
     {
@@ -41,27 +51,70 @@ public class UIController : MonoBehaviour
         switch(modifierSelected)
         {
             case 0:
-                if ((SpeedMod + (1 * posNeg)) > 0 && (SpeedMod + (1 * posNeg)) < 6) { SpeedMod += (1 * posNeg); }
-                var = SpeedMod;
-                GetUIMOD?.Invoke(0, SpeedMod);
-                print("Speed" + SpeedMod);
+                if ((speedMod + (1 * posNeg)) > 0 && (speedMod + (1 * posNeg)) < 6) { speedMod += (1 * posNeg); }
+                var = speedMod;
+                GetUIMOD?.Invoke(0, speedMod);
+                print("Speed" + speedMod);
                 break;
             case 1:
-                if ((ShieldMod + (1 * posNeg)) > 0 && (ShieldMod + (1 * posNeg)) < 6) { ShieldMod += (1 * posNeg); }
-                var = ShieldMod;
-                GetUIMOD?.Invoke(1, ShieldMod);
-                print("Shield" + ShieldMod);
+                if ((shieldMod + (1 * posNeg)) > 0 && (shieldMod + (1 * posNeg)) < 6) { shieldMod += (1 * posNeg); }
+                var = shieldMod;
+                GetUIMOD?.Invoke(1, shieldMod);
+                print("Shield" + shieldMod);
                 break;
             case 2:
-                if ((AttackMod + (1 * posNeg)) > 0 && (AttackMod + (1 * posNeg)) < 6) { AttackMod += (1 * posNeg); }
-                var = AttackMod;
-                GetUIMOD?.Invoke(2,AttackMod);
-                print("Attack"+ AttackMod);
+                if ((attackMod + (1 * posNeg)) > 0 && (attackMod + (1 * posNeg)) < 6) { attackMod += (1 * posNeg); }
+                var = attackMod;
+                GetUIMOD?.Invoke(2,attackMod);
+                print("Attack"+ attackMod);
                 break;
-               
+            default:
+                print("ERROR: ChangeModifier() failed. Invalid modifierSelected");
+                break;
         }
-        //CAN YOU READ THIS
+        UpdateUI();
     }
+
+    public void UpdateUI()
+    {
+        switch (modifierSelected)
+        {
+            case 0:
+                for (int i = 0; i < speedMod; i++)
+                {
+                    speedLevelUI.transform.GetChild(i).GetComponent<Image>().color = speedUIColor;
+                }
+                for (int i = speedMod; i < speedLevelUI.transform.childCount; i++)
+                {
+                    speedLevelUI.transform.GetChild(i).GetComponent<Image>().color = Color.gray;
+                }
+                break;
+            case 1:
+                for (int i = 0; i < shieldMod; i++)
+                {
+                    shieldLevelUI.transform.GetChild(i).GetComponent<Image>().color = shieldUIColor;
+                }
+                for (int i = speedMod; i < shieldLevelUI.transform.childCount; i++)
+                {
+                    speedLevelUI.transform.GetChild(i).GetComponent<Image>().color = Color.gray;
+                }
+                break;
+            case 2:
+                for (int i = 0; i < attackMod; i++)
+                {
+                    speedLevelUI.transform.GetChild(i).GetComponent<Image>().color = speedUIColor;
+                }
+                for (int i = speedMod; i < attackLevelUI.transform.childCount; i++)
+                {
+                    speedLevelUI.transform.GetChild(i).GetComponent<Image>().color = Color.gray;
+                }
+                break;
+            default:
+                print("ERROR: UpdateUI() failed. Invalid modiferSelected.");
+                break;
+        }
+    }
+
     public void UISelectSpeed()
     {
         modifierSelected = 0;
