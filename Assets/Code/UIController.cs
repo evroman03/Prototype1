@@ -14,6 +14,7 @@ public class UIController : MonoBehaviour
     [SerializeField] private GameObject speedLevelUI;
     [SerializeField] private GameObject attackLevelUI;
     [SerializeField] private GameObject shieldLevelUI;
+    [SerializeField] private Slider sliderObject;
 
     [SerializeField] private Color speedUIColor;
     [SerializeField] private Color attackUIColor;
@@ -33,7 +34,7 @@ public class UIController : MonoBehaviour
 
     void Update()
     {
-
+        sliderObject.value = energyForUI;
     }
     public void Handle_EnergyUpdated(float energy)
     {
