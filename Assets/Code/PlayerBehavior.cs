@@ -18,11 +18,11 @@ public class PlayerBehavior : MonoBehaviour
     private Vector3 movement;
     private Rigidbody rb;
     private bool isCollectingEnergy = true;
-    private float energyToRemove = 1, energyToAdd = 1, maxEnergy = 100f, minEnergy = 1f, detectEPadCastDistance = 2f, excessEnergy=0, CurrentEnergy = 99f, CurrentSpeed = 0;
+    private float energyToRemove = 1, energyToAdd = 1, maxEnergy = 100f, minEnergy = 1f, detectEPadCastDistance = 2f, excessEnergy = 0;
 
 
     public LayerMask layerMask;
-    public float Power = 75, SpeedEnergyMod = 1, ShieldEnergyMod = 1, AttackEnergyMod = 1;
+    public float Power = 75, SpeedEnergyMod = 1, ShieldEnergyMod = 1, AttackEnergyMod = 1, CurrentEnergy = 99f, CurrentSpeed = 0;
     public static Action<float> EnergyUpdated, SpeedUpdated;
     public static Action SelectAttack, SelectShield, SelectSpeed, SelectRight, SelectLeft;
 
