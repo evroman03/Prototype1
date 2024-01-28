@@ -707,9 +707,9 @@ MonoBehaviour:
   m_HandleRect: {fileID: 308205909}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 1
+  m_MaxValue: 100
   m_WholeNumbers: 0
-  m_Value: 1
+  m_Value: 100
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2059,6 +2059,7 @@ MonoBehaviour:
   speedLevelUI: {fileID: 1807972489}
   attackLevelUI: {fileID: 973738947}
   shieldLevelUI: {fileID: 601407325}
+  sliderObject: {fileID: 452957830}
   speedUIColor: {r: 0, g: 0.7118585, b: 1, a: 1}
   attackUIColor: {r: 1, g: 0.1675592, b: 0, a: 1}
   shieldUIColor: {r: 0, g: 1, b: 0.19853926, a: 1}
