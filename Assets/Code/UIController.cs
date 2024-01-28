@@ -11,6 +11,7 @@ public class UIController : MonoBehaviour
     private float energyForUI=0, speedForUI=0, modifierSelected=0;
     private int speedMod = 1, shieldMod = 1, attackMod = 1;
 
+    [SerializeField] private GameObject spedomter;
     [SerializeField] private GameObject speedLevelUI;
     [SerializeField] private GameObject attackLevelUI;
     [SerializeField] private GameObject shieldLevelUI;
@@ -32,9 +33,14 @@ public class UIController : MonoBehaviour
         PlayerBehavior.SelectRight += UISelectRight;
     }
 
+    Vector3 rotationEuler;
+    Image needle;
     void Update()
     {
         sliderObject.value = energyForUI;
+
+        rotationEuler += Vector3.forward * 30 * Time.deltaTime;
+        spedomter.transform.GetChild(1).GetComponent<Image>().transform.rotation = Quaternion.Euler(rotationEuler);
     }
     public void Handle_EnergyUpdated(float energy)
     {
