@@ -14,16 +14,17 @@ public class PlayerBehavior : MonoBehaviour
     [Tooltip("A lower number equals a lower maximum speed without energy.")] public float NoEnergySpeed = .1f;
 
 
-    private Controls controls;
+    public Controls controls;
     private Vector3 movement;
     private Rigidbody rb;
     private bool isCollectingEnergy = true;
-    private float energyToRemove = 1, energyToAdd = 1, maxEnergy = 100f, minEnergy = 1f, detectEPadCastDistance = 2f, excessEnergy=0;
+    private float energyToRemove = 1, energyToAdd = 1, maxEnergy = 100f, minEnergy = 1f, detectEPadCastDistance = 2f, excessEnergy=0, CurrentEnergy = 99f, CurrentSpeed = 0;
 
 
     public LayerMask layerMask;
-    public float CurrentEnergy = 99f, CurrentSpeed = 0, Power = 75, SpeedEnergyMod = 1, ShieldEnergyMod = 1, AttackEnergyMod = 1;
-    public static Action<float> EnergyUpdated;
+    public float Power = 75, SpeedEnergyMod = 1, ShieldEnergyMod = 1, AttackEnergyMod = 1;
+    public static Action<float> EnergyUpdated, SpeedUpdated;
+    public static Action SelectAttack, SelectShield, SelectSpeed, SelectRight, SelectLeft;
 
 
     /// <summary>
@@ -57,8 +58,6 @@ public class PlayerBehavior : MonoBehaviour
         controls.ControllerMap.Enable();
         controls.ControllerMap.Move.performed += ctx => movement = ctx.ReadValue<Vector2>();
         controls.ControllerMap.Move.canceled += ctx => movement = ctx.ReadValue<Vector2>();
-        controls.ControllerMap.Increase.performed += ctx => SelectRight();
-        controls.ControllerMap.Decrease.performed += ctx => SelectLeft();
         controls.ControllerMap.Accelerate.started += ctx => AccelerateOn();
         controls.ControllerMap.Accelerate.canceled += ctx => AccelerateOff();
         controls.ControllerMap.Decelerate.started += ctx => DecelerateOn();
@@ -66,6 +65,8 @@ public class PlayerBehavior : MonoBehaviour
         controls.ControllerMap.SelectSpeed.performed += ctx => SelectSpeed();
         controls.ControllerMap.SelectAttack.performed += ctx => SelectAttack();
         controls.ControllerMap.SelectShield.performed += ctx => SelectShield();
+        controls.ControllerMap.Increase.performed += ctx => SelectRight();
+        controls.ControllerMap.Decrease.performed += ctx => SelectLeft();
 
         StartCoroutine(CalcSpeed());
     }
@@ -154,6 +155,7 @@ public class PlayerBehavior : MonoBehaviour
             Vector3 prevPos = transform.position;
             yield return new WaitForFixedUpdate();
             CurrentSpeed = (float)Math.Round((Vector3.Distance(transform.position, prevPos) / Time.deltaTime), 0);
+            SpeedUpdated?.Invoke(CurrentSpeed);
         }     
     }
     IEnumerator AddEnergy(float energy)
@@ -214,26 +216,7 @@ public class PlayerBehavior : MonoBehaviour
         AccelerationVal = 0;
         //print("DECOFF");
     }
-    public void SelectSpeed()
-    {
-        print("SPDSLCT");
-    }
-    public void SelectAttack()
-    {
-        print("ATKSLCT");
-    }
-    public void SelectShield()
-    {
-        print("SHLDSLCT");
-    }
-    public void SelectRight()
-    {
-        print("+1");
-    }
-    public void SelectLeft()
-    {
-        print("-1");
-    }
+    
     /// <summary>
     /// We need to unassaign the actions to avoid errors when loading new scenes
     /// </summary>
@@ -250,5 +233,6 @@ public class PlayerBehavior : MonoBehaviour
         controls.ControllerMap.SelectSpeed.performed -= ctx => SelectSpeed();
         controls.ControllerMap.SelectAttack.performed -= ctx => SelectAttack();
         controls.ControllerMap.SelectShield.performed -= ctx => SelectShield();
+        UIController.GetUIMOD -= HandleUIChange;
     }
 }
