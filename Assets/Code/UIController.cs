@@ -41,6 +41,8 @@ public class UIController : MonoBehaviour
     float needleAngleModifier;
     void Start()
     {
+        if (maxSpeed <= 0)
+            print("WARNING: maxSpeed is set to a non-positive number! maxSpeed is currently: " + maxSpeed);
         PlayerBehavior.EnergyUpdated += Handle_EnergyUpdated;
         PlayerBehavior.SpeedUpdated += HandleSpeedUpdated;
         PlayerBehavior.SelectAttack += UISelectAttack;
@@ -49,8 +51,13 @@ public class UIController : MonoBehaviour
         PlayerBehavior.SelectLeft += UISelectLeft;
         PlayerBehavior.SelectRight += UISelectRight;
 
+        //Sets Icons to their starting states
         speedIconUI.transform.GetChild(0).GetComponent<Image>().enabled = false;
         speedIconUI.transform.GetChild(1).GetComponent<Image>().enabled = true;
+
+        attackIconUI.transform.GetChild(1).GetComponent<Image>().enabled = false;
+
+        shieldIconUI.transform.GetChild(1).GetComponent<Image>().enabled = false;
 
         //Calibrates needle to display speeds from mimimum speed to maximum speed
         needleAngleModifier = maxSpeed / DEFAULT_MAX_SPEED;
@@ -94,13 +101,14 @@ public class UIController : MonoBehaviour
                 GetUIMOD?.Invoke(0, speedMod);
                 print("Speed" + speedMod);
 
+                //Sets the speed icon to active and the rest to inactive
                 speedIconUI.transform.GetChild(0).GetComponent<Image>().enabled = false;
                 speedIconUI.transform.GetChild(1).GetComponent<Image>().enabled = true;
 
-                attackIconUI.transform.GetChild(0).GetComponent<Image>().enabled = false;
+                attackIconUI.transform.GetChild(0).GetComponent<Image>().enabled = true;
                 attackIconUI.transform.GetChild(1).GetComponent<Image>().enabled = false;
 
-                shieldIconUI.transform.GetChild(0).GetComponent<Image>().enabled = false;
+                shieldIconUI.transform.GetChild(0).GetComponent<Image>().enabled = true;
                 shieldIconUI.transform.GetChild(1).GetComponent<Image>().enabled = false;
                 break;
             case 1:
@@ -111,13 +119,14 @@ public class UIController : MonoBehaviour
                 GetUIMOD?.Invoke(1, shieldMod);
                 print("Shield" + shieldMod);
 
-                speedIconUI.transform.GetChild(0).GetComponent<Image>().enabled = false;
+                //Sets the attack icon to active and the rest to inactive
+                speedIconUI.transform.GetChild(0).GetComponent<Image>().enabled = true;
                 speedIconUI.transform.GetChild(1).GetComponent<Image>().enabled = false;
 
                 attackIconUI.transform.GetChild(0).GetComponent<Image>().enabled = false;
                 attackIconUI.transform.GetChild(1).GetComponent<Image>().enabled = true;
 
-                shieldIconUI.transform.GetChild(0).GetComponent<Image>().enabled = false;
+                shieldIconUI.transform.GetChild(0).GetComponent<Image>().enabled = true;
                 shieldIconUI.transform.GetChild(1).GetComponent<Image>().enabled = false;
                 break;
             case 2:
@@ -128,10 +137,11 @@ public class UIController : MonoBehaviour
                 GetUIMOD?.Invoke(2,attackMod);
                 print("Attack"+ attackMod);
 
-                speedIconUI.transform.GetChild(0).GetComponent<Image>().enabled = false;
+                //Sets the shield icon to active and the rest to inactive
+                speedIconUI.transform.GetChild(0).GetComponent<Image>().enabled = true;
                 speedIconUI.transform.GetChild(1).GetComponent<Image>().enabled = false;
 
-                attackIconUI.transform.GetChild(0).GetComponent<Image>().enabled = false;
+                attackIconUI.transform.GetChild(0).GetComponent<Image>().enabled = true;
                 attackIconUI.transform.GetChild(1).GetComponent<Image>().enabled = false;
 
                 shieldIconUI.transform.GetChild(0).GetComponent<Image>().enabled = false;
