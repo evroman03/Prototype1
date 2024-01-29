@@ -248,6 +248,21 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 053c2988da3ec024089d68208ce98a8c, type: 3}
+--- !u!1 &540268800 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4128463014835537055, guid: 30fd802b13218fb40bc837a0d2cea9bb, type: 3}
+  m_PrefabInstance: {fileID: 7806299421493683578}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &763997193 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2588763569312133387, guid: 30fd802b13218fb40bc837a0d2cea9bb, type: 3}
+  m_PrefabInstance: {fileID: 7806299421493683578}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &978420573 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 901752212024564237, guid: 30fd802b13218fb40bc837a0d2cea9bb, type: 3}
+  m_PrefabInstance: {fileID: 7806299421493683578}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1236005137
 GameObject:
   m_ObjectHideFlags: 0
@@ -444,6 +459,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4617885554392747227, guid: 30fd802b13218fb40bc837a0d2cea9bb, type: 3}
+      propertyPath: maxSpeed
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 4617885554392747227, guid: 30fd802b13218fb40bc837a0d2cea9bb, type: 3}
       propertyPath: spedomter
       value: 
       objectReference: {fileID: 1981120642}
@@ -451,6 +470,18 @@ PrefabInstance:
       propertyPath: speedomter
       value: 
       objectReference: {fileID: 1981120642}
+    - target: {fileID: 4617885554392747227, guid: 30fd802b13218fb40bc837a0d2cea9bb, type: 3}
+      propertyPath: speedIconUI
+      value: 
+      objectReference: {fileID: 978420573}
+    - target: {fileID: 4617885554392747227, guid: 30fd802b13218fb40bc837a0d2cea9bb, type: 3}
+      propertyPath: attackIconUI
+      value: 
+      objectReference: {fileID: 763997193}
+    - target: {fileID: 4617885554392747227, guid: 30fd802b13218fb40bc837a0d2cea9bb, type: 3}
+      propertyPath: shieldIconUI
+      value: 
+      objectReference: {fileID: 540268800}
     - target: {fileID: 4801500957119595852, guid: 30fd802b13218fb40bc837a0d2cea9bb, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
