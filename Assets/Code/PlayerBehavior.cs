@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.EventSystems;
+using System.Runtime.InteropServices;
+using Unity.VisualScripting;
 
 public class PlayerBehavior : MonoBehaviour
 {
     //https://gist.github.com/VanshMillion/9d69fc11f4bb3899ee779e23e7b34abb
     //https://www.youtube.com/watch?v=jr4eb4F9PSQ&list=PLyh3AdCGPTSLg0PZuD1ykJJDnC1mThI42
-    [Tooltip("A number = to -1, 0, or 1. NOT SPEED. Determines forward/backward")] public float AccelerationVal = 0;
+    [Tooltip("A number = to -1, 0, or 1. NOT SPEED. Determines forward/backward")] public float ForwardVal = 0, ReverseVal=0;
     [Tooltip("A lower number equals a lower rate of turning")] public float Sensitivity = 1.0f;
     [Tooltip("A lower number equals a higher rate of energy change. Suggest numbers smaller than 3.000")] public float RateOfEnergyGain = .25f, RateOfEnergyLoss=1f;
     [Tooltip("A lower number equals a lower maximum speed without energy.")] public float NoEnergySpeed = .1f;
@@ -22,7 +24,7 @@ public class PlayerBehavior : MonoBehaviour
 
 
     public LayerMask layerMask;
-    public float Power = 75, SpeedEnergyMod = 1, ShieldEnergyMod = 1, AttackEnergyMod = 1, detectEPadCastDistance = 2f, CurrentEnergy = 99f, CurrentSpeed = 0;
+    public float Power = 75, SpeedEnergyMod = 1, ShieldEnergyMod = 1, AttackEnergyMod = 1, detectEPadCastDistance = 2f, CurrentEnergy = 99f, CurrentSpeed = 0, BrakePower=50f;
     public static Action<float> EnergyUpdated, SpeedUpdated;
     public static Action SelectAttack, SelectShield, SelectSpeed, SelectRight, SelectLeft;
 
@@ -75,6 +77,7 @@ public class PlayerBehavior : MonoBehaviour
         MovePlayer();
         SteerPlayer();
         isOnEnergyPad();
+        Brake();
     }
     /// <summary>
     /// When the player changes a modifier, the UIBehavior script will use this method to let the 
@@ -138,15 +141,35 @@ public class PlayerBehavior : MonoBehaviour
         {
             if(CurrentEnergy > minEnergy)
             {
-                wheel.wheelCollider.motorTorque = (AccelerationVal * Power * SpeedEnergyMod) + (excessEnergy*100f);
-                // Acceleration (1,0, or -1) * Power (Designer modifier for more speed) * SEM (# between 1-5) + ~250 (about what 3/5 speed is)
+                wheel.wheelCollider.motorTorque = ((ForwardVal+ReverseVal) * Power * SpeedEnergyMod) + (excessEnergy*100f);
+                // Acceleration (1,0, or -1) * Power (Designer modifier for more speed) * SEM (# between 1-5) + ~25 (about what 3/5 speed is)
+                //print(wheel.wheelCollider.motorTorque);
             }
             else
             {
-                wheel.wheelCollider.motorTorque = (AccelerationVal * Power * SpeedEnergyMod)*NoEnergySpeed;
+                wheel.wheelCollider.motorTorque = (ForwardVal * Power * SpeedEnergyMod)*NoEnergySpeed;
                 //If you dont have enough energy, this else will allow the car at least some speed
             }           
         }  
+    }
+    void Brake()
+    {
+        if (CurrentSpeed > 10f && ReverseVal < 0)
+        {
+            foreach (Wheel wheel in wheels)
+            {
+                wheel.wheelCollider.brakeTorque = (BrakePower * 20);
+                print("BeingApplied" + wheel.wheelCollider.brakeTorque);
+            }
+        }
+        else if (CurrentSpeed < 10f)
+        {
+            foreach (Wheel wheel in wheels)
+            {
+                wheel.wheelCollider.brakeTorque = 0;
+                print("NOTBEINGAPPLIED" + wheel.wheelCollider.brakeTorque);
+            }
+        }
     }
     IEnumerator CalcSpeed()
     {
@@ -198,22 +221,22 @@ public class PlayerBehavior : MonoBehaviour
     }
     public void AccelerateOn()
     {
-        AccelerationVal = 1;
+        ForwardVal = 1;
         //print("ACCON");
     }
     public void AccelerateOff()
     {
-        AccelerationVal = 0;
+        ForwardVal = 0;
         //print("ACCOFF");
     }
     public void DecelerateOn()
     {
-        AccelerationVal = -1;
+        ReverseVal = -1;
         //print("DECON");
     }
     public void DecelerateOff()
     {
-        AccelerationVal = 0;
+        ReverseVal = 0;
         //print("DECOFF");
     }
     
