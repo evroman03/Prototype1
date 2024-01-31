@@ -86,7 +86,7 @@ public class UIController : MonoBehaviour
     public void HandleSpeedUpdated(float speed)
     {
         speedForUI= speed;
-        print("Current speed: " + speedForUI);
+        //print("Current speed: " + speedForUI);
     }
     public void ChangeModifier(int posNeg)
     {
@@ -99,7 +99,7 @@ public class UIController : MonoBehaviour
                 }
                 var = speedMod;
                 GetUIMOD?.Invoke(0, speedMod);
-                print("Speed" + speedMod);
+                //print("Speed" + speedMod);
 
                 //Sets the speed icon to active and the rest to inactive
                 speedIconUI.transform.GetChild(0).GetComponent<Image>().enabled = false;
@@ -117,27 +117,9 @@ public class UIController : MonoBehaviour
                 }
                 var = shieldMod;
                 GetUIMOD?.Invoke(1, shieldMod);
-                print("Shield" + shieldMod);
+                //print("Shield" + shieldMod);
 
                 //Sets the attack icon to active and the rest to inactive
-                speedIconUI.transform.GetChild(0).GetComponent<Image>().enabled = true;
-                speedIconUI.transform.GetChild(1).GetComponent<Image>().enabled = false;
-
-                attackIconUI.transform.GetChild(0).GetComponent<Image>().enabled = false;
-                attackIconUI.transform.GetChild(1).GetComponent<Image>().enabled = true;
-
-                shieldIconUI.transform.GetChild(0).GetComponent<Image>().enabled = true;
-                shieldIconUI.transform.GetChild(1).GetComponent<Image>().enabled = false;
-                break;
-            case 2:
-                if ((attackMod + (1 * posNeg)) > 0 && (attackMod + (1 * posNeg)) < 6) {
-                    attackMod += (1 * posNeg);
-                }
-                var = attackMod;
-                GetUIMOD?.Invoke(2,attackMod);
-                print("Attack"+ attackMod);
-
-                //Sets the shield icon to active and the rest to inactive
                 speedIconUI.transform.GetChild(0).GetComponent<Image>().enabled = true;
                 speedIconUI.transform.GetChild(1).GetComponent<Image>().enabled = false;
 
@@ -146,6 +128,24 @@ public class UIController : MonoBehaviour
 
                 shieldIconUI.transform.GetChild(0).GetComponent<Image>().enabled = false;
                 shieldIconUI.transform.GetChild(1).GetComponent<Image>().enabled = true;
+                break;
+            case 2:
+                if ((attackMod + (1 * posNeg)) > 0 && (attackMod + (1 * posNeg)) < 6) {
+                    attackMod += (1 * posNeg);
+                }
+                var = attackMod;
+                GetUIMOD?.Invoke(2,attackMod);
+                //print("Attack"+ attackMod);
+
+                //Sets the shield icon to active and the rest to inactive
+                speedIconUI.transform.GetChild(0).GetComponent<Image>().enabled = true;
+                speedIconUI.transform.GetChild(1).GetComponent<Image>().enabled = false;
+
+                attackIconUI.transform.GetChild(0).GetComponent<Image>().enabled = false;
+                attackIconUI.transform.GetChild(1).GetComponent<Image>().enabled = true;
+
+                shieldIconUI.transform.GetChild(0).GetComponent<Image>().enabled = true;
+                shieldIconUI.transform.GetChild(1).GetComponent<Image>().enabled = false;
                 break;
             default:
                 print("ERROR: ChangeModifier() failed. Invalid modifierSelected");
