@@ -17,14 +17,13 @@ public class PlayerBehavior : MonoBehaviour
 
 
     public Controls controls;
-    private Vector3 movement;
     private Rigidbody rb;
     private bool isCollectingEnergy = true;
-    private float energyToRemove = 1, energyToAdd = 1, maxEnergy = 100f, minEnergy = 1f, excessEnergy = 0;
+    private float energyToRemove = 1, energyToAdd = 1, maxEnergy = 100f, minEnergy = 1f, excessEnergy = 0, steerValue = 0;
 
 
     public LayerMask layerMask;
-    public float Power = 75, SpeedEnergyMod = 1, ShieldEnergyMod = 1, AttackEnergyMod = 1, detectEPadCastDistance = 2f, CurrentEnergy = 99f, CurrentSpeed = 0, BrakePower=50f;
+    public float Power = 75, SpeedEnergyMod = 1, ShieldEnergyMod = 1, AttackEnergyMod = 1, detectEPadCastDistance = 2f, CurrentEnergy = 99f, CurrentSpeed = 0, BrakePower=50f, MaxSpeed=100f;
     public static Action<float> EnergyUpdated, SpeedUpdated;
     public static Action SelectAttack, SelectShield, SelectSpeed, SelectRight, SelectLeft;
 
@@ -58,8 +57,8 @@ public class PlayerBehavior : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         controls = new Controls();
         controls.ControllerMap.Enable();
-        controls.ControllerMap.Move.performed += ctx => movement = ctx.ReadValue<Vector2>();
-        controls.ControllerMap.Move.canceled += ctx => movement = ctx.ReadValue<Vector2>();
+        controls.ControllerMap.Move.performed += ctx => steerValue = ctx.ReadValue<float>();
+        controls.ControllerMap.Move.canceled += ctx => steerValue = 0;
         controls.ControllerMap.Accelerate.started += ctx => AccelerateOn();
         controls.ControllerMap.Accelerate.canceled += ctx => AccelerateOff();
         controls.ControllerMap.Decelerate.started += ctx => DecelerateOn();
@@ -126,12 +125,16 @@ public class PlayerBehavior : MonoBehaviour
     }
     void SteerPlayer()
     {
-        foreach (var wheel in wheels)
+        foreach (Wheel wheel in wheels)
         {
             if (wheel.AxleType == Axle.Front)
             {
-                var steerAngle = movement.x * Sensitivity * 30f;
-                wheel.wheelCollider.steerAngle = Mathf.Lerp(wheel.wheelCollider.steerAngle, steerAngle, 0.6f);
+                var steerAngle = steerValue * Sensitivity * 25f * (1-(CurrentSpeed/MaxSpeed));
+                var finalAngle = Mathf.Lerp(wheel.wheelCollider.steerAngle, steerAngle, 0.6f);
+                //Inverse relationship; as current speed increases, 25 will be multiplied by a smaller decimal to get a smaller angle. (To make it harder to accidently oversteer at high speed)       
+                //Lerp is included so that steering isn't instantanious
+                wheel.wheelCollider.steerAngle = finalAngle; 
+                wheel.wheelModel.transform.eulerAngles = new Vector3(wheel.wheelModel.transform.eulerAngles.x, finalAngle, wheel.wheelModel.transform.eulerAngles.z);
             }
         }
     }
@@ -159,7 +162,7 @@ public class PlayerBehavior : MonoBehaviour
             foreach (Wheel wheel in wheels)
             {
                 wheel.wheelCollider.brakeTorque = (BrakePower * 20);
-                print("BeingApplied" + wheel.wheelCollider.brakeTorque);
+                //print("BeingApplied" + wheel.wheelCollider.brakeTorque);
             }
         }
         else if (CurrentSpeed < 10f)
@@ -167,7 +170,7 @@ public class PlayerBehavior : MonoBehaviour
             foreach (Wheel wheel in wheels)
             {
                 wheel.wheelCollider.brakeTorque = 0;
-                print("NOTBEINGAPPLIED" + wheel.wheelCollider.brakeTorque);
+                //print("NOTBEINGAPPLIED" + wheel.wheelCollider.brakeTorque);
             }
         }
     }
@@ -245,8 +248,8 @@ public class PlayerBehavior : MonoBehaviour
     /// </summary>
     public void OnDestroy()
     {
-        controls.ControllerMap.Move.performed -= ctx => movement = ctx.ReadValue<Vector2>();
-        controls.ControllerMap.Move.canceled -= ctx => movement = ctx.ReadValue<Vector2>();
+        controls.ControllerMap.Move.performed -= ctx => steerValue = ctx.ReadValue<float>();
+        controls.ControllerMap.Move.canceled -= ctx => steerValue = 0;
         controls.ControllerMap.Increase.performed -= ctx => SelectRight();
         controls.ControllerMap.Decrease.performed -= ctx => SelectLeft();
         controls.ControllerMap.Accelerate.started -= ctx => AccelerateOn();
