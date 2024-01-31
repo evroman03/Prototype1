@@ -5,6 +5,7 @@ using System;
 using UnityEngine.EventSystems;
 using System.Runtime.InteropServices;
 using Unity.VisualScripting;
+using UnityEditor;
 
 public class PlayerBehavior : MonoBehaviour
 {
@@ -68,6 +69,7 @@ public class PlayerBehavior : MonoBehaviour
         controls.ControllerMap.SelectShield.performed += ctx => SelectShield();
         controls.ControllerMap.Increase.performed += ctx => SelectRight();
         controls.ControllerMap.Decrease.performed += ctx => SelectLeft();
+        controls.ControllerMap.Quit.performed += ctx => Quit();
 
         StartCoroutine(CalcSpeed());
     }
@@ -118,7 +120,6 @@ public class PlayerBehavior : MonoBehaviour
             {
                 isCollectingEnergy = false;
                 StartCoroutine(RemoveEnergy(energyToRemove));
-                print("HERE2");
             }
             return false;
         }
@@ -242,7 +243,11 @@ public class PlayerBehavior : MonoBehaviour
         ReverseVal = 0;
         //print("DECOFF");
     }
-    
+    public void Quit()
+    {
+        Application.Quit();
+        EditorApplication.ExitPlaymode();
+    }
     /// <summary>
     /// We need to unassaign the actions to avoid errors when loading new scenes
     /// </summary>
