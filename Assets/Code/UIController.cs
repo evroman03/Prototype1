@@ -72,13 +72,7 @@ public class UIController : MonoBehaviour
     {
         sliderObject.value = energyForUI;
 
-        //if (speedForUI == null)
-        //{
-        //   speedForUI = 0;
-        //}
-
         //Changes needle angle
-        print(speedForUI);
         angle = Mathf.Lerp(MINIMUM_ANGLE, MAXIMUM_ANGLE,  speedForUI / maxSpeed);
         speedomter.transform.GetChild(1).GetComponent<Image>().transform.eulerAngles = new Vector3(0, 0, -angle + 90);
     }
@@ -104,16 +98,6 @@ public class UIController : MonoBehaviour
                 var = speedMod;
                 GetUIMOD?.Invoke(0, speedMod);
                 //print("Speed" + speedMod);
-
-                //Sets the speed icon to active and the rest to inactive
-                speedIconUI.transform.Find("SpdIconOff").GetComponent<Image>().enabled = false;
-                speedIconUI.transform.Find("SpdIconOn").GetComponent<Image>().enabled = true;
-
-                attackIconUI.transform.Find("AtkIconOff").GetComponent<Image>().enabled = true;
-                attackIconUI.transform.Find("AtkIconOn").GetComponent<Image>().enabled = false;
-
-                shieldIconUI.transform.Find("ShIconOff").GetComponent<Image>().enabled = true;
-                shieldIconUI.transform.Find("ShIconOn").GetComponent<Image>().enabled = false;
                 break;
             case 1:
                 if ((shieldMod + (1 * posNeg)) > 0 && (shieldMod + (1 * posNeg)) < 6) { 
@@ -122,16 +106,6 @@ public class UIController : MonoBehaviour
                 var = shieldMod;
                 GetUIMOD?.Invoke(1, shieldMod);
                 //print("Shield" + shieldMod);
-
-                //Sets the attack icon to active and the rest to inactive
-                speedIconUI.transform.Find("SpdIconOff").GetComponent<Image>().enabled = true;
-                speedIconUI.transform.Find("SpdIconOn").GetComponent<Image>().enabled = false;
-
-                attackIconUI.transform.Find("AtkIconOff").GetComponent<Image>().enabled = false;
-                attackIconUI.transform.Find("AtkIconOn").GetComponent<Image>().enabled = true;
-
-                shieldIconUI.transform.Find("ShIconOff").GetComponent<Image>().enabled = true;
-                shieldIconUI.transform.Find("ShIconOn").GetComponent<Image>().enabled = false;
                 break;
             case 2:
                 if ((attackMod + (1 * posNeg)) > 0 && (attackMod + (1 * posNeg)) < 6) {
@@ -140,16 +114,6 @@ public class UIController : MonoBehaviour
                 var = attackMod;
                 GetUIMOD?.Invoke(2,attackMod);
                 //print("Attack"+ attackMod);
-
-                //Sets the shield icon to active and the rest to inactive
-                speedIconUI.transform.Find("SpdIconOff").GetComponent<Image>().enabled = true;
-                speedIconUI.transform.Find("SpdIconOn").GetComponent<Image>().enabled = false;
-
-                attackIconUI.transform.Find("AtkIconOff").GetComponent<Image>().enabled = true;
-                attackIconUI.transform.Find("AtkIconOn").GetComponent<Image>().enabled = false;
-
-                shieldIconUI.transform.Find("ShIconOff").GetComponent<Image>().enabled = false;
-                shieldIconUI.transform.Find("ShIconOn").GetComponent<Image>().enabled = true;
                 break;
             default:
                 print("ERROR: ChangeModifier() failed. Invalid modifierSelected");
@@ -163,6 +127,7 @@ public class UIController : MonoBehaviour
      */
     public void UpdateUI()
     {
+        
         //Gets which component to be modified
         switch (modifierSelected)
         {
@@ -171,13 +136,13 @@ public class UIController : MonoBehaviour
                 //Changes amount of Speed components to active color depending on the level
                 for (int i = 0; i < speedMod; i++)
                 {
-                    speedLevelUI.transform.Find("Lv" + i).GetComponent<Image>().color = speedUIColor;
+                    speedLevelUI.transform.Find("Lv" + (i + 1)).GetComponent<Image>().color = speedUIColor;
                 }
 
                 //Sets the rest of the Speed components to gray
                 for (int i = speedMod; i < speedLevelUI.transform.childCount; i++)
                 {
-                    speedLevelUI.transform.Find("Lv" + i).GetComponent<Image>().color = Color.gray;
+                    speedLevelUI.transform.Find("Lv" + (i + 1)).GetComponent<Image>().color = Color.gray;
                 }
                 break;
 
@@ -186,26 +151,26 @@ public class UIController : MonoBehaviour
                 //Changes amount of Shield components to active color depending on the level
                 for (int i = 0; i < shieldMod; i++)
                 {
-                    shieldLevelUI.transform.Find("Lv" + i).GetComponent<Image>().color = shieldUIColor;
+                    shieldLevelUI.transform.Find("Lv" + (i + 1)).GetComponent<Image>().color = shieldUIColor;
                 }
 
                 //Sets the rest of the Shield components to gray
                 for (int i = shieldMod; i < shieldLevelUI.transform.childCount; i++)
                 {
-                    shieldLevelUI.transform.Find("Lv" + i).GetComponent<Image>().color = Color.gray;
+                    shieldLevelUI.transform.Find("Lv" + (i + 1)).GetComponent<Image>().color = Color.gray;
                 }
                 break;
             case 2:
                 //Changes amount of Attack components to active color depending on the level
                 for (int i = 0; i < attackMod; i++)
                 {
-                    attackLevelUI.transform.Find("Lv" + i).GetComponent<Image>().color = attackUIColor;
+                    attackLevelUI.transform.Find("Lv" + (i + 1)).GetComponent<Image>().color = attackUIColor;
                 }
 
                 //Sets the rest of the Attack components to gray
                 for (int i = attackMod; i < attackLevelUI.transform.childCount; i++)
                 {
-                    attackLevelUI.transform.Find("Lv" + i).GetComponent<Image>().color = Color.gray;
+                    attackLevelUI.transform.Find("Lv" + (i + 1)).GetComponent<Image>().color = Color.gray;
                 }
                 break;
             //If modifierSelected is none of the above
@@ -218,14 +183,44 @@ public class UIController : MonoBehaviour
     public void UISelectSpeed()
     {
         modifierSelected = 0;
+
+        //Sets the speed icon to active and the rest to inactive
+        speedIconUI.transform.Find("SpdIconOff").GetComponent<Image>().enabled = false;
+        speedIconUI.transform.Find("SpdIconOn").GetComponent<Image>().enabled = true;
+
+        shieldIconUI.transform.Find("ShIconOff").GetComponent<Image>().enabled = true;
+        shieldIconUI.transform.Find("ShIconOn").GetComponent<Image>().enabled = false;
+
+        attackIconUI.transform.Find("AtkIconOff").GetComponent<Image>().enabled = true;
+        attackIconUI.transform.Find("AtkIconOn").GetComponent<Image>().enabled = false;
     }
     public void UISelectShield()
     {
         modifierSelected = 1;
+
+        //Sets the shield icon to active and the rest to inactive
+        speedIconUI.transform.Find("SpdIconOff").GetComponent<Image>().enabled = true;
+        speedIconUI.transform.Find("SpdIconOn").GetComponent<Image>().enabled = false;
+
+        shieldIconUI.transform.Find("ShIconOff").GetComponent<Image>().enabled = false;
+        shieldIconUI.transform.Find("ShIconOn").GetComponent<Image>().enabled = true;
+
+        attackIconUI.transform.Find("AtkIconOff").GetComponent<Image>().enabled = true;
+        attackIconUI.transform.Find("AtkIconOn").GetComponent<Image>().enabled = false;
     }
     public void UISelectAttack()
     {
         modifierSelected = 2;
+
+        //Sets the attack icon to active and the rest to inactive
+        speedIconUI.transform.Find("SpdIconOff").GetComponent<Image>().enabled = true;
+        speedIconUI.transform.Find("SpdIconOn").GetComponent<Image>().enabled = false;
+
+        shieldIconUI.transform.Find("ShIconOff").GetComponent<Image>().enabled = true;
+        shieldIconUI.transform.Find("ShIconOn").GetComponent<Image>().enabled = false;
+
+        attackIconUI.transform.Find("AtkIconOff").GetComponent<Image>().enabled = false;
+        attackIconUI.transform.Find("AtkIconOn").GetComponent<Image>().enabled = true;
     }
     public void UISelectRight()
     {
