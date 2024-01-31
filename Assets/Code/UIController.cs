@@ -9,7 +9,6 @@ public class UIController : MonoBehaviour
 { 
     private float energyForUI=0, speedForUI=0, modifierSelected=0;
     private int speedMod = 1, shieldMod = 1, attackMod = 1;
-    private Vector3 rotationEuler;
 
     //Grabs the UI Icons
     [SerializeField] private GameObject speedomter;
@@ -51,6 +50,8 @@ public class UIController : MonoBehaviour
         PlayerBehavior.SelectLeft += UISelectLeft;
         PlayerBehavior.SelectRight += UISelectRight;
 
+        speedForUI = 0;
+
         //Sets Icons to their starting states
         speedIconUI.transform.GetChild(0).GetComponent<Image>().enabled = false;
         speedIconUI.transform.GetChild(1).GetComponent<Image>().enabled = true;
@@ -71,11 +72,13 @@ public class UIController : MonoBehaviour
     {
         sliderObject.value = energyForUI;
 
-        //Gets how much the needle needs to rotate
-        //rotationEuler += Vector3.back * 30 * Time.deltaTime;
+        //if (speedForUI == null)
+        //{
+         //   speedForUI = 0;
+        //}
 
         //Changes needle angle
-        angle = Mathf.Lerp(MINIMUM_ANGLE, MAXIMUM_ANGLE, Mathf.InverseLerp(MINIMUM_ANGLE, MAXIMUM_ANGLE, speedForUI / needleAngleModifier));
+        angle = Mathf.Lerp(MINIMUM_ANGLE, MAXIMUM_ANGLE,  speedForUI / needleAngleModifier);
         speedomter.transform.GetChild(1).GetComponent<Image>().transform.eulerAngles = new Vector3(0, 0, -angle + 90);
     }
     public void Handle_EnergyUpdated(float energy)
