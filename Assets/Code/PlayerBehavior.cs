@@ -162,7 +162,7 @@ public class PlayerBehavior : MonoBehaviour
         {
             foreach (Wheel wheel in wheels)
             {
-                wheel.wheelCollider.brakeTorque = (BrakePower * 20);
+                wheel.wheelCollider.brakeTorque = (BrakePower * 100);
                 //print("BeingApplied" + wheel.wheelCollider.brakeTorque);
             }
         }
@@ -264,6 +264,7 @@ public class PlayerBehavior : MonoBehaviour
         controls.ControllerMap.SelectSpeed.performed -= ctx => SelectSpeed();
         controls.ControllerMap.SelectAttack.performed -= ctx => SelectAttack();
         controls.ControllerMap.SelectShield.performed -= ctx => SelectShield();
+        controls.ControllerMap.Quit.performed -= ctx => Quit();
         UIController.GetUIMOD -= HandleUIChange;
     }
 }
