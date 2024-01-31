@@ -135,7 +135,7 @@ public class PlayerBehavior : MonoBehaviour
                 //Inverse relationship; as current speed increases, 25 will be multiplied by a smaller decimal to get a smaller angle. (To make it harder to accidently oversteer at high speed)       
                 //Lerp is included so that steering isn't instantanious
                 wheel.wheelCollider.steerAngle = finalAngle; 
-                wheel.wheelModel.transform.eulerAngles = new Vector3(wheel.wheelModel.transform.eulerAngles.x, finalAngle, wheel.wheelModel.transform.eulerAngles.z);
+                wheel.wheelModel.transform.localEulerAngles = new Vector3(wheel.wheelModel.transform.eulerAngles.x, finalAngle, wheel.wheelModel.transform.eulerAngles.z);
             }
         }
     }
