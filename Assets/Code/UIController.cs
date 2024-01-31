@@ -171,13 +171,13 @@ public class UIController : MonoBehaviour
                 //Changes amount of Speed components to active color depending on the level
                 for (int i = 0; i < speedMod; i++)
                 {
-                    speedLevelUI.transform.GetChild(i).GetComponent<Image>().color = speedUIColor;
+                    speedLevelUI.transform.Find("Lv" + i).GetComponent<Image>().color = speedUIColor;
                 }
 
                 //Sets the rest of the Speed components to gray
                 for (int i = speedMod; i < speedLevelUI.transform.childCount; i++)
                 {
-                    speedLevelUI.transform.GetChild(i).GetComponent<Image>().color = Color.gray;
+                    speedLevelUI.transform.Find("Lv" + i).GetComponent<Image>().color = Color.gray;
                 }
                 break;
 
@@ -186,26 +186,26 @@ public class UIController : MonoBehaviour
                 //Changes amount of Shield components to active color depending on the level
                 for (int i = 0; i < shieldMod; i++)
                 {
-                    shieldLevelUI.transform.GetChild(i).GetComponent<Image>().color = shieldUIColor;
+                    shieldLevelUI.transform.Find("Lv" + i).GetComponent<Image>().color = shieldUIColor;
                 }
 
                 //Sets the rest of the Shield components to gray
                 for (int i = shieldMod; i < shieldLevelUI.transform.childCount; i++)
                 {
-                    shieldLevelUI.transform.GetChild(i).GetComponent<Image>().color = Color.gray;
+                    shieldLevelUI.transform.Find("Lv" + i).GetComponent<Image>().color = Color.gray;
                 }
                 break;
             case 2:
                 //Changes amount of Attack components to active color depending on the level
                 for (int i = 0; i < attackMod; i++)
                 {
-                    attackLevelUI.transform.GetChild(i).GetComponent<Image>().color = attackUIColor;
+                    attackLevelUI.transform.Find("Lv" + i).GetComponent<Image>().color = attackUIColor;
                 }
 
                 //Sets the rest of the Attack components to gray
                 for (int i = attackMod; i < attackLevelUI.transform.childCount; i++)
                 {
-                    attackLevelUI.transform.GetChild(i).GetComponent<Image>().color = Color.gray;
+                    attackLevelUI.transform.Find("Lv" + i).GetComponent<Image>().color = Color.gray;
                 }
                 break;
             //If modifierSelected is none of the above
