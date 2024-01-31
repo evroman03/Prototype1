@@ -248,19 +248,14 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 053c2988da3ec024089d68208ce98a8c, type: 3}
---- !u!1 &540268800 stripped
+--- !u!1 &734648335 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 4128463014835537055, guid: 30fd802b13218fb40bc837a0d2cea9bb, type: 3}
+  m_CorrespondingSourceObject: {fileID: 1237324922931514869, guid: 30fd802b13218fb40bc837a0d2cea9bb, type: 3}
   m_PrefabInstance: {fileID: 7806299421493683578}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &763997193 stripped
+--- !u!1 &773967853 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 2588763569312133387, guid: 30fd802b13218fb40bc837a0d2cea9bb, type: 3}
-  m_PrefabInstance: {fileID: 7806299421493683578}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &978420573 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 901752212024564237, guid: 30fd802b13218fb40bc837a0d2cea9bb, type: 3}
+  m_CorrespondingSourceObject: {fileID: 2398618897893003988, guid: 30fd802b13218fb40bc837a0d2cea9bb, type: 3}
   m_PrefabInstance: {fileID: 7806299421493683578}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1236005137
@@ -357,6 +352,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &1789104591 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6233903821541323497, guid: 30fd802b13218fb40bc837a0d2cea9bb, type: 3}
+  m_PrefabInstance: {fileID: 7806299421493683578}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1981120642 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 606584271162091196, guid: 30fd802b13218fb40bc837a0d2cea9bb, type: 3}
@@ -473,15 +473,15 @@ PrefabInstance:
     - target: {fileID: 4617885554392747227, guid: 30fd802b13218fb40bc837a0d2cea9bb, type: 3}
       propertyPath: speedIconUI
       value: 
-      objectReference: {fileID: 978420573}
+      objectReference: {fileID: 734648335}
     - target: {fileID: 4617885554392747227, guid: 30fd802b13218fb40bc837a0d2cea9bb, type: 3}
       propertyPath: attackIconUI
       value: 
-      objectReference: {fileID: 763997193}
+      objectReference: {fileID: 1789104591}
     - target: {fileID: 4617885554392747227, guid: 30fd802b13218fb40bc837a0d2cea9bb, type: 3}
       propertyPath: shieldIconUI
       value: 
-      objectReference: {fileID: 540268800}
+      objectReference: {fileID: 773967853}
     - target: {fileID: 4801500957119595852, guid: 30fd802b13218fb40bc837a0d2cea9bb, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
