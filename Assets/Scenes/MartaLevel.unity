@@ -26173,6 +26173,63 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1001 &1894341463
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 416025042967183106, guid: 539d1b20fa3079e46b9ff34e5741223c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -997.1945
+      objectReference: {fileID: 0}
+    - target: {fileID: 416025042967183106, guid: 539d1b20fa3079e46b9ff34e5741223c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.2723885
+      objectReference: {fileID: 0}
+    - target: {fileID: 416025042967183106, guid: 539d1b20fa3079e46b9ff34e5741223c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 679.4596
+      objectReference: {fileID: 0}
+    - target: {fileID: 416025042967183106, guid: 539d1b20fa3079e46b9ff34e5741223c, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.6670734
+      objectReference: {fileID: 0}
+    - target: {fileID: 416025042967183106, guid: 539d1b20fa3079e46b9ff34e5741223c, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 416025042967183106, guid: 539d1b20fa3079e46b9ff34e5741223c, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.744992
+      objectReference: {fileID: 0}
+    - target: {fileID: 416025042967183106, guid: 539d1b20fa3079e46b9ff34e5741223c, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 416025042967183106, guid: 539d1b20fa3079e46b9ff34e5741223c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 416025042967183106, guid: 539d1b20fa3079e46b9ff34e5741223c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 96.317
+      objectReference: {fileID: 0}
+    - target: {fileID: 416025042967183106, guid: 539d1b20fa3079e46b9ff34e5741223c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1048727651487442360, guid: 539d1b20fa3079e46b9ff34e5741223c, type: 3}
+      propertyPath: m_Name
+      value: Future Car Proto
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 539d1b20fa3079e46b9ff34e5741223c, type: 3}
 --- !u!1 &1896832396
 GameObject:
   m_ObjectHideFlags: 0
@@ -26458,3 +26515,4 @@ SceneRoots:
   - {fileID: 1640326986}
   - {fileID: 1223008917}
   - {fileID: 257752220}
+  - {fileID: 1894341463}

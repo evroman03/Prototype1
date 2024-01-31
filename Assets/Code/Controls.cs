@@ -31,7 +31,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""name"": ""Move"",
                     ""type"": ""Value"",
                     ""id"": ""90f109d0-30cd-4fd2-b671-6ca6d5ff9ba4"",
-                    ""expectedControlType"": ""Vector2"",
+                    ""expectedControlType"": ""Axis"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
@@ -98,19 +98,50 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Quit"",
+                    ""type"": ""Button"",
+                    ""id"": ""8956463b-1cbb-40b7-9433-cc4cec2e9a2e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
                 {
-                    ""name"": """",
-                    ""id"": ""bf2b2906-d668-49bd-9f30-4078fcf6467d"",
-                    ""path"": ""<Gamepad>/leftStick"",
+                    ""name"": ""1D Axis"",
+                    ""id"": ""4a89a6ad-4ee7-4bb4-b694-e5ac6b8808b0"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""8804e52a-ce2b-448f-b3c8-c54bac91dcb3"",
+                    ""path"": ""<Gamepad>/leftStick/left"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Move"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": false
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""d37fe276-c842-460c-a50a-a3aca163cc85"",
+                    ""path"": ""<Gamepad>/leftStick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 },
                 {
                     ""name"": """",
@@ -188,6 +219,17 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""action"": ""SelectSpeed"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a38c58f9-04be-4707-9470-bfcc20b19a68"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Quit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -204,6 +246,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         m_ControllerMap_SelectAttack = m_ControllerMap.FindAction("SelectAttack", throwIfNotFound: true);
         m_ControllerMap_SelectShield = m_ControllerMap.FindAction("SelectShield", throwIfNotFound: true);
         m_ControllerMap_SelectSpeed = m_ControllerMap.FindAction("SelectSpeed", throwIfNotFound: true);
+        m_ControllerMap_Quit = m_ControllerMap.FindAction("Quit", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -273,6 +316,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private readonly InputAction m_ControllerMap_SelectAttack;
     private readonly InputAction m_ControllerMap_SelectShield;
     private readonly InputAction m_ControllerMap_SelectSpeed;
+    private readonly InputAction m_ControllerMap_Quit;
     public struct ControllerMapActions
     {
         private @Controls m_Wrapper;
@@ -285,6 +329,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         public InputAction @SelectAttack => m_Wrapper.m_ControllerMap_SelectAttack;
         public InputAction @SelectShield => m_Wrapper.m_ControllerMap_SelectShield;
         public InputAction @SelectSpeed => m_Wrapper.m_ControllerMap_SelectSpeed;
+        public InputAction @Quit => m_Wrapper.m_ControllerMap_Quit;
         public InputActionMap Get() { return m_Wrapper.m_ControllerMap; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -318,6 +363,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @SelectSpeed.started += instance.OnSelectSpeed;
             @SelectSpeed.performed += instance.OnSelectSpeed;
             @SelectSpeed.canceled += instance.OnSelectSpeed;
+            @Quit.started += instance.OnQuit;
+            @Quit.performed += instance.OnQuit;
+            @Quit.canceled += instance.OnQuit;
         }
 
         private void UnregisterCallbacks(IControllerMapActions instance)
@@ -346,6 +394,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @SelectSpeed.started -= instance.OnSelectSpeed;
             @SelectSpeed.performed -= instance.OnSelectSpeed;
             @SelectSpeed.canceled -= instance.OnSelectSpeed;
+            @Quit.started -= instance.OnQuit;
+            @Quit.performed -= instance.OnQuit;
+            @Quit.canceled -= instance.OnQuit;
         }
 
         public void RemoveCallbacks(IControllerMapActions instance)
@@ -373,5 +424,6 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         void OnSelectAttack(InputAction.CallbackContext context);
         void OnSelectShield(InputAction.CallbackContext context);
         void OnSelectSpeed(InputAction.CallbackContext context);
+        void OnQuit(InputAction.CallbackContext context);
     }
 }
