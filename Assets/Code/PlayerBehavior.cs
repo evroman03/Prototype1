@@ -3,26 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.EventSystems;
+using System.Runtime.InteropServices;
+using Unity.VisualScripting;
+using UnityEditor;
 
 public class PlayerBehavior : MonoBehaviour
 {
     //https://gist.github.com/VanshMillion/9d69fc11f4bb3899ee779e23e7b34abb
     //https://www.youtube.com/watch?v=jr4eb4F9PSQ&list=PLyh3AdCGPTSLg0PZuD1ykJJDnC1mThI42
-    [Tooltip("A number = to -1, 0, or 1. NOT SPEED. Determines forward/backward")] public float AccelerationVal = 0;
+    [Tooltip("A number = to -1, 0, or 1. NOT SPEED. Determines forward/backward")] public float ForwardVal = 0, ReverseVal=0;
     [Tooltip("A lower number equals a lower rate of turning")] public float Sensitivity = 1.0f;
     [Tooltip("A lower number equals a higher rate of energy change. Suggest numbers smaller than 3.000")] public float RateOfEnergyGain = .25f, RateOfEnergyLoss=1f;
     [Tooltip("A lower number equals a lower maximum speed without energy.")] public float NoEnergySpeed = .1f;
 
 
     public Controls controls;
-    private Vector3 movement;
     private Rigidbody rb;
     private bool isCollectingEnergy = true;
-    private float energyToRemove = 1, energyToAdd = 1, maxEnergy = 100f, minEnergy = 1f, excessEnergy = 0;
+    private float energyToRemove = 1, energyToAdd = 1, maxEnergy = 100f, minEnergy = 1f, excessEnergy = 0, steerValue = 0;
 
 
     public LayerMask layerMask;
-    public float Power = 75, SpeedEnergyMod = 1, ShieldEnergyMod = 1, AttackEnergyMod = 1, detectEPadCastDistance = 2f, CurrentEnergy = 99f, CurrentSpeed = 0;
+    public float Power = 75, SpeedEnergyMod = 1, ShieldEnergyMod = 1, AttackEnergyMod = 1, detectEPadCastDistance = 2f, CurrentEnergy = 99f, CurrentSpeed = 0, BrakePower=50f, MaxSpeed=100f;
     public static Action<float> EnergyUpdated, SpeedUpdated;
     public static Action SelectAttack, SelectShield, SelectSpeed, SelectRight, SelectLeft;
 
@@ -56,8 +58,8 @@ public class PlayerBehavior : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         controls = new Controls();
         controls.ControllerMap.Enable();
-        controls.ControllerMap.Move.performed += ctx => movement = ctx.ReadValue<Vector2>();
-        controls.ControllerMap.Move.canceled += ctx => movement = ctx.ReadValue<Vector2>();
+        controls.ControllerMap.Move.performed += ctx => steerValue = ctx.ReadValue<float>();
+        controls.ControllerMap.Move.canceled += ctx => steerValue = 0;
         controls.ControllerMap.Accelerate.started += ctx => AccelerateOn();
         controls.ControllerMap.Accelerate.canceled += ctx => AccelerateOff();
         controls.ControllerMap.Decelerate.started += ctx => DecelerateOn();
@@ -67,6 +69,7 @@ public class PlayerBehavior : MonoBehaviour
         controls.ControllerMap.SelectShield.performed += ctx => SelectShield();
         controls.ControllerMap.Increase.performed += ctx => SelectRight();
         controls.ControllerMap.Decrease.performed += ctx => SelectLeft();
+        controls.ControllerMap.Quit.performed += ctx => Quit();
 
         StartCoroutine(CalcSpeed());
     }
@@ -75,6 +78,7 @@ public class PlayerBehavior : MonoBehaviour
         MovePlayer();
         SteerPlayer();
         isOnEnergyPad();
+        Brake();
     }
     /// <summary>
     /// When the player changes a modifier, the UIBehavior script will use this method to let the 
@@ -116,19 +120,22 @@ public class PlayerBehavior : MonoBehaviour
             {
                 isCollectingEnergy = false;
                 StartCoroutine(RemoveEnergy(energyToRemove));
-                print("HERE2");
             }
             return false;
         }
     }
     void SteerPlayer()
     {
-        foreach (var wheel in wheels)
+        foreach (Wheel wheel in wheels)
         {
             if (wheel.AxleType == Axle.Front)
             {
-                var steerAngle = movement.x * Sensitivity * 30f;
-                wheel.wheelCollider.steerAngle = Mathf.Lerp(wheel.wheelCollider.steerAngle, steerAngle, 0.6f);
+                var steerAngle = steerValue * Sensitivity * 25f * (1-(CurrentSpeed/MaxSpeed));
+                var finalAngle = Mathf.Lerp(wheel.wheelCollider.steerAngle, steerAngle, 0.6f);
+                //Inverse relationship; as current speed increases, 25 will be multiplied by a smaller decimal to get a smaller angle. (To make it harder to accidently oversteer at high speed)       
+                //Lerp is included so that steering isn't instantanious
+                wheel.wheelCollider.steerAngle = finalAngle; 
+                wheel.wheelModel.transform.eulerAngles = new Vector3(wheel.wheelModel.transform.eulerAngles.x, finalAngle, wheel.wheelModel.transform.eulerAngles.z);
             }
         }
     }
@@ -138,15 +145,35 @@ public class PlayerBehavior : MonoBehaviour
         {
             if(CurrentEnergy > minEnergy)
             {
-                wheel.wheelCollider.motorTorque = (AccelerationVal * Power * SpeedEnergyMod) + (excessEnergy*100f);
-                // Acceleration (1,0, or -1) * Power (Designer modifier for more speed) * SEM (# between 1-5) + ~250 (about what 3/5 speed is)
+                wheel.wheelCollider.motorTorque = ((ForwardVal+ReverseVal) * Power * SpeedEnergyMod) + (excessEnergy*100f);
+                // Acceleration (1,0, or -1) * Power (Designer modifier for more speed) * SEM (# between 1-5) + ~25 (about what 3/5 speed is)
+                //print(wheel.wheelCollider.motorTorque);
             }
             else
             {
-                wheel.wheelCollider.motorTorque = (AccelerationVal * Power * SpeedEnergyMod)*NoEnergySpeed;
+                wheel.wheelCollider.motorTorque = (ForwardVal * Power * SpeedEnergyMod)*NoEnergySpeed;
                 //If you dont have enough energy, this else will allow the car at least some speed
             }           
         }  
+    }
+    void Brake()
+    {
+        if (CurrentSpeed > 10f && ReverseVal < 0)
+        {
+            foreach (Wheel wheel in wheels)
+            {
+                wheel.wheelCollider.brakeTorque = (BrakePower * 100);
+                //print("BeingApplied" + wheel.wheelCollider.brakeTorque);
+            }
+        }
+        else if (CurrentSpeed < 10f)
+        {
+            foreach (Wheel wheel in wheels)
+            {
+                wheel.wheelCollider.brakeTorque = 0;
+                //print("NOTBEINGAPPLIED" + wheel.wheelCollider.brakeTorque);
+            }
+        }
     }
     IEnumerator CalcSpeed()
     {
@@ -198,32 +225,36 @@ public class PlayerBehavior : MonoBehaviour
     }
     public void AccelerateOn()
     {
-        AccelerationVal = 1;
+        ForwardVal = 1;
         //print("ACCON");
     }
     public void AccelerateOff()
     {
-        AccelerationVal = 0;
+        ForwardVal = 0;
         //print("ACCOFF");
     }
     public void DecelerateOn()
     {
-        AccelerationVal = -1;
+        ReverseVal = -1;
         //print("DECON");
     }
     public void DecelerateOff()
     {
-        AccelerationVal = 0;
+        ReverseVal = 0;
         //print("DECOFF");
     }
-    
+    public void Quit()
+    {
+        Application.Quit();
+        EditorApplication.ExitPlaymode();
+    }
     /// <summary>
     /// We need to unassaign the actions to avoid errors when loading new scenes
     /// </summary>
     public void OnDestroy()
     {
-        controls.ControllerMap.Move.performed -= ctx => movement = ctx.ReadValue<Vector2>();
-        controls.ControllerMap.Move.canceled -= ctx => movement = ctx.ReadValue<Vector2>();
+        controls.ControllerMap.Move.performed -= ctx => steerValue = ctx.ReadValue<float>();
+        controls.ControllerMap.Move.canceled -= ctx => steerValue = 0;
         controls.ControllerMap.Increase.performed -= ctx => SelectRight();
         controls.ControllerMap.Decrease.performed -= ctx => SelectLeft();
         controls.ControllerMap.Accelerate.started -= ctx => AccelerateOn();
@@ -233,6 +264,7 @@ public class PlayerBehavior : MonoBehaviour
         controls.ControllerMap.SelectSpeed.performed -= ctx => SelectSpeed();
         controls.ControllerMap.SelectAttack.performed -= ctx => SelectAttack();
         controls.ControllerMap.SelectShield.performed -= ctx => SelectShield();
+        controls.ControllerMap.Quit.performed -= ctx => Quit();
         UIController.GetUIMOD -= HandleUIChange;
     }
 }
