@@ -234,6 +234,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b529c3ab261b17543a7e91e978be7f33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spedomter: {fileID: 606584271162091196}
   speedLevelUI: {fileID: 7954054102035843398}
   attackLevelUI: {fileID: 8889148307677827101}
   shieldLevelUI: {fileID: 3944552616229293826}
