@@ -9,7 +9,6 @@ public class UIController : MonoBehaviour
 { 
     private float energyForUI=0, speedForUI=0, modifierSelected=0;
     private int speedMod = 1, shieldMod = 1, attackMod = 1;
-    private Vector3 rotationEuler;
 
     //Grabs the UI Icons
     [SerializeField] private GameObject speedomter;
@@ -51,13 +50,15 @@ public class UIController : MonoBehaviour
         PlayerBehavior.SelectLeft += UISelectLeft;
         PlayerBehavior.SelectRight += UISelectRight;
 
+        speedForUI = 0;
+
         //Sets Icons to their starting states
-        speedIconUI.transform.GetChild(0).GetComponent<Image>().enabled = false;
-        speedIconUI.transform.GetChild(1).GetComponent<Image>().enabled = true;
+        speedIconUI.transform.Find("SpdIconOff").GetComponent<Image>().enabled = false;
+        speedIconUI.transform.Find("SpdIconOn").GetComponent<Image>().enabled = true;
 
-        attackIconUI.transform.GetChild(1).GetComponent<Image>().enabled = false;
+        attackIconUI.transform.Find("AtkIconOn").GetComponent<Image>().enabled = false;
 
-        shieldIconUI.transform.GetChild(1).GetComponent<Image>().enabled = false;
+        shieldIconUI.transform.Find("ShIconOn").GetComponent<Image>().enabled = false;
 
         //Calibrates needle to display speeds from mimimum speed to maximum speed
         needleAngleModifier = maxSpeed / DEFAULT_MAX_SPEED;
@@ -71,11 +72,14 @@ public class UIController : MonoBehaviour
     {
         sliderObject.value = energyForUI;
 
-        //Gets how much the needle needs to rotate
-        //rotationEuler += Vector3.back * 30 * Time.deltaTime;
+        //if (speedForUI == null)
+        //{
+        //   speedForUI = 0;
+        //}
 
         //Changes needle angle
-        angle = Mathf.Lerp(MINIMUM_ANGLE, MAXIMUM_ANGLE, Mathf.InverseLerp(MINIMUM_ANGLE, MAXIMUM_ANGLE, speedForUI / needleAngleModifier));
+        print(speedForUI);
+        angle = Mathf.Lerp(MINIMUM_ANGLE, MAXIMUM_ANGLE,  speedForUI / maxSpeed);
         speedomter.transform.GetChild(1).GetComponent<Image>().transform.eulerAngles = new Vector3(0, 0, -angle + 90);
     }
     public void Handle_EnergyUpdated(float energy)
@@ -86,7 +90,7 @@ public class UIController : MonoBehaviour
     public void HandleSpeedUpdated(float speed)
     {
         speedForUI= speed;
-        print("Current speed: " + speedForUI);
+        //print("Current speed: " + speedForUI);
     }
     public void ChangeModifier(int posNeg)
     {
@@ -99,17 +103,17 @@ public class UIController : MonoBehaviour
                 }
                 var = speedMod;
                 GetUIMOD?.Invoke(0, speedMod);
-                print("Speed" + speedMod);
+                //print("Speed" + speedMod);
 
                 //Sets the speed icon to active and the rest to inactive
-                speedIconUI.transform.GetChild(0).GetComponent<Image>().enabled = false;
-                speedIconUI.transform.GetChild(1).GetComponent<Image>().enabled = true;
+                speedIconUI.transform.Find("SpdIconOff").GetComponent<Image>().enabled = false;
+                speedIconUI.transform.Find("SpdIconOn").GetComponent<Image>().enabled = true;
 
-                attackIconUI.transform.GetChild(0).GetComponent<Image>().enabled = true;
-                attackIconUI.transform.GetChild(1).GetComponent<Image>().enabled = false;
+                attackIconUI.transform.Find("AtkIconOff").GetComponent<Image>().enabled = true;
+                attackIconUI.transform.Find("AtkIconOn").GetComponent<Image>().enabled = false;
 
-                shieldIconUI.transform.GetChild(0).GetComponent<Image>().enabled = true;
-                shieldIconUI.transform.GetChild(1).GetComponent<Image>().enabled = false;
+                shieldIconUI.transform.Find("ShIconOff").GetComponent<Image>().enabled = true;
+                shieldIconUI.transform.Find("ShIconOn").GetComponent<Image>().enabled = false;
                 break;
             case 1:
                 if ((shieldMod + (1 * posNeg)) > 0 && (shieldMod + (1 * posNeg)) < 6) { 
@@ -117,17 +121,17 @@ public class UIController : MonoBehaviour
                 }
                 var = shieldMod;
                 GetUIMOD?.Invoke(1, shieldMod);
-                print("Shield" + shieldMod);
+                //print("Shield" + shieldMod);
 
                 //Sets the attack icon to active and the rest to inactive
-                speedIconUI.transform.GetChild(0).GetComponent<Image>().enabled = true;
-                speedIconUI.transform.GetChild(1).GetComponent<Image>().enabled = false;
+                speedIconUI.transform.Find("SpdIconOff").GetComponent<Image>().enabled = true;
+                speedIconUI.transform.Find("SpdIconOn").GetComponent<Image>().enabled = false;
 
-                attackIconUI.transform.GetChild(0).GetComponent<Image>().enabled = false;
-                attackIconUI.transform.GetChild(1).GetComponent<Image>().enabled = true;
+                attackIconUI.transform.Find("AtkIconOff").GetComponent<Image>().enabled = false;
+                attackIconUI.transform.Find("AtkIconOn").GetComponent<Image>().enabled = true;
 
-                shieldIconUI.transform.GetChild(0).GetComponent<Image>().enabled = true;
-                shieldIconUI.transform.GetChild(1).GetComponent<Image>().enabled = false;
+                shieldIconUI.transform.Find("ShIconOff").GetComponent<Image>().enabled = true;
+                shieldIconUI.transform.Find("ShIconOn").GetComponent<Image>().enabled = false;
                 break;
             case 2:
                 if ((attackMod + (1 * posNeg)) > 0 && (attackMod + (1 * posNeg)) < 6) {
@@ -135,17 +139,17 @@ public class UIController : MonoBehaviour
                 }
                 var = attackMod;
                 GetUIMOD?.Invoke(2,attackMod);
-                print("Attack"+ attackMod);
+                //print("Attack"+ attackMod);
 
                 //Sets the shield icon to active and the rest to inactive
-                speedIconUI.transform.GetChild(0).GetComponent<Image>().enabled = true;
-                speedIconUI.transform.GetChild(1).GetComponent<Image>().enabled = false;
+                speedIconUI.transform.Find("SpdIconOff").GetComponent<Image>().enabled = true;
+                speedIconUI.transform.Find("SpdIconOn").GetComponent<Image>().enabled = false;
 
-                attackIconUI.transform.GetChild(0).GetComponent<Image>().enabled = true;
-                attackIconUI.transform.GetChild(1).GetComponent<Image>().enabled = false;
+                attackIconUI.transform.Find("AtkIconOff").GetComponent<Image>().enabled = true;
+                attackIconUI.transform.Find("AtkIconOn").GetComponent<Image>().enabled = false;
 
-                shieldIconUI.transform.GetChild(0).GetComponent<Image>().enabled = false;
-                shieldIconUI.transform.GetChild(1).GetComponent<Image>().enabled = true;
+                shieldIconUI.transform.Find("ShIconOff").GetComponent<Image>().enabled = false;
+                shieldIconUI.transform.Find("ShIconOn").GetComponent<Image>().enabled = true;
                 break;
             default:
                 print("ERROR: ChangeModifier() failed. Invalid modifierSelected");
