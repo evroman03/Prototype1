@@ -19,9 +19,9 @@ public class UIController : MonoBehaviour
 
     //Grabs the UI level bars
     
-    [SerializeField] private GameObject speedLevelUI;
-    [SerializeField] private GameObject attackLevelUI;
-    [SerializeField] private GameObject shieldLevelUI;
+    [SerializeField] private GameObject[] speedLevelUI;
+    [SerializeField] private GameObject[] attackLevelUI;
+    [SerializeField] private GameObject[] shieldLevelUI;
     
 
     //The max speed of the car. Calibrates the speedometer off this value
@@ -36,6 +36,7 @@ public class UIController : MonoBehaviour
 
     //Used for math to calibrate speedometer - do not change
     private const int DEFAULT_MAX_SPEED = 237;
+    private const int DEFAULT_MAX_MOD = 5;
 
     float needleAngleModifier;
     void Start()
@@ -136,13 +137,13 @@ public class UIController : MonoBehaviour
                 //Changes amount of Speed components to active color depending on the level
                 for (int i = 0; i < speedMod; i++)
                 {
-                    speedLevelUI.transform.Find("Lv" + (i + 1)).GetComponent<Image>().color = speedUIColor;
+                    speedLevelUI[i].transform.GetComponent<Image>().color = speedUIColor;
                 }
 
                 //Sets the rest of the Speed components to gray
-                for (int i = speedMod; i < speedLevelUI.transform.childCount; i++)
+                for (int i = speedMod; i < DEFAULT_MAX_MOD; i++)
                 {
-                    speedLevelUI.transform.Find("Lv" + (i + 1)).GetComponent<Image>().color = Color.gray;
+                    speedLevelUI[i].transform.GetComponent<Image>().color = Color.gray;
                 }
                 break;
 
@@ -151,26 +152,26 @@ public class UIController : MonoBehaviour
                 //Changes amount of Shield components to active color depending on the level
                 for (int i = 0; i < shieldMod; i++)
                 {
-                    shieldLevelUI.transform.Find("Lv" + (i + 1)).GetComponent<Image>().color = shieldUIColor;
+                    shieldLevelUI[i].transform.GetComponent<Image>().color = shieldUIColor;
                 }
 
                 //Sets the rest of the Shield components to gray
-                for (int i = shieldMod; i < shieldLevelUI.transform.childCount; i++)
+                for (int i = shieldMod; i < DEFAULT_MAX_MOD; i++)
                 {
-                    shieldLevelUI.transform.Find("Lv" + (i + 1)).GetComponent<Image>().color = Color.gray;
+                    shieldLevelUI[i].transform.GetComponent<Image>().color = Color.gray;
                 }
                 break;
             case 2:
                 //Changes amount of Attack components to active color depending on the level
                 for (int i = 0; i < attackMod; i++)
                 {
-                    attackLevelUI.transform.Find("Lv" + (i + 1)).GetComponent<Image>().color = attackUIColor;
+                    attackLevelUI[i].transform.GetComponent<Image>().color = attackUIColor;
                 }
-
+                
                 //Sets the rest of the Attack components to gray
-                for (int i = attackMod; i < attackLevelUI.transform.childCount; i++)
+                for (int i = attackMod; i < DEFAULT_MAX_MOD; i++)
                 {
-                    attackLevelUI.transform.Find("Lv" + (i + 1)).GetComponent<Image>().color = Color.gray;
+                    attackLevelUI[i].transform.GetComponent<Image>().color = Color.gray;
                 }
                 break;
             //If modifierSelected is none of the above
