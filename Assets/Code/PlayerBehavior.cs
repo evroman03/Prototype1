@@ -28,6 +28,8 @@ public class PlayerBehavior : MonoBehaviour
     public static Action<float> EnergyUpdated, SpeedUpdated;
     public static Action SelectAttack, SelectShield, SelectSpeed, SelectRight, SelectLeft;
 
+    [SerializeField] private UIController UI;
+
 
     /// <summary>
     /// We need the enum (named integer) do diffrentiate between front and rear so steering 
@@ -54,7 +56,7 @@ public class PlayerBehavior : MonoBehaviour
 
     void Start()
     {
-        UIController.GetUIMOD += HandleUIChange;
+        UI.GetUIMOD += HandleUIChange;
         rb = GetComponent<Rigidbody>();
         controls = new Controls();
         controls.ControllerMap.Enable();
@@ -274,6 +276,6 @@ public class PlayerBehavior : MonoBehaviour
         controls.ControllerMap.SelectAttack.performed -= ctx => SelectAttack();
         controls.ControllerMap.SelectShield.performed -= ctx => SelectShield();
         controls.ControllerMap.Quit.performed -= ctx => Quit();
-        UIController.GetUIMOD -= HandleUIChange;
+        UI.GetUIMOD -= HandleUIChange;
     }
 }

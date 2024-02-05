@@ -32,7 +32,7 @@ public class UIController : MonoBehaviour
     [SerializeField] private Color attackUIColor;
     [SerializeField] private Color shieldUIColor;
 
-    public static Action<int, int> GetUIMOD;
+    public Action<int, int> GetUIMOD;
 
     //Used for math to calibrate speedometer - do not change
     private const int DEFAULT_MAX_SPEED = 237;
@@ -75,19 +75,19 @@ public class UIController : MonoBehaviour
 
         //Changes needle angle
         angle = Mathf.Lerp(MINIMUM_ANGLE, MAXIMUM_ANGLE,  speedForUI / maxSpeed);
-        speedomter.transform.GetChild(1).GetComponent<Image>().transform.eulerAngles = new Vector3(0, 0, -angle + 90);
+        speedomter.transform.Find("Needle").GetComponent<Image>().transform.eulerAngles = new Vector3(0, 0, -angle + 90);
     }
-    public void Handle_EnergyUpdated(float energy)
+    void Handle_EnergyUpdated(float energy)
     {
         energyForUI = energy; 
         //print("I heard that i should have this much energy: " + energyheard);
     }
-    public void HandleSpeedUpdated(float speed)
+    void HandleSpeedUpdated(float speed)
     {
         speedForUI= speed;
         //print("Current speed: " + speedForUI);
     }
-    public void ChangeModifier(int posNeg)
+    void ChangeModifier(int posNeg)
     {
         int var=0;
         switch(modifierSelected)
@@ -126,7 +126,7 @@ public class UIController : MonoBehaviour
     /**
      * Updates the UI components
      */
-    public void UpdateUI()
+    void UpdateUI()
     {
         
         //Gets which component to be modified
@@ -181,7 +181,7 @@ public class UIController : MonoBehaviour
         }
     }
 
-    public void UISelectSpeed()
+    void UISelectSpeed()
     {
         modifierSelected = 0;
 
@@ -195,7 +195,7 @@ public class UIController : MonoBehaviour
         attackIconUI.transform.Find("AtkIconOff").GetComponent<Image>().enabled = true;
         attackIconUI.transform.Find("AtkIconOn").GetComponent<Image>().enabled = false;
     }
-    public void UISelectShield()
+    void UISelectShield()
     {
         modifierSelected = 1;
 
@@ -209,7 +209,7 @@ public class UIController : MonoBehaviour
         attackIconUI.transform.Find("AtkIconOff").GetComponent<Image>().enabled = true;
         attackIconUI.transform.Find("AtkIconOn").GetComponent<Image>().enabled = false;
     }
-    public void UISelectAttack()
+    void UISelectAttack()
     {
         modifierSelected = 2;
 
@@ -223,18 +223,18 @@ public class UIController : MonoBehaviour
         attackIconUI.transform.Find("AtkIconOff").GetComponent<Image>().enabled = false;
         attackIconUI.transform.Find("AtkIconOn").GetComponent<Image>().enabled = true;
     }
-    public void UISelectRight()
+    void UISelectRight()
     {
         ChangeModifier(1);
     }
-    public void UISelectLeft()
+    void UISelectLeft()
     {
         ChangeModifier(-1);
     }
 
 
 
-    public void OnDestroy()
+    void OnDestroy()
     {
         PlayerBehavior.EnergyUpdated -= Handle_EnergyUpdated;
         PlayerBehavior.SpeedUpdated -= HandleSpeedUpdated;
