@@ -304,7 +304,7 @@ Rigidbody:
   m_GameObject: {fileID: 4485842232745963951}
   serializedVersion: 4
   m_Mass: 300
-  m_Drag: 1
+  m_Drag: 0.1
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
@@ -344,7 +344,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   MaxSteerAngle: 25
-  Power: 75
+  Power: 100
   SpeedEnergyMod: 1
   ShieldEnergyMod: 1
   AttackEnergyMod: 1
@@ -482,7 +482,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 90c609bf9a074574ebeae394aed85521, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
