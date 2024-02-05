@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5330113783473015869}
   - component: {fileID: 662714856359763297}
   - component: {fileID: 3370731514819110150}
+  - component: {fileID: 5907159460659724828}
   m_Layer: 0
   m_Name: Camera (1)
   m_TagString: Untagged
@@ -92,6 +93,40 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2770366938141334950}
   m_Enabled: 1
+--- !u!114 &5907159460659724828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2770366938141334950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72ece51f2901e7445ab60da3685d6b5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShowDebugText: 0
+  m_ShowCameraFrustum: 1
+  m_IgnoreTimeScale: 0
+  m_WorldUpOverride: {fileID: 0}
+  m_UpdateMethod: 2
+  m_BlendUpdateMethod: 1
+  m_DefaultBlend:
+    m_Style: 1
+    m_Time: 2
+    m_CustomCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  m_CustomBlends: {fileID: 0}
+  m_CameraCutEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_CameraActivatedEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &3287229007994412303
 GameObject:
   m_ObjectHideFlags: 0
@@ -304,7 +339,7 @@ Rigidbody:
   m_GameObject: {fileID: 4485842232745963951}
   serializedVersion: 4
   m_Mass: 300
-  m_Drag: 1
+  m_Drag: 0.1
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
@@ -344,7 +379,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   MaxSteerAngle: 25
-  Power: 75
+  Power: 100
   SpeedEnergyMod: 1
   ShieldEnergyMod: 1
   AttackEnergyMod: 1
@@ -482,7 +517,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 90c609bf9a074574ebeae394aed85521, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
