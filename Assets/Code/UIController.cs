@@ -4,11 +4,14 @@ using System.Collections.Generic;
 using UnityEngine.EventSystems;
 using UnityEngine;
 using UnityEngine.UI;
+using JetBrains.Annotations;
 
 public class UIController : MonoBehaviour
 { 
     private float energyForUI=0, speedForUI=0, modifierSelected=0;
     private int speedMod = 1, shieldMod = 1, attackMod = 1;
+    public int ID;
+    public PlayerBehavior playerBehavior;
 
     //Grabs the UI Icons
     [SerializeField] private GameObject speedomter;
@@ -43,13 +46,7 @@ public class UIController : MonoBehaviour
     {
         if (maxSpeed <= 0)
             print("WARNING: maxSpeed is set to a non-positive number! maxSpeed is currently: " + maxSpeed);
-        PlayerBehavior.EnergyUpdated += Handle_EnergyUpdated;
-        PlayerBehavior.SpeedUpdated += HandleSpeedUpdated;
-        PlayerBehavior.SelectAttack += UISelectAttack;
-        PlayerBehavior.SelectShield += UISelectShield;
-        PlayerBehavior.SelectSpeed += UISelectSpeed;
-        PlayerBehavior.SelectLeft += UISelectLeft;
-        PlayerBehavior.SelectRight += UISelectRight;
+     
 
         speedForUI = 0;
 
@@ -64,7 +61,16 @@ public class UIController : MonoBehaviour
         //Calibrates needle to display speeds from mimimum speed to maximum speed
         needleAngleModifier = maxSpeed / DEFAULT_MAX_SPEED;
     }
-
+    public void InitUI()
+    {
+        playerBehavior.EnergyUpdated += Handle_EnergyUpdated;
+        playerBehavior.SpeedUpdated += HandleSpeedUpdated;
+        playerBehavior.SelectAttack += UISelectAttack;
+        playerBehavior.SelectShield += UISelectShield;
+        playerBehavior.SelectSpeed += UISelectSpeed;
+        playerBehavior.SelectLeft += UISelectLeft;
+        playerBehavior.SelectRight += UISelectRight;
+    }
     //Minimum and maximum angles on the speedometer
     const float MINIMUM_ANGLE = 0;
     const float MAXIMUM_ANGLE = 237;
@@ -77,12 +83,16 @@ public class UIController : MonoBehaviour
         angle = Mathf.Lerp(MINIMUM_ANGLE, MAXIMUM_ANGLE,  speedForUI / maxSpeed);
         speedomter.transform.Find("Needle").GetComponent<Image>().transform.eulerAngles = new Vector3(0, 0, -angle + 90);
     }
-    void Handle_EnergyUpdated(float energy)
+     void Handle_EnergyUpdated(float energy, int playerId)
     {
-        energyForUI = energy; 
+        if(playerId == ID)
+        {
+            energyForUI = energy;
+
+        }
         //print("I heard that i should have this much energy: " + energyheard);
     }
-    void HandleSpeedUpdated(float speed)
+    void HandleSpeedUpdated(float speed, int playerId)
     {
         speedForUI= speed;
         //print("Current speed: " + speedForUI);
@@ -181,67 +191,78 @@ public class UIController : MonoBehaviour
         }
     }
 
-    void UISelectSpeed()
+    void UISelectSpeed(int playerBehvaiorID)
     {
+        if (ID == playerBehvaiorID)
+        {
+            //Sets the speed icon to active and the rest to inactive
+            speedIconUI.transform.Find("SpdIconOff").GetComponent<Image>().enabled = false;
+            speedIconUI.transform.Find("SpdIconOn").GetComponent<Image>().enabled = true;
+
+            shieldIconUI.transform.Find("ShIconOff").GetComponent<Image>().enabled = true;
+            shieldIconUI.transform.Find("ShIconOn").GetComponent<Image>().enabled = false;
+
+            attackIconUI.transform.Find("AtkIconOff").GetComponent<Image>().enabled = true;
+            attackIconUI.transform.Find("AtkIconOn").GetComponent<Image>().enabled = false;
+        }
         modifierSelected = 0;
-
-        //Sets the speed icon to active and the rest to inactive
-        speedIconUI.transform.Find("SpdIconOff").GetComponent<Image>().enabled = false;
-        speedIconUI.transform.Find("SpdIconOn").GetComponent<Image>().enabled = true;
-
-        shieldIconUI.transform.Find("ShIconOff").GetComponent<Image>().enabled = true;
-        shieldIconUI.transform.Find("ShIconOn").GetComponent<Image>().enabled = false;
-
-        attackIconUI.transform.Find("AtkIconOff").GetComponent<Image>().enabled = true;
-        attackIconUI.transform.Find("AtkIconOn").GetComponent<Image>().enabled = false;
     }
-    void UISelectShield()
+    void UISelectShield(int playerBehvaiorID)
     {
-        modifierSelected = 1;
+        if (ID == playerBehvaiorID)
+        {
+            modifierSelected = 1;
 
-        //Sets the shield icon to active and the rest to inactive
-        speedIconUI.transform.Find("SpdIconOff").GetComponent<Image>().enabled = true;
-        speedIconUI.transform.Find("SpdIconOn").GetComponent<Image>().enabled = false;
+            //Sets the shield icon to active and the rest to inactive
+            speedIconUI.transform.Find("SpdIconOff").GetComponent<Image>().enabled = true;
+            speedIconUI.transform.Find("SpdIconOn").GetComponent<Image>().enabled = false;
 
-        shieldIconUI.transform.Find("ShIconOff").GetComponent<Image>().enabled = false;
-        shieldIconUI.transform.Find("ShIconOn").GetComponent<Image>().enabled = true;
+            shieldIconUI.transform.Find("ShIconOff").GetComponent<Image>().enabled = false;
+            shieldIconUI.transform.Find("ShIconOn").GetComponent<Image>().enabled = true;
 
-        attackIconUI.transform.Find("AtkIconOff").GetComponent<Image>().enabled = true;
-        attackIconUI.transform.Find("AtkIconOn").GetComponent<Image>().enabled = false;
+            attackIconUI.transform.Find("AtkIconOff").GetComponent<Image>().enabled = true;
+            attackIconUI.transform.Find("AtkIconOn").GetComponent<Image>().enabled = false;
+        }
     }
-    void UISelectAttack()
+    void UISelectAttack(int playerBehvaiorID)
     {
-        modifierSelected = 2;
+        if (ID == playerBehvaiorID)
+        {
+            modifierSelected = 2;
 
-        //Sets the attack icon to active and the rest to inactive
-        speedIconUI.transform.Find("SpdIconOff").GetComponent<Image>().enabled = true;
-        speedIconUI.transform.Find("SpdIconOn").GetComponent<Image>().enabled = false;
+            //Sets the attack icon to active and the rest to inactive
+            speedIconUI.transform.Find("SpdIconOff").GetComponent<Image>().enabled = true;
+            speedIconUI.transform.Find("SpdIconOn").GetComponent<Image>().enabled = false;
 
-        shieldIconUI.transform.Find("ShIconOff").GetComponent<Image>().enabled = true;
-        shieldIconUI.transform.Find("ShIconOn").GetComponent<Image>().enabled = false;
+            shieldIconUI.transform.Find("ShIconOff").GetComponent<Image>().enabled = true;
+            shieldIconUI.transform.Find("ShIconOn").GetComponent<Image>().enabled = false;
 
-        attackIconUI.transform.Find("AtkIconOff").GetComponent<Image>().enabled = false;
-        attackIconUI.transform.Find("AtkIconOn").GetComponent<Image>().enabled = true;
+            attackIconUI.transform.Find("AtkIconOff").GetComponent<Image>().enabled = false;
+            attackIconUI.transform.Find("AtkIconOn").GetComponent<Image>().enabled = true;
+        }
     }
-    void UISelectRight()
+    void UISelectRight (int playerBehvaiorID)
     {
-        ChangeModifier(1);
+        if(ID == playerBehvaiorID)
+            ChangeModifier(1);
+        
     }
-    void UISelectLeft()
+    void UISelectLeft(int playerBehvaiorID)
     {
-        ChangeModifier(-1);
+        if (ID == playerBehvaiorID)
+            ChangeModifier(-1);
     }
 
 
 
     void OnDestroy()
     {
-        PlayerBehavior.EnergyUpdated -= Handle_EnergyUpdated;
-        PlayerBehavior.SpeedUpdated -= HandleSpeedUpdated;
-        PlayerBehavior.SelectAttack -= UISelectAttack;
-        PlayerBehavior.SelectShield -= UISelectShield;
-        PlayerBehavior.SelectSpeed -= UISelectSpeed;
-        PlayerBehavior.SelectLeft -= UISelectLeft;
-        PlayerBehavior.SelectRight -= UISelectRight;
+        playerBehavior.EnergyUpdated -= Handle_EnergyUpdated;
+        playerBehavior.SpeedUpdated -= HandleSpeedUpdated;
+        playerBehavior.SelectAttack -= UISelectAttack;
+        playerBehavior.SelectShield -= UISelectShield;
+        playerBehavior.SelectSpeed -= UISelectSpeed;
+        playerBehavior.SelectLeft -= UISelectLeft;
+        playerBehavior.SelectRight -= UISelectRight;
     }
 }

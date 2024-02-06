@@ -77,7 +77,7 @@ MonoBehaviour:
   m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -225,6 +225,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b529c3ab261b17543a7e91e978be7f33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ID: 0
+  playerBehavior: {fileID: 0}
   speedomter: {fileID: 606584271162091196}
   sliderObject: {fileID: 6682740307358518375}
   speedIconUI: {fileID: 1237324922931514869}
