@@ -64,15 +64,25 @@ public class PlayerBehavior : MonoBehaviour
         {
             if (PI.playerIndex == uiControllers[i].ID)
             {
-                print("POYO");
                 uiControllers[i].GetComponent<UIController>().GetUIMOD += HandleUIChange;
                 uiControllers[i].playerBehavior = this;
                 uiControllers[i].InitUI();
             }
         }
         rb = GetComponent<Rigidbody>();
-        controls = new Controls();
-        controls.ControllerMap.Enable();
+        PI.currentActionMap.FindAction("Move").performed += ctx => steerValue = ctx.ReadValue<float>();
+        PI.currentActionMap.FindAction("Move").canceled += ctx => steerValue = 0;
+        PI.currentActionMap.FindAction("Accelerate").started += ctx => AccelerateOn();
+        PI.currentActionMap.FindAction("Accelerate").canceled += ctx => AccelerateOff();
+        PI.currentActionMap.FindAction("Decelerate").started += ctx => DecelerateOn();
+        PI.currentActionMap.FindAction("Decelerate").canceled += ctx => DecelerateOff();
+        PI.currentActionMap.FindAction("SelectSpeed").performed += ctx => SelectSpeed(PI.playerIndex);
+        PI.currentActionMap.FindAction("SelectAttack").performed += ctx => SelectAttack(PI.playerIndex);
+        PI.currentActionMap.FindAction("SelectShield").performed += ctx => SelectShield(PI.playerIndex);
+        PI.currentActionMap.FindAction("Decrease").performed += ctx => SelectLeft(PI.playerIndex);
+        PI.currentActionMap.FindAction("Increase").performed += ctx => SelectRight(PI.playerIndex);
+        PI.currentActionMap.FindAction("Quit").performed += ctx => Quit();
+        /*
         controls.ControllerMap.Move.performed += ctx => steerValue = ctx.ReadValue<float>();
         controls.ControllerMap.Move.canceled += ctx => steerValue = 0;
         controls.ControllerMap.Accelerate.started += ctx => AccelerateOn();
@@ -85,8 +95,16 @@ public class PlayerBehavior : MonoBehaviour
         controls.ControllerMap.Decrease.performed += ctx => SelectLeft(PI.playerIndex);
         controls.ControllerMap.Increase.performed += ctx => SelectRight(PI.playerIndex);
         controls.ControllerMap.Quit.performed += ctx => Quit();
-
+        */
         StartCoroutine(CalcSpeed());
+        if(GameObject.FindGameObjectWithTag("Player1")==null)
+        {
+            tag = "Player1";
+        }
+        else if (GameObject.FindGameObjectWithTag("Player1") != null)
+        {
+            tag = "Player2";
+        }
     }
     void Update()
     {
@@ -277,6 +295,7 @@ public class PlayerBehavior : MonoBehaviour
     /// </summary>
     public void OnDestroy()
     {
+        /*
         controls.ControllerMap.Move.performed -= ctx => steerValue = ctx.ReadValue<float>();
         controls.ControllerMap.Move.canceled -= ctx => steerValue = 0;
         controls.ControllerMap.Increase.performed -= ctx => SelectRight(PI.playerIndex);
@@ -289,7 +308,19 @@ public class PlayerBehavior : MonoBehaviour
         controls.ControllerMap.SelectAttack.performed -= ctx => SelectAttack(PI.playerIndex);
         controls.ControllerMap.SelectShield.performed -= ctx => SelectShield(PI.playerIndex);
         controls.ControllerMap.Quit.performed -= ctx => Quit();
-
+        */
+        PI.currentActionMap.FindAction("Move").performed -= ctx => steerValue = ctx.ReadValue<float>();
+        PI.currentActionMap.FindAction("Move").canceled -= ctx => steerValue = 0;
+        PI.currentActionMap.FindAction("Accelerate").started -= ctx => AccelerateOn();
+        PI.currentActionMap.FindAction("Accelerate").canceled -= ctx => AccelerateOff();
+        PI.currentActionMap.FindAction("Decelerate").started -= ctx => DecelerateOn();
+        PI.currentActionMap.FindAction("Decelerate").canceled -= ctx => DecelerateOff();
+        PI.currentActionMap.FindAction("SelectSpeed").performed -= ctx => SelectSpeed(PI.playerIndex);
+        PI.currentActionMap.FindAction("SelectAttack").performed -= ctx => SelectAttack(PI.playerIndex);
+        PI.currentActionMap.FindAction("SelectShield").performed -= ctx => SelectShield(PI.playerIndex);
+        PI.currentActionMap.FindAction("Decrease").performed -= ctx => SelectLeft(PI.playerIndex);
+        PI.currentActionMap.FindAction("Increase").performed -= ctx => SelectRight(PI.playerIndex);
+        PI.currentActionMap.FindAction("Quit").performed -= ctx => Quit();
         for (int i = 0; i < uiControllers.Length; i++)
         {
             uiControllers[i].GetUIMOD -= HandleUIChange;
