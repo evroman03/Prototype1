@@ -390,7 +390,6 @@ MonoBehaviour:
   BrakePower: 50
   MaxSpeed: 100
   PI: {fileID: 7715208343191526411}
-  UI: {fileID: 0}
   wheels:
   - wheelModel: {fileID: 7236233089573107400}
     wheelCollider: {fileID: 2883032345081734059}
@@ -437,7 +436,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Actions: {fileID: 0}
+  m_Actions: {fileID: -944628639613478452, guid: 76bdeb1688a11cf4fb13ce4e9a04b8db, type: 3}
   m_NotificationBehavior: 0
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
@@ -452,9 +451,9 @@ MonoBehaviour:
   m_ActionEvents: []
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: 
+  m_DefaultActionMap: ControllerMap
   m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
+  m_Camera: {fileID: 662714856359763297}
 --- !u!1 &4571631055876046241
 GameObject:
   m_ObjectHideFlags: 0
