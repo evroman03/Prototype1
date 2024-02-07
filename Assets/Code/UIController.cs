@@ -257,6 +257,7 @@ public class UIController : MonoBehaviour
 
     void OnDestroy()
     {
+        /*
         playerBehavior.EnergyUpdated -= Handle_EnergyUpdated;
         playerBehavior.SpeedUpdated -= HandleSpeedUpdated;
         playerBehavior.SelectAttack -= UISelectAttack;
@@ -264,5 +265,6 @@ public class UIController : MonoBehaviour
         playerBehavior.SelectSpeed -= UISelectSpeed;
         playerBehavior.SelectLeft -= UISelectLeft;
         playerBehavior.SelectRight -= UISelectRight;
+        */
     }
 }
