@@ -525,6 +525,10 @@ PrefabInstance:
       propertyPath: m_AnchorMin.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2193652684859555100, guid: 59d128fe9b868c54eaa9ab4e97625130, type: 3}
+      propertyPath: m_FixedNumberOfSplitScreens
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2223245148684757448, guid: 59d128fe9b868c54eaa9ab4e97625130, type: 3}
       propertyPath: m_Name
       value: FinalManager
