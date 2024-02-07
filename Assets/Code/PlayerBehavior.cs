@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 using System.Runtime.InteropServices;
 using Unity.VisualScripting;
 using UnityEditor;
+using UnityEngine.InputSystem;
 
 public class PlayerBehavior : MonoBehaviour
 {
@@ -25,9 +26,12 @@ public class PlayerBehavior : MonoBehaviour
 
     public LayerMask layerMask;
     public float MaxSteerAngle = 25f, Power = 75, SpeedEnergyMod = 1, ShieldEnergyMod = 1, AttackEnergyMod = 1, detectEPadCastDistance = 2f, CurrentEnergy = 99f, CurrentSpeed = 0, BrakePower=50f, MaxSpeed=100f;
-    public static Action<float> EnergyUpdated, SpeedUpdated;
-    public static Action SelectAttack, SelectShield, SelectSpeed, SelectRight, SelectLeft;
+    public  Action<float, int> EnergyUpdated, SpeedUpdated;
+    public Action<int> SelectAttack, SelectShield, SelectSpeed, SelectRight, SelectLeft;
+    public PlayerInput PI;
 
+    private UIController[] uiControllers;
+    private UIController MyUI;
 
     /// <summary>
     /// We need the enum (named integer) do diffrentiate between front and rear so steering 
@@ -52,26 +56,55 @@ public class PlayerBehavior : MonoBehaviour
     public List<Wheel> wheels; 
 
 
-    void Start()
+    void Awake()
     {
-        UIController.GetUIMOD += HandleUIChange;
+        uiControllers = FindObjectsOfType<UIController>();
+
+        for (int i = 0; i < uiControllers.Length; i++)
+        {
+            if (PI.playerIndex == uiControllers[i].ID)
+            {
+                uiControllers[i].GetComponent<UIController>().GetUIMOD += HandleUIChange;
+                uiControllers[i].playerBehavior = this;
+                uiControllers[i].InitUI();
+            }
+        }
         rb = GetComponent<Rigidbody>();
-        controls = new Controls();
-        controls.ControllerMap.Enable();
+        PI.currentActionMap.FindAction("Move").performed += ctx => steerValue = ctx.ReadValue<float>();
+        PI.currentActionMap.FindAction("Move").canceled += ctx => steerValue = 0;
+        PI.currentActionMap.FindAction("Accelerate").started += ctx => AccelerateOn();
+        PI.currentActionMap.FindAction("Accelerate").canceled += ctx => AccelerateOff();
+        PI.currentActionMap.FindAction("Decelerate").started += ctx => DecelerateOn();
+        PI.currentActionMap.FindAction("Decelerate").canceled += ctx => DecelerateOff();
+        PI.currentActionMap.FindAction("SelectSpeed").performed += ctx => SelectSpeed(PI.playerIndex);
+        PI.currentActionMap.FindAction("SelectAttack").performed += ctx => SelectAttack(PI.playerIndex);
+        PI.currentActionMap.FindAction("SelectShield").performed += ctx => SelectShield(PI.playerIndex);
+        PI.currentActionMap.FindAction("Decrease").performed += ctx => SelectLeft(PI.playerIndex);
+        PI.currentActionMap.FindAction("Increase").performed += ctx => SelectRight(PI.playerIndex);
+        PI.currentActionMap.FindAction("Quit").performed += ctx => Quit();
+        /*
         controls.ControllerMap.Move.performed += ctx => steerValue = ctx.ReadValue<float>();
         controls.ControllerMap.Move.canceled += ctx => steerValue = 0;
         controls.ControllerMap.Accelerate.started += ctx => AccelerateOn();
         controls.ControllerMap.Accelerate.canceled += ctx => AccelerateOff();
         controls.ControllerMap.Decelerate.started += ctx => DecelerateOn();
         controls.ControllerMap.Decelerate.canceled += ctx => DecelerateOff();
-        controls.ControllerMap.SelectSpeed.performed += ctx => SelectSpeed();
-        controls.ControllerMap.SelectAttack.performed += ctx => SelectAttack();
-        controls.ControllerMap.SelectShield.performed += ctx => SelectShield();
-        controls.ControllerMap.Increase.performed += ctx => SelectRight();
-        controls.ControllerMap.Decrease.performed += ctx => SelectLeft();
+        controls.ControllerMap.SelectSpeed.performed += ctx => SelectSpeed(PI.playerIndex);
+        controls.ControllerMap.SelectAttack.performed += ctx => SelectAttack(PI.playerIndex);
+        controls.ControllerMap.SelectShield.performed += ctx => SelectShield(PI.playerIndex);
+        controls.ControllerMap.Decrease.performed += ctx => SelectLeft(PI.playerIndex);
+        controls.ControllerMap.Increase.performed += ctx => SelectRight(PI.playerIndex);
         controls.ControllerMap.Quit.performed += ctx => Quit();
-
+        */
         StartCoroutine(CalcSpeed());
+        if(GameObject.FindGameObjectWithTag("Player1")==null)
+        {
+            tag = "Player1";
+        }
+        else if (GameObject.FindGameObjectWithTag("Player1") != null)
+        {
+            tag = "Player2";
+        }
     }
     void Update()
     {
@@ -92,13 +125,13 @@ public class PlayerBehavior : MonoBehaviour
         switch (modSelector)
         {
             case 0:
-                SpeedEnergyMod = modifier;
-                break;
-            case 1:
-                ShieldEnergyMod = modifier;
-                break;
-            case 2:
-                AttackEnergyMod = modifier;
+                SpeedEnergyMod = modifier;    
+                break;    
+            case 1:    
+                ShieldEnergyMod = modifier;   
+                break;    
+            case 2:    
+                AttackEnergyMod = modifier;   
                 break;
         }
     }
@@ -191,7 +224,7 @@ public class PlayerBehavior : MonoBehaviour
             Vector3 prevPos = transform.position;
             yield return new WaitForFixedUpdate();
             CurrentSpeed = (float)Math.Round((Vector3.Distance(transform.position, prevPos) / Time.deltaTime), 0);
-            SpeedUpdated?.Invoke(CurrentSpeed);
+            SpeedUpdated?.Invoke(CurrentSpeed, PI.playerIndex);
         }     
     }
     IEnumerator AddEnergy(float energy)
@@ -202,7 +235,7 @@ public class PlayerBehavior : MonoBehaviour
             {
                 CurrentEnergy += energy;
             }
-            EnergyUpdated?.Invoke(CurrentEnergy);
+            EnergyUpdated?.Invoke(CurrentEnergy, PI.playerIndex);
             yield return new WaitForSeconds(RateOfEnergyGain);
         }
     }
@@ -214,7 +247,7 @@ public class PlayerBehavior : MonoBehaviour
             {
                 CurrentEnergy -= energy;
             }
-            EnergyUpdated?.Invoke(CurrentEnergy);
+            EnergyUpdated?.Invoke(CurrentEnergy, PI.playerIndex);
 
             float noBaseROEL = ((SpeedEnergyMod * .25f) + (ShieldEnergyMod * .25f) + (AttackEnergyMod * .25f)); //This variable gets bigger as mods go up
             float totalROEL = RateOfEnergyLoss / noBaseROEL;                                                    //This variable gets smaller as mods go up
@@ -262,18 +295,35 @@ public class PlayerBehavior : MonoBehaviour
     /// </summary>
     public void OnDestroy()
     {
+        /*
         controls.ControllerMap.Move.performed -= ctx => steerValue = ctx.ReadValue<float>();
         controls.ControllerMap.Move.canceled -= ctx => steerValue = 0;
-        controls.ControllerMap.Increase.performed -= ctx => SelectRight();
-        controls.ControllerMap.Decrease.performed -= ctx => SelectLeft();
+        controls.ControllerMap.Increase.performed -= ctx => SelectRight(PI.playerIndex);
+        controls.ControllerMap.Decrease.performed -= ctx => SelectLeft(PI.playerIndex);
         controls.ControllerMap.Accelerate.started -= ctx => AccelerateOn();
         controls.ControllerMap.Accelerate.canceled -= ctx => AccelerateOff();
         controls.ControllerMap.Decelerate.started -= ctx => DecelerateOn();
         controls.ControllerMap.Decelerate.canceled -= ctx => DecelerateOff();
-        controls.ControllerMap.SelectSpeed.performed -= ctx => SelectSpeed();
-        controls.ControllerMap.SelectAttack.performed -= ctx => SelectAttack();
-        controls.ControllerMap.SelectShield.performed -= ctx => SelectShield();
+        controls.ControllerMap.SelectSpeed.performed -= ctx => SelectSpeed(PI.playerIndex);
+        controls.ControllerMap.SelectAttack.performed -= ctx => SelectAttack(PI.playerIndex);
+        controls.ControllerMap.SelectShield.performed -= ctx => SelectShield(PI.playerIndex);
         controls.ControllerMap.Quit.performed -= ctx => Quit();
-        UIController.GetUIMOD -= HandleUIChange;
+        */
+        PI.currentActionMap.FindAction("Move").performed -= ctx => steerValue = ctx.ReadValue<float>();
+        PI.currentActionMap.FindAction("Move").canceled -= ctx => steerValue = 0;
+        PI.currentActionMap.FindAction("Accelerate").started -= ctx => AccelerateOn();
+        PI.currentActionMap.FindAction("Accelerate").canceled -= ctx => AccelerateOff();
+        PI.currentActionMap.FindAction("Decelerate").started -= ctx => DecelerateOn();
+        PI.currentActionMap.FindAction("Decelerate").canceled -= ctx => DecelerateOff();
+        PI.currentActionMap.FindAction("SelectSpeed").performed -= ctx => SelectSpeed(PI.playerIndex);
+        PI.currentActionMap.FindAction("SelectAttack").performed -= ctx => SelectAttack(PI.playerIndex);
+        PI.currentActionMap.FindAction("SelectShield").performed -= ctx => SelectShield(PI.playerIndex);
+        PI.currentActionMap.FindAction("Decrease").performed -= ctx => SelectLeft(PI.playerIndex);
+        PI.currentActionMap.FindAction("Increase").performed -= ctx => SelectRight(PI.playerIndex);
+        PI.currentActionMap.FindAction("Quit").performed -= ctx => Quit();
+        for (int i = 0; i < uiControllers.Length; i++)
+        {
+            uiControllers[i].GetUIMOD -= HandleUIChange;
+        }
     }
 }
