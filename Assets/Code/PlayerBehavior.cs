@@ -97,6 +97,14 @@ public class PlayerBehavior : MonoBehaviour
         controls.ControllerMap.Quit.performed += ctx => Quit();
         */
         StartCoroutine(CalcSpeed());
+        if(GameObject.FindGameObjectWithTag("Player1")==null)
+        {
+            tag = "Player1";
+        }
+        else if (GameObject.FindGameObjectWithTag("Player1") != null)
+        {
+            tag = "Player2";
+        }
     }
     void Update()
     {
