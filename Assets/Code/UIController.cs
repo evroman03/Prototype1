@@ -41,6 +41,7 @@ public class UIController : MonoBehaviour
     private const int DEFAULT_MAX_SPEED = 237;
     private const int DEFAULT_MAX_MOD = 5;
 
+
     float needleAngleModifier;
     void Start()
     {
