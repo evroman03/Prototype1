@@ -12,26 +12,27 @@ public class PlayerBehavior : MonoBehaviour
 {
     //https://gist.github.com/VanshMillion/9d69fc11f4bb3899ee779e23e7b34abb
     //https://www.youtube.com/watch?v=jr4eb4F9PSQ&list=PLyh3AdCGPTSLg0PZuD1ykJJDnC1mThI42
-    [Tooltip("A number = to -1, 0, or 1. NOT SPEED. Determines forward/backward")] public float ForwardVal = 0, ReverseVal=0;
+    [Tooltip("A number = to -1, 0, or 1. NOT SPEED. Determines forward/backward")] public float ForwardVal = 0, ReverseVal = 0;
     [Tooltip("A lower number equals a lower rate of turning")] public float Sensitivity = 1.0f;
-    [Tooltip("A lower number equals a higher rate of energy change. Suggest numbers smaller than 3.000")] public float RateOfEnergyGain = .25f, RateOfEnergyLoss=1f;
+    [Tooltip("A lower number equals a higher rate of energy change. Suggest numbers smaller than 3.000")] public float RateOfEnergyGain = .25f, RateOfEnergyLoss = 1f;
     [Tooltip("A lower number equals a lower maximum speed without energy.")] public float NoEnergySpeed = .1f;
 
 
     public Controls controls;
     private Rigidbody rb;
-    private bool isCollectingEnergy = true;
+    private bool isCollectingEnergy = true, canAttack=true;
     private float energyToRemove = 1, energyToAdd = 1, maxEnergy = 100f, minEnergy = 1f, excessEnergy = 0, steerValue = 0;
 
 
     public LayerMask layerMask;
-    public float MaxSteerAngle = 25f, Power = 75, SpeedEnergyMod = 1, ShieldEnergyMod = 1, AttackEnergyMod = 1, detectEPadCastDistance = 2f, CurrentEnergy = 99f, CurrentSpeed = 0, BrakePower=50f, MaxSpeed=100f;
-    public  Action<float, int> EnergyUpdated, SpeedUpdated;
+    public float MaxSteerAngle = 25f, Power = 75, SpeedEnergyMod = 1, ShieldEnergyMod = 1, AttackEnergyMod = 1, detectEPadCastDistance = 2f, CurrentEnergy = 99f, CurrentSpeed = 0, BrakePower = 50f, MaxSpeed = 100f;
+    public Action<float, int> EnergyUpdated, SpeedUpdated;
     public Action<int> SelectAttack, SelectShield, SelectSpeed, SelectRight, SelectLeft;
     public PlayerInput PI;
 
     private UIController[] uiControllers;
     private UIController MyUI;
+    private Animator animator;
 
     /// <summary>
     /// We need the enum (named integer) do diffrentiate between front and rear so steering 
@@ -53,11 +54,12 @@ public class PlayerBehavior : MonoBehaviour
         public WheelCollider wheelCollider;
         public Axle AxleType;
     }
-    public List<Wheel> wheels; 
+    public List<Wheel> wheels;
 
 
     void Awake()
     {
+
         uiControllers = FindObjectsOfType<UIController>();
 
         for (int i = 0; i < uiControllers.Length; i++)
@@ -70,6 +72,7 @@ public class PlayerBehavior : MonoBehaviour
             }
         }
         rb = GetComponent<Rigidbody>();
+        animator = GetComponent<Animator>();
         PI.currentActionMap.FindAction("Move").performed += ctx => steerValue = ctx.ReadValue<float>();
         PI.currentActionMap.FindAction("Move").canceled += ctx => steerValue = 0;
         PI.currentActionMap.FindAction("Accelerate").started += ctx => AccelerateOn();
@@ -82,6 +85,7 @@ public class PlayerBehavior : MonoBehaviour
         PI.currentActionMap.FindAction("Decrease").performed += ctx => SelectLeft(PI.playerIndex);
         PI.currentActionMap.FindAction("Increase").performed += ctx => SelectRight(PI.playerIndex);
         PI.currentActionMap.FindAction("Quit").performed += ctx => Quit();
+        PI.currentActionMap.FindAction("Activate").performed += ctx => Activate();
         /*
         controls.ControllerMap.Move.performed += ctx => steerValue = ctx.ReadValue<float>();
         controls.ControllerMap.Move.canceled += ctx => steerValue = 0;
@@ -97,11 +101,11 @@ public class PlayerBehavior : MonoBehaviour
         controls.ControllerMap.Quit.performed += ctx => Quit();
         */
         StartCoroutine(CalcSpeed());
-        if(GameObject.FindGameObjectWithTag("Player1")==null)
+        if (PI.playerIndex == 0)
         {
             tag = "Player1";
         }
-        else if (GameObject.FindGameObjectWithTag("Player1") != null)
+        else if (PI.playerIndex == 1)
         {
             tag = "Player2";
         }
@@ -120,6 +124,18 @@ public class PlayerBehavior : MonoBehaviour
     /// called every time a change is made, modifier will only incrementally change +1/-1, but it 
     /// will still accomodate if game devs wish for instant modifier change, i.e., from 1=>5
     /// </summary>
+    void Activate()
+    {
+        if(canAttack)
+        {
+            canAttack= false;
+            animator.SetTrigger("Attack");
+        }
+    }
+    public void anim_SetCanAttack()
+    {
+        canAttack= true;
+    }
     public void HandleUIChange(int modSelector, int modifier)
     {
         switch (modSelector)
@@ -325,5 +341,6 @@ public class PlayerBehavior : MonoBehaviour
         {
             uiControllers[i].GetUIMOD -= HandleUIChange;
         }
+        
     }
 }
