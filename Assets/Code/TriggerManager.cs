@@ -4,6 +4,25 @@ using UnityEngine;
 
 public class TriggerManager : MonoBehaviour
 {
+
+    //Makes Class a Singleton Class.
+    #region Singleton
+    private static TriggerManager instance;
+    public static TriggerManager Instance
+    {
+        get
+        {
+            if (Instance == null)
+                instance = FindAnyObjectByType(typeof(GameManager)) as TriggerManager;
+            return instance;
+        }
+        set
+        {
+            instance = value;
+        }
+    }
+    #endregion
+
     [SerializeField]
     private int triggerID;
     [SerializeField]

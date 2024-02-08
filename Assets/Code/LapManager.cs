@@ -3,21 +3,33 @@ using UnityEngine.InputSystem;
 
 public class LapManager : MonoBehaviour
 {
+
+    //Makes Class a Singleton Class.
+    #region Singleton
+    private static LapManager instance;
+    public static LapManager Instance
+    {
+        get
+        {
+            if (Instance == null)
+                instance = FindAnyObjectByType(typeof(GameManager)) as LapManager;
+            return instance;
+        }
+        set
+        {
+            instance = value;
+        }
+    }
+    #endregion
+
     [SerializeField]
-    const int TOTAL_LAPS = 3;
+    int totalLaps = 3;
 
     private int currentLapsPlayer1;
     private int currentLapsPlayer2;
 
     private int lastTriggerHitPlayer1;
     private int lastTriggerHitPlayer2;
-
-    private GameObject player1;
-    private GameObject player2;
-
-    [SerializeField]
-    private Vector3 player1StartingPos = new Vector3(-1644, 470, 532), 
-                    player2StartingPos = new Vector3(-1644, 470, 544);
 
 
     private bool player1Won;
@@ -32,35 +44,12 @@ public class LapManager : MonoBehaviour
     //Make everything start when countdown ends
     void Start()
     {
-        player1 = null;
-        player2 = null;
-
         player1Won = false;
         currentLapsPlayer1 = 0;
         currentLapsPlayer2 = 0;
 
         lastTriggerHitPlayer1 = 0;
         lastTriggerHitPlayer2 = 0;
-    }
-
-    public void onPlayerJoined(PlayerInput obj)
-    {
-        if (player1 == null)
-        {
-            player1 = obj.gameObject;
-            player1.transform.position = player1StartingPos;
-            player1.transform.Rotate(0, 90, 0);
-        }
-        else if (player2 == null)
-        {
-            player2 = obj.gameObject;
-            player2.transform.position = player2StartingPos;
-            player2.transform.Rotate(0, 90, 0);
-        }
-        else
-        {
-            print("ERROR: COULD NOT FIND PLAYER OR MAX NUMBER OF PLAYERS REACHED");
-        }
     }
 
     /**
@@ -81,7 +70,7 @@ public class LapManager : MonoBehaviour
             }
 
             //If current laps equal total laps, end the game
-            if (currentLapsPlayer1 == TOTAL_LAPS)
+            if (currentLapsPlayer1 == totalLaps)
             {
                 player1Won = true;
                 print("PLAYER 1 WINS");
@@ -100,7 +89,7 @@ public class LapManager : MonoBehaviour
             }
             
             //If the current laps equal the total laps, end the game
-            if (currentLapsPlayer2 == TOTAL_LAPS)
+            if (currentLapsPlayer2 == totalLaps)
             {
                 player1Won = false;
                 print("PLAYER 2 WINS");
