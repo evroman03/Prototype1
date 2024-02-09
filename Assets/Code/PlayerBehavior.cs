@@ -12,7 +12,6 @@ public class PlayerBehavior : MonoBehaviour
 {
     //https://gist.github.com/VanshMillion/9d69fc11f4bb3899ee779e23e7b34abb
     //https://www.youtube.com/watch?v=jr4eb4F9PSQ&list=PLyh3AdCGPTSLg0PZuD1ykJJDnC1mThI42
-    [Tooltip("A number = to -1, 0, or 1. NOT SPEED. Determines forward/backward")] public float ForwardVal = 0, ReverseVal = 0;
     [Tooltip("A lower number equals a lower rate of turning")] public float Sensitivity = 1.0f;
     [Tooltip("A lower number equals a higher rate of energy change. Suggest numbers smaller than 3.000")] public float RateOfEnergyGain = .25f, RateOfEnergyLoss = 1f;
     [Tooltip("A lower number equals a lower maximum speed without energy.")] public float NoEnergySpeed = .1f;
@@ -21,11 +20,11 @@ public class PlayerBehavior : MonoBehaviour
     public Controls controls;
     private Rigidbody rb;
     private bool isCollectingEnergy = true, canAttack=true;
-    private float energyToRemove = 1, energyToAdd = 1, maxEnergy = 100f, minEnergy = 1f, excessEnergy = 0, steerValue = 0;
+    private float ForwardVal = 0, ReverseVal = 0, energyToRemove = 1, energyToAdd = 1, maxEnergy = 100f, minEnergy = 1f, excessEnergy = 0, steerValue = 0, SpeedEnergyMod = 1, ShieldEnergyMod = 1, AttackEnergyMod = 1;
 
 
     public LayerMask layerMask;
-    public float MaxSteerAngle = 25f, Power = 75, SpeedEnergyMod = 1, ShieldEnergyMod = 1, AttackEnergyMod = 1, detectEPadCastDistance = 2f, CurrentEnergy = 99f, CurrentSpeed = 0, BrakePower = 50f, MaxSpeed = 100f;
+    public float DisplaySpeedMultiplier = 10, MaxSteerAngle = 25f, Power = 75, detectEPadCastDistance = 2f, CurrentEnergy = 99f, CurrentSpeed = 0, BrakePower = 50f, MaxSpeed = 237f;
     public Action<float, int> EnergyUpdated, SpeedUpdated;
     public Action<int> SelectAttack, SelectShield, SelectSpeed, SelectRight, SelectLeft;
     public PlayerInput PI;
@@ -203,7 +202,7 @@ public class PlayerBehavior : MonoBehaviour
         {
             if(CurrentEnergy > minEnergy)
             {
-                wheel.wheelCollider.motorTorque = ((ForwardVal+ReverseVal) * Power * SpeedEnergyMod) + (excessEnergy*100f);
+                wheel.wheelCollider.motorTorque = ((ForwardVal + ReverseVal) * Power * SpeedEnergyMod) + ((ForwardVal + ReverseVal) * (excessEnergy * 100f));
                 // Acceleration (1,0, or -1) * Power (Designer modifier for more speed) * SEM (# between 1-5) + ~25 (about what 3/5 speed is)
                 //print(wheel.wheelCollider.motorTorque);
             }
@@ -216,7 +215,7 @@ public class PlayerBehavior : MonoBehaviour
     }
     void Brake()
     {
-        if (CurrentSpeed > 10f && ReverseVal < 0)
+        if (CurrentSpeed/DisplaySpeedMultiplier > 10f && ReverseVal < 0)
         {
             foreach (Wheel wheel in wheels)
             {
@@ -224,7 +223,7 @@ public class PlayerBehavior : MonoBehaviour
                 //print("BeingApplied" + wheel.wheelCollider.brakeTorque);
             }
         }
-        else if (CurrentSpeed < 10f)
+        else if (CurrentSpeed/DisplaySpeedMultiplier < 10f)
         {
             foreach (Wheel wheel in wheels)
             {
@@ -233,13 +232,18 @@ public class PlayerBehavior : MonoBehaviour
             }
         }
     }
+
+    private void ChangeEnergy(float energy)
+    {
+        CurrentEnergy += energy;
+    }
     IEnumerator CalcSpeed()
     {
-        while(true)
+        while(CurrentSpeed<=MaxSpeed)
         {
             Vector3 prevPos = transform.position;
             yield return new WaitForFixedUpdate();
-            CurrentSpeed = (float)Math.Round((Vector3.Distance(transform.position, prevPos) / Time.deltaTime), 0);
+            CurrentSpeed = DisplaySpeedMultiplier * ((float)Math.Round((Vector3.Distance(transform.position, prevPos) / Time.deltaTime), 1));
             SpeedUpdated?.Invoke(CurrentSpeed, PI.playerIndex);
         }     
     }
@@ -281,6 +285,7 @@ public class PlayerBehavior : MonoBehaviour
             //faster tick speed
         }
     }
+
     public void AccelerateOn()
     {
         ForwardVal = 1;
@@ -324,7 +329,7 @@ public class PlayerBehavior : MonoBehaviour
         controls.ControllerMap.SelectAttack.performed -= ctx => SelectAttack(PI.playerIndex);
         controls.ControllerMap.SelectShield.performed -= ctx => SelectShield(PI.playerIndex);
         controls.ControllerMap.Quit.performed -= ctx => Quit();
-        */
+        
         PI.currentActionMap.FindAction("Move").performed -= ctx => steerValue = ctx.ReadValue<float>();
         PI.currentActionMap.FindAction("Move").canceled -= ctx => steerValue = 0;
         PI.currentActionMap.FindAction("Accelerate").started -= ctx => AccelerateOn();
@@ -341,6 +346,6 @@ public class PlayerBehavior : MonoBehaviour
         {
             uiControllers[i].GetUIMOD -= HandleUIChange;
         }
-        
+        */
     }
 }
