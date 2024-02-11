@@ -1,10 +1,6 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine.EventSystems;
 using UnityEngine;
 using UnityEngine.UI;
-using JetBrains.Annotations;
 
 public class UIController : MonoBehaviour
 { 
@@ -246,14 +242,14 @@ public class UIController : MonoBehaviour
     {
         if(ID == playerBehvaiorID)
             ChangeModifier(1);
-        soundController.PlayPowerUp();
+        //soundController.PlayPowerUp();
         
     }
     void UISelectLeft(int playerBehvaiorID)
     {
         if (ID == playerBehvaiorID)
             ChangeModifier(-1);
-        soundController.PlayPowerDown();
+        //soundController.PlayPowerDown();
     }
 
 

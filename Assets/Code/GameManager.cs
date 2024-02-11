@@ -83,6 +83,7 @@ public class GameManager : MonoBehaviour
             player1.transform.position = player1StartingPos;
             player1.transform.rotation = Quaternion.identity;
             player1.transform.rotation *= Quaternion.Euler(0, 90, 0);
+            player1.GetComponent<Rigidbody>().velocity = Vector3.zero;
 
             player2.transform.position = player2StartingPos;
             player2.transform.rotation = Quaternion.identity;
