@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine;
 using UnityEngine.UI;
 using JetBrains.Annotations;
+using TMPro;
 
 public class UIController : MonoBehaviour
 { 
@@ -13,6 +14,8 @@ public class UIController : MonoBehaviour
     public int ID;
     public PlayerBehavior playerBehavior;
     public SoundController soundController;
+    public TMP_Text SpeedText;
+    public TMP_Text EnergyText;
 
     //Grabs the UI Icons
     [SerializeField] private GameObject speedomter;
@@ -89,13 +92,14 @@ public class UIController : MonoBehaviour
         if(playerId == ID)
         {
             energyForUI = energy;
-
+            EnergyText.text = "Energy: " + energyForUI;
         }
         //print("I heard that i should have this much energy: " + energyheard);
     }
     void HandleSpeedUpdated(float speed, int playerId)
     {
         speedForUI= speed;
+        SpeedText.text = "Speed: " + speedForUI;
         //print("Current speed: " + speedForUI);
     }
     void ChangeModifier(int posNeg)
