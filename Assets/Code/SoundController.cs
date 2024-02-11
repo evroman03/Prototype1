@@ -42,6 +42,7 @@ public class SoundController : MonoBehaviour
         AudioSource.PlayClipAtPoint(Shoot, Camera.main.transform.position);
     }
 
+    //Car Prefabs will need an audiosource attached to have individual acceleration sounds
     public void MuteAcceleration(AudioSource accelerationSource)
     {
         accelerationSource.volume = 0;
