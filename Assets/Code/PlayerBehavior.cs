@@ -7,31 +7,32 @@ using System.Runtime.InteropServices;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine.InputSystem;
+using UnityEngine.ProBuilder.MeshOperations;
 
 public class PlayerBehavior : MonoBehaviour
 {
     //https://gist.github.com/VanshMillion/9d69fc11f4bb3899ee779e23e7b34abb
     //https://www.youtube.com/watch?v=jr4eb4F9PSQ&list=PLyh3AdCGPTSLg0PZuD1ykJJDnC1mThI42
-    [Tooltip("A number = to -1, 0, or 1. NOT SPEED. Determines forward/backward")] public float ForwardVal = 0, ReverseVal=0;
     [Tooltip("A lower number equals a lower rate of turning")] public float Sensitivity = 1.0f;
-    [Tooltip("A lower number equals a higher rate of energy change. Suggest numbers smaller than 3.000")] public float RateOfEnergyGain = .25f, RateOfEnergyLoss=1f;
-    [Tooltip("A lower number equals a lower maximum speed without energy.")] public float NoEnergySpeed = .1f;
+    [Tooltip("A lower number equals a higher rate of energy change. Suggest numbers smaller than 3.000")] public float RateOfEnergyGain = .25f, RateOfEnergyLoss = 1f;
+    [Tooltip("A lower number equals a lower maximum speed without energy.")] public float NoEnergySpeed = .25f;
 
 
     public Controls controls;
     private Rigidbody rb;
-    private bool isCollectingEnergy = true;
-    private float energyToRemove = 1, energyToAdd = 1, maxEnergy = 100f, minEnergy = 1f, excessEnergy = 0, steerValue = 0;
+    private bool isCollectingEnergy = true, canAttack=true;
+    private float ForwardVal = 0, ReverseVal = 0, energyToRemove = 1, energyToAdd = 1, maxEnergy = 100f, minEnergy = 1f, excessEnergy = 0, steerValue = 0;
 
 
     public LayerMask layerMask;
-    public float MaxSteerAngle = 25f, Power = 75, SpeedEnergyMod = 1, ShieldEnergyMod = 1, AttackEnergyMod = 1, detectEPadCastDistance = 2f, CurrentEnergy = 99f, CurrentSpeed = 0, BrakePower=50f, MaxSpeed=100f;
-    public  Action<float, int> EnergyUpdated, SpeedUpdated;
+    public float DisplaySpeedMultiplier = 10, MaxSteerAngle = 25f, Power = 75, detectEPadCastDistance = 2f, CurrentEnergy = 99f, CurrentSpeed = 0, BrakePower = 50f, MaxSpeed = 237f, SpeedEnergyMod = 1, ShieldEnergyMod = 1, AttackEnergyMod = 1;
+    public Action<float, int> EnergyUpdated, SpeedUpdated;
     public Action<int> SelectAttack, SelectShield, SelectSpeed, SelectRight, SelectLeft;
     public PlayerInput PI;
 
     private UIController[] uiControllers;
     private UIController MyUI;
+    private Animator animator;
 
     /// <summary>
     /// We need the enum (named integer) do diffrentiate between front and rear so steering 
@@ -53,11 +54,12 @@ public class PlayerBehavior : MonoBehaviour
         public WheelCollider wheelCollider;
         public Axle AxleType;
     }
-    public List<Wheel> wheels; 
+    public List<Wheel> wheels;
 
 
     void Awake()
     {
+
         uiControllers = FindObjectsOfType<UIController>();
 
         for (int i = 0; i < uiControllers.Length; i++)
@@ -70,6 +72,7 @@ public class PlayerBehavior : MonoBehaviour
             }
         }
         rb = GetComponent<Rigidbody>();
+        animator = GetComponent<Animator>();
         PI.currentActionMap.FindAction("Move").performed += ctx => steerValue = ctx.ReadValue<float>();
         PI.currentActionMap.FindAction("Move").canceled += ctx => steerValue = 0;
         PI.currentActionMap.FindAction("Accelerate").started += ctx => AccelerateOn();
@@ -82,6 +85,7 @@ public class PlayerBehavior : MonoBehaviour
         PI.currentActionMap.FindAction("Decrease").performed += ctx => SelectLeft(PI.playerIndex);
         PI.currentActionMap.FindAction("Increase").performed += ctx => SelectRight(PI.playerIndex);
         PI.currentActionMap.FindAction("Quit").performed += ctx => Quit();
+        PI.currentActionMap.FindAction("Activate").performed += ctx => Activate();
         /*
         controls.ControllerMap.Move.performed += ctx => steerValue = ctx.ReadValue<float>();
         controls.ControllerMap.Move.canceled += ctx => steerValue = 0;
@@ -97,11 +101,11 @@ public class PlayerBehavior : MonoBehaviour
         controls.ControllerMap.Quit.performed += ctx => Quit();
         */
         StartCoroutine(CalcSpeed());
-        if(GameObject.FindGameObjectWithTag("Player1")==null)
+        if (PI.playerIndex == 0)
         {
             tag = "Player1";
         }
-        else if (GameObject.FindGameObjectWithTag("Player1") != null)
+        else if (PI.playerIndex == 1)
         {
             tag = "Player2";
         }
@@ -120,6 +124,23 @@ public class PlayerBehavior : MonoBehaviour
     /// called every time a change is made, modifier will only incrementally change +1/-1, but it 
     /// will still accomodate if game devs wish for instant modifier change, i.e., from 1=>5
     /// </summary>
+    void Activate()
+    {
+        if(canAttack)
+        {
+            canAttack= false;
+            animator.SetTrigger("Attack");
+        }
+    }
+    public void anim_SetCanAttack()
+    {
+        StartCoroutine(HoldUp());
+    }
+    IEnumerator HoldUp()
+    {
+        yield return new WaitForSeconds(2f/(AttackEnergyMod+1f));
+        canAttack = true;
+    }
     public void HandleUIChange(int modSelector, int modifier)
     {
         switch (modSelector)
@@ -185,22 +206,26 @@ public class PlayerBehavior : MonoBehaviour
     {   
         foreach(Wheel wheel in wheels) 
         {
-            if(CurrentEnergy > minEnergy)
+            if(CurrentEnergy > minEnergy && CurrentSpeed < MaxSpeed)
             {
-                wheel.wheelCollider.motorTorque = ((ForwardVal+ReverseVal) * Power * SpeedEnergyMod) + (excessEnergy*100f);
+                wheel.wheelCollider.motorTorque = ((ForwardVal + ReverseVal) * Power * SpeedEnergyMod) + ((ForwardVal + ReverseVal) * (excessEnergy * 100f));
                 // Acceleration (1,0, or -1) * Power (Designer modifier for more speed) * SEM (# between 1-5) + ~25 (about what 3/5 speed is)
                 //print(wheel.wheelCollider.motorTorque);
             }
-            else
+            else if (CurrentEnergy <= minEnergy)
             {
                 wheel.wheelCollider.motorTorque = (ForwardVal * Power * SpeedEnergyMod)*NoEnergySpeed;
                 //If you dont have enough energy, this else will allow the car at least some speed
-            }           
+            }   
+            else
+            {
+                wheel.wheelCollider.motorTorque = 0;
+            }
         }  
     }
     void Brake()
     {
-        if (CurrentSpeed > 10f && ReverseVal < 0)
+        if (CurrentSpeed/DisplaySpeedMultiplier > 10f && ReverseVal < 0)
         {
             foreach (Wheel wheel in wheels)
             {
@@ -208,7 +233,7 @@ public class PlayerBehavior : MonoBehaviour
                 //print("BeingApplied" + wheel.wheelCollider.brakeTorque);
             }
         }
-        else if (CurrentSpeed < 10f)
+        else if (CurrentSpeed/DisplaySpeedMultiplier < 10f)
         {
             foreach (Wheel wheel in wheels)
             {
@@ -217,13 +242,38 @@ public class PlayerBehavior : MonoBehaviour
             }
         }
     }
+    
+    public void ChangeEnergy(float energy)
+    {
+        CurrentEnergy = Mathf.Clamp(CurrentEnergy+energy, 1, 99);
+    }
+    
+    /*
+    public IEnumerator ChangeEnergy(float energyChange)
+    {
+        float changeDuration = .5f;
+        float startEnergy = CurrentEnergy;
+        float targetEnergy = Mathf.Clamp(CurrentEnergy + energyChange, minEnergy, maxEnergy);
+        float elapsedTime = 0f;
+        //print(targetEnergy);
+        while (elapsedTime < changeDuration)
+        {
+            CurrentEnergy = Mathf.Lerp(startEnergy, targetEnergy, elapsedTime / changeDuration);
+            elapsedTime += Time.deltaTime;
+            print(elapsedTime);
+            yield return null;
+        }
+        print("DONE");
+        CurrentEnergy = targetEnergy;
+    }
+    */
     IEnumerator CalcSpeed()
     {
-        while(true)
+        while(CurrentSpeed<=MaxSpeed*1.5f)
         {
             Vector3 prevPos = transform.position;
             yield return new WaitForFixedUpdate();
-            CurrentSpeed = (float)Math.Round((Vector3.Distance(transform.position, prevPos) / Time.deltaTime), 0);
+            CurrentSpeed = DisplaySpeedMultiplier * ((float)Math.Round((Vector3.Distance(transform.position, prevPos) / Time.deltaTime), 1));
             SpeedUpdated?.Invoke(CurrentSpeed, PI.playerIndex);
         }     
     }
@@ -265,6 +315,7 @@ public class PlayerBehavior : MonoBehaviour
             //faster tick speed
         }
     }
+
     public void AccelerateOn()
     {
         ForwardVal = 1;
@@ -308,7 +359,7 @@ public class PlayerBehavior : MonoBehaviour
         controls.ControllerMap.SelectAttack.performed -= ctx => SelectAttack(PI.playerIndex);
         controls.ControllerMap.SelectShield.performed -= ctx => SelectShield(PI.playerIndex);
         controls.ControllerMap.Quit.performed -= ctx => Quit();
-        */
+        
         PI.currentActionMap.FindAction("Move").performed -= ctx => steerValue = ctx.ReadValue<float>();
         PI.currentActionMap.FindAction("Move").canceled -= ctx => steerValue = 0;
         PI.currentActionMap.FindAction("Accelerate").started -= ctx => AccelerateOn();
@@ -325,5 +376,6 @@ public class PlayerBehavior : MonoBehaviour
         {
             uiControllers[i].GetUIMOD -= HandleUIChange;
         }
+        */
     }
 }

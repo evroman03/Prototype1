@@ -116,6 +116,15 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Activate"",
+                    ""type"": ""Button"",
+                    ""id"": ""328057ff-d73f-478a-b8e0-93a863994c9c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -250,6 +259,17 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""action"": ""Join"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a814a2af-eb8a-4821-9010-9a01063576d2"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Activate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -268,6 +288,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         m_ControllerMap_SelectSpeed = m_ControllerMap.FindAction("SelectSpeed", throwIfNotFound: true);
         m_ControllerMap_Quit = m_ControllerMap.FindAction("Quit", throwIfNotFound: true);
         m_ControllerMap_Join = m_ControllerMap.FindAction("Join", throwIfNotFound: true);
+        m_ControllerMap_Activate = m_ControllerMap.FindAction("Activate", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -339,6 +360,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private readonly InputAction m_ControllerMap_SelectSpeed;
     private readonly InputAction m_ControllerMap_Quit;
     private readonly InputAction m_ControllerMap_Join;
+    private readonly InputAction m_ControllerMap_Activate;
     public struct ControllerMapActions
     {
         private @Controls m_Wrapper;
@@ -353,6 +375,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         public InputAction @SelectSpeed => m_Wrapper.m_ControllerMap_SelectSpeed;
         public InputAction @Quit => m_Wrapper.m_ControllerMap_Quit;
         public InputAction @Join => m_Wrapper.m_ControllerMap_Join;
+        public InputAction @Activate => m_Wrapper.m_ControllerMap_Activate;
         public InputActionMap Get() { return m_Wrapper.m_ControllerMap; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -392,6 +415,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Join.started += instance.OnJoin;
             @Join.performed += instance.OnJoin;
             @Join.canceled += instance.OnJoin;
+            @Activate.started += instance.OnActivate;
+            @Activate.performed += instance.OnActivate;
+            @Activate.canceled += instance.OnActivate;
         }
 
         private void UnregisterCallbacks(IControllerMapActions instance)
@@ -426,6 +452,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Join.started -= instance.OnJoin;
             @Join.performed -= instance.OnJoin;
             @Join.canceled -= instance.OnJoin;
+            @Activate.started -= instance.OnActivate;
+            @Activate.performed -= instance.OnActivate;
+            @Activate.canceled -= instance.OnActivate;
         }
 
         public void RemoveCallbacks(IControllerMapActions instance)
@@ -455,5 +484,6 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         void OnSelectSpeed(InputAction.CallbackContext context);
         void OnQuit(InputAction.CallbackContext context);
         void OnJoin(InputAction.CallbackContext context);
+        void OnActivate(InputAction.CallbackContext context);
     }
 }
