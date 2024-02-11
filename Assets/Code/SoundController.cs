@@ -9,6 +9,7 @@ public class SoundController : MonoBehaviour
     [SerializeField] private AudioClip PowerDown;
     [SerializeField] private AudioClip StartCountdown;
     [SerializeField] private AudioClip Shoot;
+    [SerializeField] private AudioClip LapFinish;
 
     // Start is called before the first frame update
     void Start()
@@ -25,6 +26,11 @@ public class SoundController : MonoBehaviour
     public void Countdown()
     {
         AudioSource.PlayClipAtPoint(StartCountdown, Camera.main.transform.position);
+    }
+
+    public void LapComplete()
+    {
+        AudioSource.PlayClipAtPoint(LapFinish, Camera.main.transform.position);
     }
 
     public void PlayPowerUp()
