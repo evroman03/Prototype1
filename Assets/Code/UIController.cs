@@ -1,6 +1,10 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine.EventSystems;
 using UnityEngine;
 using UnityEngine.UI;
+using JetBrains.Annotations;
 
 public class UIController : MonoBehaviour
 { 
@@ -8,6 +12,7 @@ public class UIController : MonoBehaviour
     private int speedMod = 1, shieldMod = 1, attackMod = 1;
     public int ID;
     public PlayerBehavior playerBehavior;
+    public SoundController soundController;
 
     //Grabs the UI Icons
     [SerializeField] private GameObject speedomter;
@@ -36,7 +41,6 @@ public class UIController : MonoBehaviour
     //Used for math to calibrate speedometer - do not change
     private const int DEFAULT_MAX_SPEED = 237;
     private const int DEFAULT_MAX_MOD = 5;
-
 
     float needleAngleModifier;
     void Start()
@@ -94,14 +98,8 @@ public class UIController : MonoBehaviour
         speedForUI= speed;
         //print("Current speed: " + speedForUI);
     }
-
-    /**
-     * Changes the level of the modifier
-     * @Param posNeg  the level of the modifier, going 1 through 5
-     */
     void ChangeModifier(int posNeg)
     {
-
         int var=0;
         switch(modifierSelected)
         {
@@ -194,7 +192,6 @@ public class UIController : MonoBehaviour
         }
     }
 
-
     void UISelectSpeed(int playerBehvaiorID)
     {
         if (ID == playerBehvaiorID)
@@ -245,27 +242,18 @@ public class UIController : MonoBehaviour
             attackIconUI.transform.Find("AtkIconOn").GetComponent<Image>().enabled = true;
         }
     }
-
-    /**
-     * Increases the selected modifier by 1
-     * @Param playerBehaviorID - the ID of the playerBehavior that sent the request
-     */
     void UISelectRight (int playerBehvaiorID)
     {
-        //If this script's ID and playerBehavior's ID match, do the method
         if(ID == playerBehvaiorID)
             ChangeModifier(1);
+        soundController.PlayPowerUp();
+        
     }
-
-    /**
- * Decreases the selected modifier by 1
- * @Param playerBehaviorID - the ID of the playerBehavior that sent the request
- */
     void UISelectLeft(int playerBehvaiorID)
     {
-        //If this script's ID and playerBehavior's ID match, do the method
         if (ID == playerBehvaiorID)
             ChangeModifier(-1);
+        soundController.PlayPowerDown();
     }
 
 
