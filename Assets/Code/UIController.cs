@@ -12,6 +12,7 @@ public class UIController : MonoBehaviour
     private int speedMod = 1, shieldMod = 1, attackMod = 1;
     public int ID;
     public PlayerBehavior playerBehavior;
+    public SoundController soundController;
 
     //Grabs the UI Icons
     [SerializeField] private GameObject speedomter;
@@ -245,12 +246,14 @@ public class UIController : MonoBehaviour
     {
         if(ID == playerBehvaiorID)
             ChangeModifier(1);
+        soundController.PlayPowerUp();
         
     }
     void UISelectLeft(int playerBehvaiorID)
     {
         if (ID == playerBehvaiorID)
             ChangeModifier(-1);
+        soundController.PlayPowerDown();
     }
 
 
