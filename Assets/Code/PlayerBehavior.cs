@@ -136,9 +136,9 @@ public class PlayerBehavior : MonoBehaviour
     {
         if(canAttack)
         {
-            print("HELLO");
             canAttack= false;
             animator.SetTrigger("Attack");
+            //ATTACK SOUND HERE
         }
     }
     public void anim_SetCanAttack()
