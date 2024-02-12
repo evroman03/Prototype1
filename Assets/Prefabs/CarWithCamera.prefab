@@ -993,6 +993,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6677349666504890895}
     m_Modifications:
+    - target: {fileID: 2422331877852976971, guid: be200a5f2ad87254c816621370bc7cd0, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.06974405
+      objectReference: {fileID: 0}
+    - target: {fileID: 2422331877852976971, guid: be200a5f2ad87254c816621370bc7cd0, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.07045322
+      objectReference: {fileID: 0}
     - target: {fileID: 3629088680817303236, guid: be200a5f2ad87254c816621370bc7cd0, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
