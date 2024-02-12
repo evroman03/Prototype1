@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class LapManager : MonoBehaviour
 {
@@ -22,6 +22,7 @@ public class LapManager : MonoBehaviour
     }
     #endregion
 
+    //Declares variables
     [SerializeField]
     int totalLaps = 3;
 
@@ -31,20 +32,10 @@ public class LapManager : MonoBehaviour
     private int lastTriggerHitPlayer1;
     private int lastTriggerHitPlayer2;
 
-
-    private bool player1Won;
     // Start is called before the first frame update
-
-    //!TODO
-    //Set start positions of the cars
-    //Add laps
-    //Add triggers
-    //Add Countdown at start
-    //Make game playable
-    //Make everything start when countdown ends
     void Start()
     {
-        player1Won = false;
+        //Initializes variables
         currentLapsPlayer1 = 0;
         currentLapsPlayer2 = 0;
 
@@ -65,15 +56,14 @@ public class LapManager : MonoBehaviour
             if (lastTriggerHitPlayer1 == 3)
             {
                 currentLapsPlayer1++;
-                print("P1 LAP PASSED! Current laps:" + currentLapsPlayer1);
                 lastTriggerHitPlayer1 = 0;
             }
 
             //If current laps equal total laps, end the game
             if (currentLapsPlayer1 == totalLaps)
             {
-                player1Won = true;
                 print("PLAYER 1 WINS");
+                SceneManager.LoadScene("");
             }
         }
 
@@ -84,15 +74,14 @@ public class LapManager : MonoBehaviour
             if (lastTriggerHitPlayer2 == 3)
             {
                 currentLapsPlayer2++;
-                print("P2 LAP PASSED! Current laps:" + currentLapsPlayer2);
                 lastTriggerHitPlayer2 = 0;
             }
             
             //If the current laps equal the total laps, end the game
             if (currentLapsPlayer2 == totalLaps)
             {
-                player1Won = false;
                 print("PLAYER 2 WINS");
+                SceneManager.LoadScene("");
             }
         }
     }
@@ -107,54 +96,31 @@ public class LapManager : MonoBehaviour
         {
             //If the first trigger is touched
             if (triggerID == 1 && lastTriggerHitPlayer1 == 0)
-            {
-                print("P1 Triggered 1");
                 lastTriggerHitPlayer1 = 1;
-            }
+            
             //If the second trigger is touched
             if (triggerID == 2 && lastTriggerHitPlayer1 == 1)
-            {
-                print("P1 Triggered 2");
                 lastTriggerHitPlayer1 = 2;
-            }
+            
             //If the third trigger is touched
             if (triggerID == 3 && lastTriggerHitPlayer1 == 2)
-            {
-                print("P1 Triggered 3");
                 lastTriggerHitPlayer1 = 3;
-            }
+            
         
         //If the player2 ID contacts the lap trigger
         } else if (playerID == 2)
         {
             //If the first trigger is touched
-            if (triggerID == 1 && lastTriggerHitPlayer2 == 0)
-                print("P2 Triggered 1");
-            {
+            if (triggerID == 1 && lastTriggerHitPlayer2 == 0) 
                 lastTriggerHitPlayer2 = 1;
-            }
+            
             //If the second trigger is touched
             if (triggerID == 2 && lastTriggerHitPlayer2 == 1)
-            {
-                print("P2 Triggered 2");
                 lastTriggerHitPlayer2 = 2;
-            }
+            
             //If the third trigger is touched
             if (triggerID == 3 && lastTriggerHitPlayer2 == 2)
-            {
-                print("P2 Triggered 3");
                 lastTriggerHitPlayer2 = 3;
-            }
         }
-    }
-
-    private void Update()
-    {
-        //print(lastTriggerHitPlayer2);
-    }
-
-    public bool getPlayer1Won()
-    {
-        return player1Won;
     }
 }
