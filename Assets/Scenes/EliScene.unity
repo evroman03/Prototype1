@@ -583,6 +583,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2193652684859555100, guid: 59d128fe9b868c54eaa9ab4e97625130, type: 3}
+      propertyPath: m_PlayerPrefab
+      value: 
+      objectReference: {fileID: 5745899406515932387, guid: 5dbe82fb28220844488533e788729d1c, type: 3}
+    - target: {fileID: 2193652684859555100, guid: 59d128fe9b868c54eaa9ab4e97625130, type: 3}
       propertyPath: m_FixedNumberOfSplitScreens
       value: 2
       objectReference: {fileID: 0}
@@ -601,6 +605,14 @@ PrefabInstance:
     - target: {fileID: 2736287489861856481, guid: 59d128fe9b868c54eaa9ab4e97625130, type: 3}
       propertyPath: m_AnchorMin.x
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3081161728736884890, guid: 59d128fe9b868c54eaa9ab4e97625130, type: 3}
+      propertyPath: soundController
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3515561840083618473, guid: 59d128fe9b868c54eaa9ab4e97625130, type: 3}
+      propertyPath: soundController
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7865137606321085515, guid: 59d128fe9b868c54eaa9ab4e97625130, type: 3}
       propertyPath: m_AnchorMax.x

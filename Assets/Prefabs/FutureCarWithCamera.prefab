@@ -940,10 +940,10 @@ MonoBehaviour:
   Sensitivity: 2
   RateOfEnergyGain: 0.25
   RateOfEnergyLoss: 1
-  NoEnergySpeed: 0.1
+  NoEnergySpeed: 0.25
   layerMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   DisplaySpeedMultiplier: 10
   MaxSteerAngle: 25
   Power: 100
@@ -951,7 +951,7 @@ MonoBehaviour:
   CurrentEnergy: 99
   CurrentSpeed: 0
   BrakePower: 50
-  MaxSpeed: 100
+  MaxSpeed: 237
   SpeedEnergyMod: 1
   ShieldEnergyMod: 1
   AttackEnergyMod: 1
