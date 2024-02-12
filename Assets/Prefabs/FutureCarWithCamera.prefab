@@ -1019,7 +1019,7 @@ MonoBehaviour:
   m_DefaultControlScheme: 
   m_DefaultActionMap: ControllerMap
   m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
+  m_Camera: {fileID: 4198473984368996140}
 --- !u!1 &5871927338850209093
 GameObject:
   m_ObjectHideFlags: 0
