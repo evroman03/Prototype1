@@ -937,8 +937,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5cfad881649a0748aedd847533b02ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ForwardVal: 0
-  ReverseVal: 0
   Sensitivity: 2
   RateOfEnergyGain: 0.25
   RateOfEnergyLoss: 1
@@ -946,16 +944,17 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 0
+  DisplaySpeedMultiplier: 10
   MaxSteerAngle: 25
   Power: 100
-  SpeedEnergyMod: 1
-  ShieldEnergyMod: 1
-  AttackEnergyMod: 1
   detectEPadCastDistance: 2
   CurrentEnergy: 99
   CurrentSpeed: 0
   BrakePower: 50
   MaxSpeed: 100
+  SpeedEnergyMod: 1
+  ShieldEnergyMod: 1
+  AttackEnergyMod: 1
   PI: {fileID: 2189558466381534672}
   wheels:
   - wheelModel: {fileID: 1571976845147402116}
@@ -1020,7 +1019,7 @@ MonoBehaviour:
   m_DefaultControlScheme: 
   m_DefaultActionMap: ControllerMap
   m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
+  m_Camera: {fileID: 4198473984368996140}
 --- !u!1 &5871927338850209093
 GameObject:
   m_ObjectHideFlags: 0

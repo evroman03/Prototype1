@@ -83,7 +83,7 @@ public class GameManager : MonoBehaviour
             player1.transform.position = player1StartingPos;
             player1.transform.rotation = Quaternion.identity;
             player1.transform.rotation *= Quaternion.Euler(0, 90, 0);
-            player1.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            //player1.GetComponent<Rigidbody>().velocity = Vector3.zero;
 
             player2.transform.position = player2StartingPos;
             player2.transform.rotation = Quaternion.identity;
@@ -100,7 +100,8 @@ public class GameManager : MonoBehaviour
 
     IEnumerator CountDown()
     {
-        for (int i = 5; i >= 0; i--)
+        //i = countdown in seconds (lower i = lower countdown time in game)
+        for (int i = 3; i >= 0; i--)
         {
             if (i > 0)
                 countDownText.text = "Starts in... " + i;
@@ -108,7 +109,14 @@ public class GameManager : MonoBehaviour
                 countDownText.text = "GO!";
             yield return new WaitForSeconds(1);
         }
+
+        //Makes Text invisible
         countDownText.enabled = false;
+
+        //Activates the controls for both players after the countdown
+        player1.GetComponent<PlayerBehavior>().activateControls(true);
+        player2.GetComponent<PlayerBehavior>().activateControls(true);
+
         StopCoroutine(CountDown());
         yield return null;
     }

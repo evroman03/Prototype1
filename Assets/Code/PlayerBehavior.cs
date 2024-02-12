@@ -57,7 +57,7 @@ public class PlayerBehavior : MonoBehaviour
     public List<Wheel> wheels;
 
 
-    void Awake()
+    void Start()
     {
 
         uiControllers = FindObjectsOfType<UIController>();
@@ -73,19 +73,7 @@ public class PlayerBehavior : MonoBehaviour
         }
         rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
-        PI.currentActionMap.FindAction("Move").performed += ctx => steerValue = ctx.ReadValue<float>();
-        PI.currentActionMap.FindAction("Move").canceled += ctx => steerValue = 0;
-        PI.currentActionMap.FindAction("Accelerate").started += ctx => AccelerateOn();
-        PI.currentActionMap.FindAction("Accelerate").canceled += ctx => AccelerateOff();
-        PI.currentActionMap.FindAction("Decelerate").started += ctx => DecelerateOn();
-        PI.currentActionMap.FindAction("Decelerate").canceled += ctx => DecelerateOff();
-        PI.currentActionMap.FindAction("SelectSpeed").performed += ctx => SelectSpeed(PI.playerIndex);
-        PI.currentActionMap.FindAction("SelectAttack").performed += ctx => SelectAttack(PI.playerIndex);
-        PI.currentActionMap.FindAction("SelectShield").performed += ctx => SelectShield(PI.playerIndex);
-        PI.currentActionMap.FindAction("Decrease").performed += ctx => SelectLeft(PI.playerIndex);
-        PI.currentActionMap.FindAction("Increase").performed += ctx => SelectRight(PI.playerIndex);
-        PI.currentActionMap.FindAction("Quit").performed += ctx => Quit();
-        PI.currentActionMap.FindAction("Activate").performed += ctx => Activate();
+        
         /*
         controls.ControllerMap.Move.performed += ctx => steerValue = ctx.ReadValue<float>();
         controls.ControllerMap.Move.canceled += ctx => steerValue = 0;
@@ -108,6 +96,26 @@ public class PlayerBehavior : MonoBehaviour
         else if (PI.playerIndex == 1)
         {
             tag = "Player2";
+        }
+    }
+
+    public void activateControls(bool isActive)
+    {
+        if (isActive && uiControllers != null)
+        {
+            PI.currentActionMap.FindAction("Move").performed += ctx => steerValue = ctx.ReadValue<float>();
+            PI.currentActionMap.FindAction("Move").canceled += ctx => steerValue = 0;
+            PI.currentActionMap.FindAction("Accelerate").started += ctx => AccelerateOn();
+            PI.currentActionMap.FindAction("Accelerate").canceled += ctx => AccelerateOff();
+            PI.currentActionMap.FindAction("Decelerate").started += ctx => DecelerateOn();
+            PI.currentActionMap.FindAction("Decelerate").canceled += ctx => DecelerateOff();
+            PI.currentActionMap.FindAction("SelectSpeed").performed += ctx => SelectSpeed(PI.playerIndex);
+            PI.currentActionMap.FindAction("SelectAttack").performed += ctx => SelectAttack(PI.playerIndex);
+            PI.currentActionMap.FindAction("SelectShield").performed += ctx => SelectShield(PI.playerIndex);
+            PI.currentActionMap.FindAction("Decrease").performed += ctx => SelectLeft(PI.playerIndex);
+            PI.currentActionMap.FindAction("Increase").performed += ctx => SelectRight(PI.playerIndex);
+            PI.currentActionMap.FindAction("Quit").performed += ctx => Quit();
+            PI.currentActionMap.FindAction("Activate").performed += ctx => Activate();
         }
     }
     void Update()

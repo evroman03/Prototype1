@@ -5161,7 +5161,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   triggerID: 2
-  lapManager: {fileID: 802991500}
+  lapManager: {fileID: 2113143662}
 --- !u!65 &448326924
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7458,17 +7458,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 621594509}
   m_LocalEulerAnglesHint: {x: 0.448, y: 178.412, z: -28.652}
---- !u!114 &802991500 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5664766540749247709, guid: 1bbc27410295f154eb82ee7d2942396b, type: 3}
-  m_PrefabInstance: {fileID: 4235434588169153508}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7cfaf8b66c788ab43a133b654cef467d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!43 &1102391352
 Mesh:
   m_ObjectHideFlags: 0
@@ -12939,7 +12928,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   triggerID: 3
-  lapManager: {fileID: 802991500}
+  lapManager: {fileID: 2113143662}
 --- !u!65 &1668703613
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -14009,6 +13998,17 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!114 &2113143662 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 106567325991744493, guid: 1bbc27410295f154eb82ee7d2942396b, type: 3}
+  m_PrefabInstance: {fileID: 4235434588169153508}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cfaf8b66c788ab43a133b654cef467d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &4235434588169153508
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14177,7 +14177,7 @@ PrefabInstance:
     - target: {fileID: 2921940487685092324, guid: 38e0b34e019693d4191d8c59d5d53fa8, type: 3}
       propertyPath: lapManager
       value: 
-      objectReference: {fileID: 802991500}
+      objectReference: {fileID: 2113143662}
     - target: {fileID: 5097678775574159441, guid: 38e0b34e019693d4191d8c59d5d53fa8, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1513.7

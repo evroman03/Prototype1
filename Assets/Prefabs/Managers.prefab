@@ -808,7 +808,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 100570668287596366, guid: 30fd802b13218fb40bc837a0d2cea9bb, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1167128157896763159, guid: 30fd802b13218fb40bc837a0d2cea9bb, type: 3}
+      propertyPath: m_text
+      value: 'Waiting for Player 2...
+
+        Press Start to Join...'
       objectReference: {fileID: 0}
     - target: {fileID: 2458276943203381038, guid: 30fd802b13218fb40bc837a0d2cea9bb, type: 3}
       propertyPath: m_Pivot.y
@@ -832,15 +838,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3274174349988589870, guid: 30fd802b13218fb40bc837a0d2cea9bb, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3274174349988589870, guid: 30fd802b13218fb40bc837a0d2cea9bb, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3274174349988589870, guid: 30fd802b13218fb40bc837a0d2cea9bb, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3373525153210062805, guid: 30fd802b13218fb40bc837a0d2cea9bb, type: 3}
       propertyPath: m_Pivot.x
@@ -924,11 +930,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4160978002128324548, guid: 30fd802b13218fb40bc837a0d2cea9bb, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4160978002128324548, guid: 30fd802b13218fb40bc837a0d2cea9bb, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -991,6 +997,10 @@ PrefabInstance:
     - target: {fileID: 1471560553284050590, guid: 55f25f9cb28b8034ea9ccceae0609d05, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2109799944371008160, guid: 55f25f9cb28b8034ea9ccceae0609d05, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6679861364319792692, guid: 55f25f9cb28b8034ea9ccceae0609d05, type: 3}
       propertyPath: m_AnchorMax.x
