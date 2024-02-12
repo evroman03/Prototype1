@@ -176,8 +176,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 660482090608565737}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.014682691, y: -0.7105195, z: 0.014831975, w: 0.703368}
-  m_LocalPosition: {x: 9.999492, y: 1.9000001, z: 0.10115814}
+  m_LocalRotation: {x: 0.014682681, y: -0.7105195, z: 0.014831969, w: 0.703368}
+  m_LocalPosition: {x: 20.959013, y: 2.83, z: -1.8973446}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -873,6 +873,7 @@ GameObject:
   - component: {fileID: 8724363363169638447}
   - component: {fileID: 7880425697834152824}
   - component: {fileID: 2189558466381534672}
+  - component: {fileID: 8374556105443023906}
   m_Layer: 0
   m_Name: FutureCarWithCamera
   m_TagString: Untagged
@@ -1020,6 +1021,27 @@ MonoBehaviour:
   m_DefaultActionMap: ControllerMap
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!95 &8374556105443023906
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5745899406515932387}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b87e8b21db9a34742ac892a79013df84, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &5871927338850209093
 GameObject:
   m_ObjectHideFlags: 0
@@ -1116,8 +1138,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7554476729080081347}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.014682691, y: -0.7105195, z: 0.014831975, w: 0.703368}
-  m_LocalPosition: {x: 9.999492, y: 1.9000001, z: 0.10115814}
+  m_LocalRotation: {x: 0.014682681, y: -0.7105195, z: 0.014831969, w: 0.703368}
+  m_LocalPosition: {x: 20.959013, y: 2.83, z: -1.8973446}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

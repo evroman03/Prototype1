@@ -184,7 +184,7 @@ public class PlayerBehavior : MonoBehaviour
         {
             if (wheel.AxleType == Axle.Front)
             {
-                var steerAngle = steerValue * Sensitivity * MaxSteerAngle; //* (1 - (CurrentSpeed / MaxSpeed));
+                var steerAngle = steerValue * Sensitivity * MaxSteerAngle * (1 - (CurrentSpeed / MaxSpeed));
                 var finalAngle = Mathf.Lerp(wheel.wheelCollider.steerAngle, steerAngle, 0.6f);
                 //Inverse relationship; as current speed increases, 25 will be multiplied by a smaller decimal to get a smaller angle. (To make it harder to accidently oversteer at high speed)       
                 //Lerp is included so that steering isn't instantanious
