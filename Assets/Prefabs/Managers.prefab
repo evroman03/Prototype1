@@ -1002,6 +1002,18 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5297170648151804028, guid: 55f25f9cb28b8034ea9ccceae0609d05, type: 3}
+      propertyPath: ID
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5297170648151804028, guid: 55f25f9cb28b8034ea9ccceae0609d05, type: 3}
+      propertyPath: maxSpeed
+      value: 237
+      objectReference: {fileID: 0}
+    - target: {fileID: 6019307437487520335, guid: 55f25f9cb28b8034ea9ccceae0609d05, type: 3}
+      propertyPath: maxSpeed
+      value: 237
+      objectReference: {fileID: 0}
     - target: {fileID: 6679861364319792692, guid: 55f25f9cb28b8034ea9ccceae0609d05, type: 3}
       propertyPath: m_AnchorMax.x
       value: 1
