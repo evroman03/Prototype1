@@ -34,6 +34,11 @@ public class MainMenu : MonoBehaviour
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 4);
     }
+
+    public void Cback()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 4);
+    }
     public void Quit()
     {
         Application.Quit();
