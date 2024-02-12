@@ -136,6 +136,7 @@ public class PlayerBehavior : MonoBehaviour
     {
         if(canAttack)
         {
+            print("HELLO");
             canAttack= false;
             animator.SetTrigger("Attack");
         }
@@ -277,7 +278,7 @@ public class PlayerBehavior : MonoBehaviour
     */
     IEnumerator CalcSpeed()
     {
-        while(CurrentSpeed<=MaxSpeed*1.5f)
+        while(true)
         {
             Vector3 prevPos = transform.position;
             yield return new WaitForFixedUpdate();
