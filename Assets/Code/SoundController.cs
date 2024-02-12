@@ -28,36 +28,23 @@ public class SoundController : MonoBehaviour
         AudioSource.PlayClipAtPoint(StartCountdown, Camera.main.transform.position);
     }
 
-    public void LapComplete()
+    public void LapComplete(GameObject Player)
     {
-        AudioSource.PlayClipAtPoint(LapFinish, Camera.main.transform.position);
+        AudioSource.PlayClipAtPoint(LapFinish, Player.transform.position);
     }
 
-    public void PlayPowerUp()
+    public void PlayPowerUp(GameObject Player)
     {
-        AudioSource.PlayClipAtPoint(PowerUp, Camera.main.transform.position);
+        AudioSource.PlayClipAtPoint(PowerUp, Player.transform.position);
     }
 
-    public void PlayPowerDown()
+    public void PlayPowerDown(GameObject Player)
     {
-        AudioSource.PlayClipAtPoint(PowerDown, Camera.main.transform.position);
+        AudioSource.PlayClipAtPoint(PowerDown, Player.transform.position);
     }
 
-    public void PlayShoot()
+    public void PlayShoot(GameObject Player)
     {
-        AudioSource.PlayClipAtPoint(Shoot, Camera.main.transform.position);
+        AudioSource.PlayClipAtPoint(Shoot, Player.transform.position);
     }
-
-    //Car Prefabs will need an audiosource attached to have individual acceleration sounds
-    public void MuteAcceleration(AudioSource accelerationSource)
-    {
-        accelerationSource.volume = 0;
-    }
-
-    public void UnmuteAcceleration(AudioSource accelerationSource)
-    {
-        accelerationSource.volume = 1;
-    }
-
-
 }
