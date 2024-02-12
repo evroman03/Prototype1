@@ -60,7 +60,7 @@ public class PlayerBehavior : MonoBehaviour
     void Start()
     {
 
-        uiControllers = FindObjectsOfType<UIController>();
+        uiControllers = FindObjectsOfType<UIController>(true);
 
         for (int i = 0; i < uiControllers.Length; i++)
         {
