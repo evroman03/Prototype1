@@ -1,18 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
-<<<<<<< HEAD
---- !u!1 &792541895093438626
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 7379227178521808319, guid: be200a5f2ad87254c816621370bc7cd0, type: 3}
-  m_PrefabInstance: {fileID: 7824974262721807645}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8117049718547269075}
-  m_Layer: 0
-  m_Name: CameraFollow
-=======
 --- !u!1 &1021513905184733848
 GameObject:
   m_ObjectHideFlags: 0
@@ -144,30 +131,11 @@ GameObject:
   - component: {fileID: 4571914846355476764}
   m_Layer: 0
   m_Name: GameObject
->>>>>>> main
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
-<<<<<<< HEAD
---- !u!4 &8117049718547269075
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 2031801919204901070, guid: be200a5f2ad87254c816621370bc7cd0, type: 3}
-  m_PrefabInstance: {fileID: 7824974262721807645}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 792541895093438626}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.7106745, z: -0, w: 0.703521}
-  m_LocalPosition: {x: 0, y: 5.9, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 6830544804197833689}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &939010913374610592
-=======
 --- !u!4 &4571914846355476764
 Transform:
   m_ObjectHideFlags: 0
@@ -185,7 +153,6 @@ Transform:
   m_Father: {fileID: 416025042967183106}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6890899876313741490
->>>>>>> main
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1163,14 +1130,10 @@ PrefabInstance:
       addedObject: {fileID: 5780154046861414203}
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: d3e26b970b2db9043ac73c17d8a5214a, type: 3}
       insertIndex: -1
-<<<<<<< HEAD
-      addedObject: {fileID: 6830544804197833689}
-=======
       addedObject: {fileID: 8993320105932691847}
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: d3e26b970b2db9043ac73c17d8a5214a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4571914846355476764}
->>>>>>> main
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d3e26b970b2db9043ac73c17d8a5214a, type: 3}
       insertIndex: -1
@@ -1322,10 +1285,6 @@ MonoBehaviour:
   m_DefaultControlScheme: 
   m_DefaultActionMap: ControllerMap
   m_SplitScreenIndex: -1
-<<<<<<< HEAD
-  m_Camera: {fileID: 0}
---- !u!1001 &7824974262721807645
-=======
   m_Camera: {fileID: 949564944475820662}
 --- !u!95 &8986773444972497534
 Animator:
@@ -1445,7 +1404,6 @@ AudioSource:
     m_PostInfinity: 2
     m_RotationOrder: 4
 --- !u!1001 &475910958354102823
->>>>>>> main
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
