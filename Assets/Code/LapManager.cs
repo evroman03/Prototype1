@@ -63,7 +63,7 @@ public class LapManager : MonoBehaviour
             if (currentLapsPlayer1 == totalLaps)
             {
                 print("PLAYER 1 WINS");
-                SceneManager.LoadScene("");
+                SceneManager.LoadScene("WinPlayer1");
             }
         }
 
@@ -81,7 +81,7 @@ public class LapManager : MonoBehaviour
             if (currentLapsPlayer2 == totalLaps)
             {
                 print("PLAYER 2 WINS");
-                SceneManager.LoadScene("");
+                SceneManager.LoadScene("WinPlayer2");
             }
         }
     }

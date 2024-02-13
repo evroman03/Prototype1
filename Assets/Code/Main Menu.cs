@@ -46,6 +46,7 @@ public class MainMenu : MonoBehaviour
     }
     public void Quit()
     {
+        print("POYO");
         Application.Quit();
     }
 }
