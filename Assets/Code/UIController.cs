@@ -1,4 +1,5 @@
 using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -31,6 +32,8 @@ public class UIController : MonoBehaviour
     [SerializeField] private Color speedUIColor;
     [SerializeField] private Color attackUIColor;
     [SerializeField] private Color shieldUIColor;
+
+    [SerializeField] private TextMeshProUGUI speedText, energyText;
 
     public Action<int, int> GetUIMOD;
 
@@ -79,6 +82,8 @@ public class UIController : MonoBehaviour
         //Changes needle angle
         angle = Mathf.Lerp(MINIMUM_ANGLE, MAXIMUM_ANGLE,  speedForUI / maxSpeed);
         speedomter.transform.Find("Needle").GetComponent<Image>().transform.eulerAngles = new Vector3(0, 0, -angle + 90);
+        speedText.text = "Speed: " + speedForUI;
+        energyText.text = "Energy:" + energyForUI;
     }
      void Handle_EnergyUpdated(float energy, int playerId)
     {

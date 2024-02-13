@@ -60,7 +60,7 @@ public class PlayerBehavior : MonoBehaviour
     void Start()
     {
 
-        uiControllers = FindObjectsOfType<UIController>();
+        uiControllers = FindObjectsOfType<UIController>(true);
 
         for (int i = 0; i < uiControllers.Length; i++)
         {
@@ -138,6 +138,7 @@ public class PlayerBehavior : MonoBehaviour
         {
             canAttack= false;
             animator.SetTrigger("Attack");
+            //ATTACK SOUND HERE
         }
     }
     public void anim_SetCanAttack()
@@ -277,7 +278,7 @@ public class PlayerBehavior : MonoBehaviour
     */
     IEnumerator CalcSpeed()
     {
-        while(CurrentSpeed<=MaxSpeed*1.5f)
+        while(true)
         {
             Vector3 prevPos = transform.position;
             yield return new WaitForFixedUpdate();
