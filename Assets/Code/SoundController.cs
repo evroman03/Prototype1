@@ -11,6 +11,7 @@ public class SoundController : MonoBehaviour
     [SerializeField] private AudioClip Shoot;
     [SerializeField] private AudioClip LapFinish;
 
+    [SerializeField] private GameObject audioLocation;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,26 +26,26 @@ public class SoundController : MonoBehaviour
 
     public void Countdown()
     {
-        AudioSource.PlayClipAtPoint(StartCountdown, Camera.main.transform.position);
+        AudioSource.PlayClipAtPoint(StartCountdown, audioLocation.transform.position);
     }
 
-    public void LapComplete(GameObject Player)
+    public void LapComplete()
     {
-        AudioSource.PlayClipAtPoint(LapFinish, Player.transform.position);
+        AudioSource.PlayClipAtPoint(LapFinish, audioLocation.transform.position);
     }
 
-    public void PlayPowerUp(GameObject Player)
+    public void PlayPowerUp()
     {
-        AudioSource.PlayClipAtPoint(PowerUp, Player.transform.position);
+        AudioSource.PlayClipAtPoint(PowerUp, audioLocation.transform.position);
     }
 
-    public void PlayPowerDown(GameObject Player)
+    public void PlayPowerDown()
     {
-        AudioSource.PlayClipAtPoint(PowerDown, Player.transform.position);
+        AudioSource.PlayClipAtPoint(PowerDown, audioLocation.transform.position);
     }
 
-    public void PlayShoot(GameObject Player)
+    public void PlayShoot()
     {
-        AudioSource.PlayClipAtPoint(Shoot, Player.transform.position);
+        AudioSource.PlayClipAtPoint(Shoot, audioLocation.transform.position);
     }
 }

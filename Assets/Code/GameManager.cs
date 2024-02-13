@@ -39,6 +39,8 @@ public class GameManager : MonoBehaviour
     private Vector3 player1StartingPos = new Vector3(-1644, 470, 532),
                 player2StartingPos = new Vector3(-1644, 470, 544);
 
+    private SoundController soundController;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -52,6 +54,8 @@ public class GameManager : MonoBehaviour
 
         singlePlayerCanvas.SetActive(false);
         multiplayerCanvas.SetActive(false);
+
+        soundController = FindObjectOfType<SoundController>();
     }
     public void onPlayerJoined(PlayerInput obj)
     {
@@ -90,6 +94,7 @@ public class GameManager : MonoBehaviour
             player2.transform.rotation *= Quaternion.Euler(0, 90, 0);
 
             countDownText.enabled = true;
+            soundController.Countdown();
             StartCoroutine(CountDown());
         }
         else
@@ -100,16 +105,18 @@ public class GameManager : MonoBehaviour
 
     IEnumerator CountDown()
     {
+        
         //i = countdown in seconds (lower i = lower countdown time in game)
         for (int i = 3; i >= 0; i--)
         {
+            
             if (i > 0)
                 countDownText.text = "Starts in... " + i;
             else
                 countDownText.text = "GO!";
             yield return new WaitForSeconds(1);
         }
-
+        
         //Makes Text invisible
         countDownText.enabled = false;
 

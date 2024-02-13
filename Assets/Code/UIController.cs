@@ -247,14 +247,14 @@ public class UIController : MonoBehaviour
     {
         if(ID == playerBehvaiorID)
             ChangeModifier(1);
-        //soundController.PlayPowerUp();
+        soundController.PlayPowerUp();
         
     }
     void UISelectLeft(int playerBehvaiorID)
     {
         if (ID == playerBehvaiorID)
             ChangeModifier(-1);
-        //soundController.PlayPowerDown();
+        soundController.PlayPowerDown();
     }
 
 

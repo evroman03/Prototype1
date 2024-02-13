@@ -33,6 +33,7 @@ public class PlayerBehavior : MonoBehaviour
     private UIController[] uiControllers;
     private UIController MyUI;
     private Animator animator;
+    private SoundController soundController;
 
     /// <summary>
     /// We need the enum (named integer) do diffrentiate between front and rear so steering 
@@ -61,6 +62,7 @@ public class PlayerBehavior : MonoBehaviour
     {
 
         uiControllers = FindObjectsOfType<UIController>(true);
+        soundController = FindObjectOfType<SoundController>();
 
         for (int i = 0; i < uiControllers.Length; i++)
         {
@@ -138,7 +140,7 @@ public class PlayerBehavior : MonoBehaviour
         {
             canAttack= false;
             animator.SetTrigger("Attack");
-            //ATTACK SOUND HERE
+            soundController.PlayShoot();
         }
     }
     public void anim_SetCanAttack()

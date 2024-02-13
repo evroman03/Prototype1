@@ -32,6 +32,8 @@ public class LapManager : MonoBehaviour
     private int lastTriggerHitPlayer1;
     private int lastTriggerHitPlayer2;
 
+    private SoundController soundController;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -41,6 +43,7 @@ public class LapManager : MonoBehaviour
 
         lastTriggerHitPlayer1 = 0;
         lastTriggerHitPlayer2 = 0;
+        soundController = FindObjectOfType<SoundController>();
     }
 
     /**
@@ -57,6 +60,7 @@ public class LapManager : MonoBehaviour
             {
                 currentLapsPlayer1++;
                 lastTriggerHitPlayer1 = 0;
+                soundController.LapComplete();
             }
 
             //If current laps equal total laps, end the game
@@ -75,6 +79,7 @@ public class LapManager : MonoBehaviour
             {
                 currentLapsPlayer2++;
                 lastTriggerHitPlayer2 = 0;
+                soundController.LapComplete();
             }
             
             //If the current laps equal the total laps, end the game
