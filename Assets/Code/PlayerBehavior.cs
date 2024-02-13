@@ -145,6 +145,7 @@ public class PlayerBehavior : MonoBehaviour
     }
     public void anim_SetCanAttack()
     {
+        print("HERE");
         StartCoroutine(HoldUp());
     }
     IEnumerator HoldUp()
