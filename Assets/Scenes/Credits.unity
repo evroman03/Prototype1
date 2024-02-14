@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748171, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -499,8 +499,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 50
+  m_fontSizeBase: 50
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -653,8 +653,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 232, y: -148}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: 450.0703, y: -292.65134}
+  m_SizeDelta: {x: 273.8595, y: 72.6973}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1207587611
 MonoBehaviour:
@@ -787,8 +787,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 657, y: 355.5}
+  m_AnchoredPosition: {x: -0.0087352, y: 2.908}
+  m_SizeDelta: {x: 1291, y: 730.29}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1649029287
 MonoBehaviour:
@@ -859,8 +859,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -169, y: -29.355}
-  m_SizeDelta: {x: 282.0323, y: 296.79}
+  m_AnchoredPosition: {x: -392.3186, y: -63.203}
+  m_SizeDelta: {x: 447.7936, y: 603.8839}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1734134483
 MonoBehaviour:
@@ -882,24 +882,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Producer:
-
-    Gianni Brusatti
-
-    ---------------------
-
-    Game Designers:
-
-    Ray
-    Knapp
-
-    Marta Tsap
-
-    ---------------------
-
-    Artist:
-
-    Tristin Hendrickson'
+  m_text: "Producer: \nGianni Brusatti\n---------------------\nGame Designers:\nRay
+    Knapp\nMarta Tsap\nBrayden Reyes\n---------------------\nArtist:\nTristin Hendrickson"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -926,8 +910,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 28
-  m_fontSizeBase: 28
+  m_fontSize: 50
+  m_fontSizeBase: 50
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1058,8 +1042,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 129, y: -28}
-  m_SizeDelta: {x: 307.11, y: 297.75}
+  m_AnchoredPosition: {x: 340.5, y: -64.18}
+  m_SizeDelta: {x: 424.3071, y: 605.8373}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1894689336
 MonoBehaviour:
@@ -1085,16 +1069,14 @@ MonoBehaviour:
 
     Ryan Herwig
 
-    Brayden Reyes
-
     Sky Turner
 
-    Elijah
-    Vroman
+    Elijah Vroman
 
     ------------------------
 
-    Music and Sound:
+    Music
+    and Sound:
 
     Pixabay'
   m_isRightToLeft: 0
@@ -1123,8 +1105,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 28
-  m_fontSizeBase: 28
+  m_fontSize: 50
+  m_fontSizeBase: 50
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1207,8 +1189,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 31, y: 148}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 0, y: 314.28}
+  m_SizeDelta: {x: 256.7013, y: 101.7359}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2101142264
 MonoBehaviour:
@@ -1257,13 +1239,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 80
+  m_fontSizeBase: 80
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 4
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
   m_textAlignment: 65535
