@@ -351,7 +351,7 @@ public class PlayerBehavior : MonoBehaviour
     public void Quit()
     {
         Application.Quit();
-        EditorApplication.ExitPlaymode();
+        //EditorApplication.ExitPlaymode();
     }
     /// <summary>
     /// We need to unassaign the actions to avoid errors when loading new scenes
