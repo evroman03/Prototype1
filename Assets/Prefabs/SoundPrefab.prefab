@@ -44,8 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65c5aedce879e8e45be9c95bb73fc225, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  accelerationSource: {fileID: 0}
   PowerUp: {fileID: 8300000, guid: 40b2e33021c8daa4ba09b53b45c2dcea, type: 3}
   PowerDown: {fileID: 8300000, guid: 7a13326e8341b1e4eb46b21a176f352e, type: 3}
   StartCountdown: {fileID: 8300000, guid: 15145cc73b1bd5047b575b8e953e4003, type: 3}
   Shoot: {fileID: 8300000, guid: 8b2cb4a1af49eaf44bace2bcb4628256, type: 3}
+  LapFinish: {fileID: 8300000, guid: 2afeb57e318b8304fa6a6e553664592a, type: 3}
+  audioLocation: {fileID: 0}
